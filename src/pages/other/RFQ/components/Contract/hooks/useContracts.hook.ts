@@ -1,14 +1,18 @@
 import { useContext } from 'react';
 import { ContractsContext } from '../contexts';
-import { ContractFormValues } from '../types';
+import { ContractFormValues, Product } from '../types';
 import { FormikProps } from 'formik';
 
 const useContracts = (): {
+    products: Product[];
+    setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
     formik: FormikProps<ContractFormValues>;
 } => {
-    const { formik } = useContext(ContractsContext);
+    const { products, setProducts, formik } = useContext(ContractsContext);
 
     return {
+        products,
+        setProducts,
         formik,
     };
 };

@@ -9,9 +9,10 @@ type SelectProps = {
     error?: string | undefined;
     name?: string | undefined;
     label?: string | undefined;
-    placeholder?: string | undefined;
+    placeholder?: string | null;
     type?: 'text' | 'email' | 'password' | undefined;
-    inputGroupText?: string | undefined;
+    inputGroupTextStart?: string | undefined;
+    inputGroupTextEnd?: string | undefined;
     controlId?: string | undefined;
     loading?: boolean | undefined;
     fetchError?: string | undefined;
@@ -33,7 +34,8 @@ const Select = ({
     name,
     label,
     placeholder,
-    inputGroupText,
+    inputGroupTextStart,
+    inputGroupTextEnd,
     controlId,
     loading,
     fetchError,
@@ -45,7 +47,7 @@ const Select = ({
             <FormGroup controlId={controlId}>
                 {Boolean(label) && <FormLabel>{label}</FormLabel>}
                 <InputGroup>
-                    {Boolean(inputGroupText) && <InputGroup.Text>{inputGroupText}</InputGroup.Text>}
+                    {Boolean(inputGroupTextStart) && <InputGroup.Text>{inputGroupTextStart}</InputGroup.Text>}
                     <Form.Select
                         disabled={!enabled}
                         name={name}
@@ -54,7 +56,7 @@ const Select = ({
                         onBlur={handleBlur}
                         isInvalid={enabled && touched && Boolean(error)}
                         isValid={enabled && touched && !Boolean(error)}>
-                        <option value="">{placeholder}</option>
+                        {placeholder && <option value="">{placeholder}</option>}
                         {loading && <option value="">Loading...</option>}
                         {Boolean(fetchError) && <option value="">Error</option>}
                         {options?.map((opt) => (
@@ -63,6 +65,7 @@ const Select = ({
                             </option>
                         ))}
                     </Form.Select>
+                    {Boolean(inputGroupTextEnd) && <InputGroup.Text>{inputGroupTextEnd}</InputGroup.Text>}
                     {loading && (
                         <InputGroup.Text>
                             <Spinner />

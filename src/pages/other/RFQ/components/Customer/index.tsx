@@ -69,7 +69,7 @@ const Customer = () => {
                                             controlId="name"
                                             name="name"
                                             label="Customer Name"
-                                            inputGroupText="@"
+                                            inputGroupTextStart="@"
                                             value={formikCustomer.values.name}
                                             handleChange={formikCustomer.handleChange}
                                             handleBlur={formikCustomer.handleBlur}
@@ -506,7 +506,7 @@ const Customer = () => {
                                         )
                                     }
                                     placeholder="Select a customer"
-                                    inputGroupText="Select an existing customer"
+                                    inputGroupTextStart="Select an existing customer"
                                     controlId="customer"
                                     loading={loadingCustomers}
                                     fetchError={errorCustomers}
@@ -529,7 +529,7 @@ const Customer = () => {
                                 <Text
                                     enabled={false}
                                     label="Customer Name"
-                                    inputGroupText="@"
+                                    inputGroupTextStart="@"
                                     value={customerSelected?.name}
                                 />
                             </Col>
@@ -661,7 +661,7 @@ const Customer = () => {
                                         setContactSelected(_contacts);
                                     }}
                                     placeholder="Select a contacts"
-                                    inputGroupText="Select an existing contact"
+                                    inputGroupTextStart="Select an existing contact"
                                     controlId="contact"
                                     loading={loadingContacts}
                                     options={contacts.map((contact) => ({

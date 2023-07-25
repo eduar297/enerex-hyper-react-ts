@@ -36,7 +36,7 @@ const RFQ = () => {
             <CustomersProvider>
                 <ContactsProvider>
                     <ContractsProvider>
-                        <Accordion defaultActiveKey="0" items={items} />
+                        <Accordion defaultActiveKey="2" items={items} />
                     </ContractsProvider>
                 </ContactsProvider>
             </CustomersProvider>

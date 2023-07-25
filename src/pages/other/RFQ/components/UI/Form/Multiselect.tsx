@@ -10,7 +10,8 @@ type MultiselectProps = {
     name?: string | undefined;
     label?: string | undefined;
     placeholder?: string | undefined;
-    inputGroupText?: string | undefined;
+    inputGroupTextStart?: string | undefined;
+    inputGroupTextEnd?: string | undefined;
     controlId?: string | undefined;
     loading?: boolean | undefined;
     options?:
@@ -30,7 +31,8 @@ const Multiselect = ({
     name,
     label,
     placeholder,
-    inputGroupText,
+    inputGroupTextStart,
+    inputGroupTextEnd,
     controlId,
     loading,
     options,
@@ -40,7 +42,7 @@ const Multiselect = ({
         <FormGroup controlId={controlId}>
             {Boolean(label) && <FormLabel>{label}</FormLabel>}
             <InputGroup>
-                {Boolean(inputGroupText) && <InputGroup.Text>{inputGroupText}</InputGroup.Text>}
+                {Boolean(inputGroupTextStart) && <InputGroup.Text>{inputGroupTextStart}</InputGroup.Text>}
                 <ReactSelect
                     classNamePrefix="react-select"
                     isMulti
@@ -50,6 +52,7 @@ const Multiselect = ({
                     options={options}
                     placeholder={placeholder}
                 />
+                {Boolean(inputGroupTextEnd) && <InputGroup.Text>{inputGroupTextEnd}</InputGroup.Text>}
 
                 {loading && (
                     <InputGroup.Text>
