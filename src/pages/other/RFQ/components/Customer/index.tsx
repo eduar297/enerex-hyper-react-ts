@@ -320,7 +320,7 @@ const Customer = () => {
                     </ModalBody>
                     <ModalFooter>
                         <Button
-                            variant="primary"
+                            variant="success"
                             type="submit"
                             disabled={!formikCustomer.dirty || !formikCustomer.isValid}>
                             Save
@@ -461,7 +461,7 @@ const Customer = () => {
                     </ModalBody>
                     <ModalFooter>
                         <Button
-                            variant="primary"
+                            variant="success"
                             type="submit"
                             disabled={!formikContact.dirty || !formikContact.isValid}>
                             Save
@@ -636,14 +636,6 @@ const Customer = () => {
                         </Row>
                     </Container>
                 </Card.Body>
-
-                <Card.Footer className="text-muted">
-                    <Row>
-                        <Col xs="auto">
-                            <p>Footer</p>
-                        </Col>
-                    </Row>
-                </Card.Footer>
             </Card>
 
             <Card className="mt-3">
@@ -685,15 +677,19 @@ const Customer = () => {
                         </Row>
                     </Container>
                 </Card.Body>
-
-                <Card.Footer className="text-muted">
-                    <Row>
-                        <Col xs="auto">
-                            <p>Footer</p>
-                        </Col>
-                    </Row>
-                </Card.Footer>
             </Card>
+
+            <Row xs="auto" className="justify-content-end align-items-center">
+                <Col>
+                    <Button variant="success">Save as Draft</Button>
+                </Col>
+                <Col>
+                    <Button variant="success">Save and Publish</Button>
+                </Col>
+                <Col>
+                    <Button variant="danger">Cancel</Button>
+                </Col>
+            </Row>
         </Container>
     );
 };
