@@ -517,7 +517,7 @@ const Customer = () => {
 
                             <Col sm={3}>
                                 <Button variant="primary" type="button" onClick={handleCreateCustomerModalShow}>
-                                    Create new customer
+                                    <i className="mdi mdi-plus me-1"></i> <span>Create new customer</span>
                                 </Button>
                             </Col>
                         </Row>
@@ -671,7 +671,7 @@ const Customer = () => {
 
                             <Col sm={3}>
                                 <Button variant="primary" type="button" onClick={handleCreateContactModalShow}>
-                                    Create new contact
+                                    <i className="mdi mdi-plus me-1"></i> <span>Create new contact</span>
                                 </Button>
                             </Col>
                         </Row>
