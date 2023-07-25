@@ -39,7 +39,7 @@ export const customerValidationSchema = yup.object().shape({
     about: yup.string().typeError('Enter a about').required('About is required'),
 });
 
-export const contractValidationSchema = yup.object().shape({
+export const contactValidationSchema = yup.object().shape({
     firstName: yup.string().typeError('Enter a first name').required('First name is required'),
     lastName: yup.string().typeError('Enter a last name').required('Last name is required'),
     jobTitle: yup.string().typeError('Enter a job title'),

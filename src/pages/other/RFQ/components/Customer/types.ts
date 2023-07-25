@@ -16,7 +16,7 @@ export interface CustomerFormValues {
     about: string;
 }
 
-export interface ContractFormValues {
+export interface ContactFormValues {
     firstName: string;
     lastName: string;
     jobTitle: string;

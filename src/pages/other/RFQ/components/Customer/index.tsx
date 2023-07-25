@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import logoImg from '../../../../../assets/images/file-searching.svg';
 
-import { ContractFormValues } from './types';
-import { useCountries, useStates, useCustomers, useContracts } from '../../hooks';
+import { ContactFormValues } from './types';
+import { useCountries, useStates, useCustomers, useContacts } from '../../hooks';
 
 import Form, { Text, Select, TextArea, FileUpload, Multiselect } from '../UI/Form';
 import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../UI/Modal';
@@ -12,12 +12,12 @@ import { Button, Card, Col, Container, Image, ProgressBar, Row } from 'react-boo
 
 const Customer = () => {
     const {
-        contracts,
-        loading: loadingContracts,
-        formik: formikContract,
-        contractSelected,
-        setContractSelected,
-    } = useContracts();
+        contacts,
+        loading: loadingContacts,
+        formik: formikContact,
+        contactSelected,
+        setContactSelected,
+    } = useContacts();
 
     const {
         customers,
@@ -32,7 +32,7 @@ const Customer = () => {
     const { states, loading: loadingStates, error: errorStates } = useStates(formikCustomer.values.country);
 
     const [showCreateCustomerModal, setShowCreateCustomerModal] = useState(false);
-    const [showCreateContractModal, setShowCreateContractModal] = useState(false);
+    const [showCreateContactModal, setShowCreateContactModal] = useState(false);
 
     const handleCreateCustomerModalClose = () => {
         formikCustomer.resetForm();
@@ -41,14 +41,14 @@ const Customer = () => {
     };
     const handleCreateCustomerModalShow = () => setShowCreateCustomerModal(true);
 
-    const handleCreateContractModalClose = () => {
-        formikContract.resetForm();
+    const handleCreateContactModalClose = () => {
+        formikContact.resetForm();
         formikCustomer.setErrors({});
-        setShowCreateContractModal(false);
+        setShowCreateContactModal(false);
     };
-    const handleCreateContractModalShow = () => setShowCreateContractModal(true);
+    const handleCreateContactModalShow = () => setShowCreateContactModal(true);
 
-    const passwordStrength = getPasswordStrength(formikContract.values.password);
+    const passwordStrength = getPasswordStrength(formikContact.values.password);
     const { percentage, label, color } = getProgressBarInfo(passwordStrength);
 
     return (
@@ -332,10 +332,10 @@ const Customer = () => {
                 </Form>
             </Modal>
 
-            <Modal handleClose={handleCreateContractModalClose} show={showCreateContractModal}>
-                <Form id="contract-frm" onSubmit={formikContract.handleSubmit}>
+            <Modal handleClose={handleCreateContactModalClose} show={showCreateContactModal}>
+                <Form id="contact-frm" onSubmit={formikContact.handleSubmit}>
                     <ModalHeader>
-                        <ModalTitle>Create new contract</ModalTitle>
+                        <ModalTitle>Create new contact</ModalTitle>
                     </ModalHeader>
                     <ModalBody>
                         <div style={{ overflowY: 'auto', maxHeight: '30rem' }}>
@@ -346,11 +346,11 @@ const Customer = () => {
                                             controlId="firstName"
                                             name="firstName"
                                             label="First Name"
-                                            value={formikContract.values.firstName}
-                                            handleChange={formikContract.handleChange}
-                                            handleBlur={formikContract.handleBlur}
-                                            touched={formikContract.touched.firstName}
-                                            error={formikContract.errors.firstName}
+                                            value={formikContact.values.firstName}
+                                            handleChange={formikContact.handleChange}
+                                            handleBlur={formikContact.handleBlur}
+                                            touched={formikContact.touched.firstName}
+                                            error={formikContact.errors.firstName}
                                             placeholder="First Name"
                                         />
                                     </Col>
@@ -359,11 +359,11 @@ const Customer = () => {
                                             controlId="lastName"
                                             name="lastName"
                                             label="Last Name"
-                                            value={formikContract.values.lastName}
-                                            handleChange={formikContract.handleChange}
-                                            handleBlur={formikContract.handleBlur}
-                                            touched={formikContract.touched.lastName}
-                                            error={formikContract.errors.lastName}
+                                            value={formikContact.values.lastName}
+                                            handleChange={formikContact.handleChange}
+                                            handleBlur={formikContact.handleBlur}
+                                            touched={formikContact.touched.lastName}
+                                            error={formikContact.errors.lastName}
                                             placeholder="Last Name"
                                         />
                                     </Col>
@@ -372,11 +372,11 @@ const Customer = () => {
                                             controlId="jobTitle"
                                             name="jobTitle"
                                             label="Job Title"
-                                            value={formikContract.values.jobTitle}
-                                            handleChange={formikContract.handleChange}
-                                            handleBlur={formikContract.handleBlur}
-                                            touched={formikContract.touched.jobTitle}
-                                            error={formikContract.errors.jobTitle}
+                                            value={formikContact.values.jobTitle}
+                                            handleChange={formikContact.handleChange}
+                                            handleBlur={formikContact.handleBlur}
+                                            touched={formikContact.touched.jobTitle}
+                                            error={formikContact.errors.jobTitle}
                                             placeholder="Job Title"
                                         />
                                     </Col>
@@ -388,11 +388,11 @@ const Customer = () => {
                                             controlId="primaryPhoneNumber"
                                             name="primaryPhoneNumber"
                                             label="Primary Phone Number"
-                                            value={formikContract.values.primaryPhoneNumber}
-                                            handleChange={formikContract.handleChange}
-                                            handleBlur={formikContract.handleBlur}
-                                            touched={formikContract.touched.primaryPhoneNumber}
-                                            error={formikContract.errors.primaryPhoneNumber}
+                                            value={formikContact.values.primaryPhoneNumber}
+                                            handleChange={formikContact.handleChange}
+                                            handleBlur={formikContact.handleBlur}
+                                            touched={formikContact.touched.primaryPhoneNumber}
+                                            error={formikContact.errors.primaryPhoneNumber}
                                             placeholder="(555) 555-5555"
                                         />
                                     </Col>
@@ -402,11 +402,11 @@ const Customer = () => {
                                             controlId="emailAddress"
                                             name="emailAddress"
                                             label="Email Address"
-                                            value={formikContract.values.emailAddress}
-                                            handleChange={formikContract.handleChange}
-                                            handleBlur={formikContract.handleBlur}
-                                            touched={formikContract.touched.emailAddress}
-                                            error={formikContract.errors.emailAddress}
+                                            value={formikContact.values.emailAddress}
+                                            handleChange={formikContact.handleChange}
+                                            handleBlur={formikContact.handleBlur}
+                                            touched={formikContact.touched.emailAddress}
+                                            error={formikContact.errors.emailAddress}
                                             placeholder="johndoe@company.com"
                                         />
                                     </Col>
@@ -415,7 +415,7 @@ const Customer = () => {
                                 <Row className="my-2">
                                     <Col sm={12} className="mt-1">
                                         <p className="m-0 text-body-secondary">
-                                            If a password is set for this contract then he will be able to log into the
+                                            If a password is set for this contact then he will be able to log into the
                                             system to check the status of the RFQs he gets invited to.
                                         </p>
                                     </Col>
@@ -426,11 +426,11 @@ const Customer = () => {
                                             type="password"
                                             name="password"
                                             label="Password"
-                                            value={formikContract.values.password}
-                                            handleChange={formikContract.handleChange}
-                                            handleBlur={formikContract.handleBlur}
-                                            touched={formikContract.touched.password}
-                                            error={formikContract.errors.password}
+                                            value={formikContact.values.password}
+                                            handleChange={formikContact.handleChange}
+                                            handleBlur={formikContact.handleBlur}
+                                            touched={formikContact.touched.password}
+                                            error={formikContact.errors.password}
                                             placeholder="Password"
                                         />
                                     </Col>
@@ -441,11 +441,11 @@ const Customer = () => {
                                             type="password"
                                             name="confirmPassword"
                                             label="Confirm Password"
-                                            value={formikContract.values.confirmPassword}
-                                            handleChange={formikContract.handleChange}
-                                            handleBlur={formikContract.handleBlur}
-                                            touched={formikContract.touched.confirmPassword}
-                                            error={formikContract.errors.confirmPassword}
+                                            value={formikContact.values.confirmPassword}
+                                            handleChange={formikContact.handleChange}
+                                            handleBlur={formikContact.handleBlur}
+                                            touched={formikContact.touched.confirmPassword}
+                                            error={formikContact.errors.confirmPassword}
                                             placeholder="Password"
                                         />
                                     </Col>
@@ -463,10 +463,10 @@ const Customer = () => {
                         <Button
                             variant="primary"
                             type="submit"
-                            disabled={!formikContract.dirty || !formikContract.isValid}>
+                            disabled={!formikContact.dirty || !formikContact.isValid}>
                             Save
                         </Button>
-                        <Button variant="danger" onClick={handleCreateContractModalClose}>
+                        <Button variant="danger" onClick={handleCreateContactModalClose}>
                             Cancel
                         </Button>
                     </ModalFooter>
@@ -647,39 +647,39 @@ const Customer = () => {
             </Card>
 
             <Card className="mt-3">
-                <Card.Header>Contracts Info</Card.Header>
+                <Card.Header>Contacts Info</Card.Header>
 
                 <Card.Body>
                     <Container className="h-100">
                         <Row className="align-items-start">
                             <Col sm={6}>
                                 <Multiselect
-                                    name="contract"
-                                    value={(contractSelected || []).map((contract) => ({
-                                        value: contract.emailAddress,
-                                        label: contract.firstName,
+                                    name="contact"
+                                    value={(contactSelected || []).map((contact) => ({
+                                        value: contact.emailAddress,
+                                        label: contact.firstName,
                                     }))}
                                     handleChange={(value: { label: string; value: string }[]) => {
-                                        const _contracts = value
-                                            .map((v) => contracts.find((c) => c.emailAddress === v.value))
-                                            .filter((c) => c !== undefined) as ContractFormValues[];
+                                        const _contacts = value
+                                            .map((v) => contacts.find((c) => c.emailAddress === v.value))
+                                            .filter((c) => c !== undefined) as ContactFormValues[];
 
-                                        setContractSelected(_contracts);
+                                        setContactSelected(_contacts);
                                     }}
-                                    placeholder="Select a contracts"
-                                    inputGroupText="Select an existing contract"
-                                    controlId="contract"
-                                    loading={loadingContracts}
-                                    options={contracts.map((contract) => ({
-                                        value: contract.emailAddress,
-                                        label: contract.firstName,
+                                    placeholder="Select a contacts"
+                                    inputGroupText="Select an existing contact"
+                                    controlId="contact"
+                                    loading={loadingContacts}
+                                    options={contacts.map((contact) => ({
+                                        value: contact.emailAddress,
+                                        label: contact.firstName,
                                     }))}
                                 />
                             </Col>
 
                             <Col sm={3}>
-                                <Button variant="primary" type="button" onClick={handleCreateContractModalShow}>
-                                    Create new contract
+                                <Button variant="primary" type="button" onClick={handleCreateContactModalShow}>
+                                    Create new contact
                                 </Button>
                             </Col>
                         </Row>
