@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import logoImg from '../../../../../assets/images/barcode.png';
+import logoImg from '../../../../../assets/images/file-searching.svg';
 
-import { ContactFormValues } from './types';
-import { useCountries, useStates, useCustomers, useContacts } from '../../hooks';
+import { ContractFormValues } from './types';
+import { useCountries, useStates, useCustomers, useContracts } from '../../hooks';
 
 import Form, { Text, Select, TextArea, FileUpload, Multiselect } from '../UI/Form';
 import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../UI/Modal';
@@ -12,12 +12,12 @@ import { Button, Card, Col, Container, Image, ProgressBar, Row } from 'react-boo
 
 const Customer = () => {
     const {
-        contacts,
-        loading: loadingContacts,
-        formik: formikContact,
-        contactSelected,
-        setContactSelected,
-    } = useContacts();
+        contracts,
+        loading: loadingContracts,
+        formik: formikContract,
+        contractSelected,
+        setContractSelected,
+    } = useContracts();
 
     const {
         customers,
@@ -32,7 +32,7 @@ const Customer = () => {
     const { states, loading: loadingStates, error: errorStates } = useStates(formikCustomer.values.country);
 
     const [showCreateCustomerModal, setShowCreateCustomerModal] = useState(false);
-    const [showCreateContactModal, setShowCreateContactModal] = useState(false);
+    const [showCreateContractModal, setShowCreateContractModal] = useState(false);
 
     const handleCreateCustomerModalClose = () => {
         formikCustomer.resetForm();
@@ -41,14 +41,14 @@ const Customer = () => {
     };
     const handleCreateCustomerModalShow = () => setShowCreateCustomerModal(true);
 
-    const handleCreateContactModalClose = () => {
-        formikContact.resetForm();
+    const handleCreateContractModalClose = () => {
+        formikContract.resetForm();
         formikCustomer.setErrors({});
-        setShowCreateContactModal(false);
+        setShowCreateContractModal(false);
     };
-    const handleCreateContactModalShow = () => setShowCreateContactModal(true);
+    const handleCreateContractModalShow = () => setShowCreateContractModal(true);
 
-    const passwordStrength = getPasswordStrength(formikContact.values.password);
+    const passwordStrength = getPasswordStrength(formikContract.values.password);
     const { percentage, label, color } = getProgressBarInfo(passwordStrength);
 
     return (
@@ -60,8 +60,8 @@ const Customer = () => {
                     </ModalHeader>
                     <ModalBody>
                         <div style={{ overflowY: 'auto', maxHeight: '30rem' }}>
-                            <Container>
-                                <Row className="align-items-end">
+                            <Container className="my-1">
+                                <Row className="align-items-end mb-2">
                                     <Col sm={4}>
                                         <Text
                                             controlId="name"
@@ -106,7 +106,7 @@ const Customer = () => {
                                     </Col>
                                 </Row>
 
-                                <Row>
+                                <Row className="my-2">
                                     <Col sm={4}>
                                         <Text
                                             controlId="domain"
@@ -150,7 +150,7 @@ const Customer = () => {
                                     </Col>
                                 </Row>
 
-                                <Row>
+                                <Row className="my-2">
                                     <Col sm={4}>
                                         <Select
                                             name="country"
@@ -208,7 +208,7 @@ const Customer = () => {
                                     </Col>
                                 </Row>
 
-                                <Row>
+                                <Row className="my-2">
                                     <Col sm={4}>
                                         <Text
                                             type="number"
@@ -254,7 +254,7 @@ const Customer = () => {
                                     </Col>
                                 </Row>
 
-                                <Row>
+                                <Row className="my-2">
                                     <Col sm={4}>
                                         <Text
                                             type="number"
@@ -300,7 +300,7 @@ const Customer = () => {
                                     </Col>
                                 </Row>
 
-                                <Row>
+                                <Row className="mt-2">
                                     <Col sm={12}>
                                         <TextArea
                                             controlId="about"
@@ -332,127 +332,127 @@ const Customer = () => {
                 </Form>
             </Modal>
 
-            <Modal handleClose={handleCreateContactModalClose} show={showCreateContactModal}>
-                <Form id="contact-frm" onSubmit={formikContact.handleSubmit}>
+            <Modal handleClose={handleCreateContractModalClose} show={showCreateContractModal}>
+                <Form id="contract-frm" onSubmit={formikContract.handleSubmit}>
                     <ModalHeader>
-                        <ModalTitle>Create new contact</ModalTitle>
+                        <ModalTitle>Create new contract</ModalTitle>
                     </ModalHeader>
                     <ModalBody>
                         <div style={{ overflowY: 'auto', maxHeight: '30rem' }}>
                             <Container>
-                                <Row>
-                                    <Col sm={3}>
+                                <Row className="mb-2">
+                                    <Col sm={4}>
                                         <Text
                                             controlId="firstName"
                                             name="firstName"
                                             label="First Name"
-                                            value={formikContact.values.firstName}
-                                            handleChange={formikContact.handleChange}
-                                            handleBlur={formikContact.handleBlur}
-                                            touched={formikContact.touched.firstName}
-                                            error={formikContact.errors.firstName}
+                                            value={formikContract.values.firstName}
+                                            handleChange={formikContract.handleChange}
+                                            handleBlur={formikContract.handleBlur}
+                                            touched={formikContract.touched.firstName}
+                                            error={formikContract.errors.firstName}
                                             placeholder="First Name"
                                         />
                                     </Col>
-                                    <Col sm={3}>
+                                    <Col sm={4}>
                                         <Text
                                             controlId="lastName"
                                             name="lastName"
                                             label="Last Name"
-                                            value={formikContact.values.lastName}
-                                            handleChange={formikContact.handleChange}
-                                            handleBlur={formikContact.handleBlur}
-                                            touched={formikContact.touched.lastName}
-                                            error={formikContact.errors.lastName}
+                                            value={formikContract.values.lastName}
+                                            handleChange={formikContract.handleChange}
+                                            handleBlur={formikContract.handleBlur}
+                                            touched={formikContract.touched.lastName}
+                                            error={formikContract.errors.lastName}
                                             placeholder="Last Name"
                                         />
                                     </Col>
-                                    <Col sm={3}>
+                                    <Col sm={4}>
                                         <Text
                                             controlId="jobTitle"
                                             name="jobTitle"
                                             label="Job Title"
-                                            value={formikContact.values.jobTitle}
-                                            handleChange={formikContact.handleChange}
-                                            handleBlur={formikContact.handleBlur}
-                                            touched={formikContact.touched.jobTitle}
-                                            error={formikContact.errors.jobTitle}
+                                            value={formikContract.values.jobTitle}
+                                            handleChange={formikContract.handleChange}
+                                            handleBlur={formikContract.handleBlur}
+                                            touched={formikContract.touched.jobTitle}
+                                            error={formikContract.errors.jobTitle}
                                             placeholder="Job Title"
-                                        />
-                                    </Col>
-
-                                    <Col sm={3}>
-                                        <Text
-                                            controlId="primaryPhoneNumber"
-                                            name="primaryPhoneNumber"
-                                            label="Primary Phone Number"
-                                            value={formikContact.values.primaryPhoneNumber}
-                                            handleChange={formikContact.handleChange}
-                                            handleBlur={formikContact.handleBlur}
-                                            touched={formikContact.touched.primaryPhoneNumber}
-                                            error={formikContact.errors.primaryPhoneNumber}
-                                            placeholder="(555) 555-5555"
                                         />
                                     </Col>
                                 </Row>
 
-                                <Row>
-                                    <Col sm={3}>
+                                <Row className="my-2">
+                                    <Col sm={4}>
+                                        <Text
+                                            controlId="primaryPhoneNumber"
+                                            name="primaryPhoneNumber"
+                                            label="Primary Phone Number"
+                                            value={formikContract.values.primaryPhoneNumber}
+                                            handleChange={formikContract.handleChange}
+                                            handleBlur={formikContract.handleBlur}
+                                            touched={formikContract.touched.primaryPhoneNumber}
+                                            error={formikContract.errors.primaryPhoneNumber}
+                                            placeholder="(555) 555-5555"
+                                        />
+                                    </Col>
+
+                                    <Col sm={4}>
                                         <Text
                                             controlId="emailAddress"
                                             name="emailAddress"
                                             label="Email Address"
-                                            value={formikContact.values.emailAddress}
-                                            handleChange={formikContact.handleChange}
-                                            handleBlur={formikContact.handleBlur}
-                                            touched={formikContact.touched.emailAddress}
-                                            error={formikContact.errors.emailAddress}
+                                            value={formikContract.values.emailAddress}
+                                            handleChange={formikContract.handleChange}
+                                            handleBlur={formikContract.handleBlur}
+                                            touched={formikContract.touched.emailAddress}
+                                            error={formikContract.errors.emailAddress}
                                             placeholder="johndoe@company.com"
                                         />
                                     </Col>
                                 </Row>
 
-                                <Row>
+                                <Row className="my-2">
                                     <Col sm={12} className="mt-1">
                                         <p className="m-0 text-body-secondary">
-                                            If a password is set for this contact then he will be able to log into the
+                                            If a password is set for this contract then he will be able to log into the
                                             system to check the status of the RFQs he gets invited to.
                                         </p>
                                     </Col>
 
-                                    <Col sm={3} className="mb-1">
+                                    <Col sm={4} className="mb-1">
                                         <Text
                                             controlId="password"
                                             type="password"
                                             name="password"
                                             label="Password"
-                                            value={formikContact.values.password}
-                                            handleChange={formikContact.handleChange}
-                                            handleBlur={formikContact.handleBlur}
-                                            touched={formikContact.touched.password}
-                                            error={formikContact.errors.password}
+                                            value={formikContract.values.password}
+                                            handleChange={formikContract.handleChange}
+                                            handleBlur={formikContract.handleBlur}
+                                            touched={formikContract.touched.password}
+                                            error={formikContract.errors.password}
                                             placeholder="Password"
                                         />
                                     </Col>
 
-                                    <Col sm={3}>
+                                    <Col sm={4}>
                                         <Text
                                             controlId="confirmPassword"
                                             type="password"
                                             name="confirmPassword"
                                             label="Confirm Password"
-                                            value={formikContact.values.confirmPassword}
-                                            handleChange={formikContact.handleChange}
-                                            handleBlur={formikContact.handleBlur}
-                                            touched={formikContact.touched.confirmPassword}
-                                            error={formikContact.errors.confirmPassword}
+                                            value={formikContract.values.confirmPassword}
+                                            handleChange={formikContract.handleChange}
+                                            handleBlur={formikContract.handleBlur}
+                                            touched={formikContract.touched.confirmPassword}
+                                            error={formikContract.errors.confirmPassword}
                                             placeholder="Password"
                                         />
                                     </Col>
                                 </Row>
 
-                                <Row className="mt-1">
-                                    <Col sm={6}>
+                                <Row className="mt-2">
+                                    <Col sm={8}>
                                         <ProgressBar animated now={percentage} label={label} variant={color} />
                                     </Col>
                                 </Row>
@@ -463,10 +463,10 @@ const Customer = () => {
                         <Button
                             variant="primary"
                             type="submit"
-                            disabled={!formikContact.dirty || !formikContact.isValid}>
+                            disabled={!formikContract.dirty || !formikContract.isValid}>
                             Save
                         </Button>
-                        <Button variant="danger" onClick={handleCreateContactModalClose}>
+                        <Button variant="danger" onClick={handleCreateContractModalClose}>
                             Cancel
                         </Button>
                     </ModalFooter>
@@ -477,7 +477,7 @@ const Customer = () => {
                 <Card.Header>Customer Info</Card.Header>
                 <Card.Body>
                     <Container className="h-100">
-                        <Row className="align-items-center">
+                        <Row className="align-items-center mb-2">
                             <Col sm={6}>
                                 <Select
                                     name="customer"
@@ -520,22 +520,9 @@ const Customer = () => {
                                     Create new customer
                                 </Button>
                             </Col>
-
-                            <Col sm={3}>
-                                {customerSelected?.logo ? (
-                                    <Image
-                                        height={60}
-                                        src={URL.createObjectURL(customerSelected?.logo)}
-                                        alt="logo"
-                                        rounded
-                                    />
-                                ) : (
-                                    <Image height={60} alt="logo_default" src={logoImg} rounded />
-                                )}
-                            </Col>
                         </Row>
 
-                        <Row className="align-items-end">
+                        <Row className="align-items-end my-2">
                             <Col sm={4}>
                                 <Text
                                     enabled={false}
@@ -544,9 +531,22 @@ const Customer = () => {
                                     value={customerSelected?.name}
                                 />
                             </Col>
+
+                            <Col sm={3}>
+                                {customerSelected?.logo ? (
+                                    <Image
+                                        height={80}
+                                        src={URL.createObjectURL(customerSelected?.logo)}
+                                        alt="logo"
+                                        rounded
+                                    />
+                                ) : (
+                                    <Image height={80} alt="logo_default" src={logoImg} rounded />
+                                )}
+                            </Col>
                         </Row>
 
-                        <Row>
+                        <Row className="my-2">
                             <Col sm={4}>
                                 <Text enabled={false} label="Domain" value={customerSelected?.domain} />
                             </Col>
@@ -560,7 +560,7 @@ const Customer = () => {
                             </Col>
                         </Row>
 
-                        <Row>
+                        <Row className="my-2">
                             <Col sm={4}>
                                 <Select
                                     enabled={false}
@@ -592,7 +592,7 @@ const Customer = () => {
                             </Col>
                         </Row>
 
-                        <Row>
+                        <Row className="my-2">
                             <Col sm={4}>
                                 <Text
                                     enabled={false}
@@ -611,7 +611,7 @@ const Customer = () => {
                             </Col>
                         </Row>
 
-                        <Row>
+                        <Row className="my-2">
                             <Col sm={4}>
                                 <Text enabled={false} type="number" label="DUNS" value={customerSelected?.duns} />
                             </Col>
@@ -629,7 +629,7 @@ const Customer = () => {
                             </Col>
                         </Row>
 
-                        <Row>
+                        <Row className="mt-2">
                             <Col sm={12}>
                                 <TextArea enabled={false} label="About" value={customerSelected?.about} />
                             </Col>
@@ -647,39 +647,39 @@ const Customer = () => {
             </Card>
 
             <Card className="mt-3">
-                <Card.Header>Contacts Info</Card.Header>
+                <Card.Header>Contracts Info</Card.Header>
 
                 <Card.Body>
                     <Container className="h-100">
-                        <Row className="align-items-center">
+                        <Row className="align-items-start">
                             <Col sm={6}>
                                 <Multiselect
-                                    name="contact"
-                                    value={(contactSelected || []).map((contact) => ({
-                                        value: contact.emailAddress,
-                                        label: contact.firstName,
+                                    name="contract"
+                                    value={(contractSelected || []).map((contract) => ({
+                                        value: contract.emailAddress,
+                                        label: contract.firstName,
                                     }))}
                                     handleChange={(value: { label: string; value: string }[]) => {
-                                        const _contacts = value
-                                            .map((v) => contacts.find((c) => c.emailAddress === v.value))
-                                            .filter((c) => c !== undefined) as ContactFormValues[];
+                                        const _contracts = value
+                                            .map((v) => contracts.find((c) => c.emailAddress === v.value))
+                                            .filter((c) => c !== undefined) as ContractFormValues[];
 
-                                        setContactSelected(_contacts);
+                                        setContractSelected(_contracts);
                                     }}
-                                    placeholder="Select a contacts"
-                                    inputGroupText="Select an existing contact"
-                                    controlId="contact"
-                                    loading={loadingContacts}
-                                    options={contacts.map((contact) => ({
-                                        value: contact.emailAddress,
-                                        label: contact.firstName,
+                                    placeholder="Select a contracts"
+                                    inputGroupText="Select an existing contract"
+                                    controlId="contract"
+                                    loading={loadingContracts}
+                                    options={contracts.map((contract) => ({
+                                        value: contract.emailAddress,
+                                        label: contract.firstName,
                                     }))}
                                 />
                             </Col>
 
-                            <Col sm={6}>
-                                <Button variant="primary" type="button" onClick={handleCreateContactModalShow}>
-                                    Create new contact
+                            <Col sm={3}>
+                                <Button variant="primary" type="button" onClick={handleCreateContractModalShow}>
+                                    Create new contract
                                 </Button>
                             </Col>
                         </Row>

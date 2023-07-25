@@ -1,9 +1,9 @@
 import { useEffect, useContext } from 'react';
-import { ContactsContext } from '../contexts';
-import { ContactFormValues } from '../components/Customer/types';
+import { ContractsContext } from '../contexts';
+import { ContractFormValues } from '../components/Customer/types';
 import { FormikProps } from 'formik';
 
-const fetchContacts = (): Promise<ContactFormValues[]> => {
+const fetchContracts = (): Promise<ContractFormValues[]> => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve([
@@ -30,27 +30,36 @@ const fetchContacts = (): Promise<ContactFormValues[]> => {
     });
 };
 
-const useContacts = (): {
-    contacts: ContactFormValues[];
-    setContacts: React.Dispatch<React.SetStateAction<ContactFormValues[]>>;
-    contactSelected: ContactFormValues[];
-    setContactSelected: React.Dispatch<React.SetStateAction<ContactFormValues[]>>;
+const useContracts = (): {
+    contracts: ContractFormValues[];
+    setContracts: React.Dispatch<React.SetStateAction<ContractFormValues[]>>;
+    contractSelected: ContractFormValues[];
+    setContractSelected: React.Dispatch<React.SetStateAction<ContractFormValues[]>>;
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     error: any;
     setError: React.Dispatch<React.SetStateAction<any>>;
-    formik: FormikProps<ContactFormValues>;
+    formik: FormikProps<ContractFormValues>;
 } => {
-    const { contacts, error, loading, setContacts, setError, setLoading, contactSelected, setContactSelected, formik } =
-        useContext(ContactsContext);
+    const {
+        contracts,
+        error,
+        loading,
+        setContracts,
+        setError,
+        setLoading,
+        contractSelected,
+        setContractSelected,
+        formik,
+    } = useContext(ContractsContext);
 
     useEffect(() => {
         setLoading(true);
-        setContacts([]);
+        setContracts([]);
         setError(null);
-        fetchContacts()
+        fetchContracts()
             .then((data) => {
-                setContacts(data);
+                setContracts(data);
                 setLoading(false);
             })
             .catch((err) => {
@@ -59,7 +68,17 @@ const useContacts = (): {
             });
     }, []);
 
-    return { contacts, setContacts, contactSelected, setContactSelected, loading, setLoading, error, setError, formik };
+    return {
+        contracts,
+        setContracts,
+        contractSelected,
+        setContractSelected,
+        loading,
+        setLoading,
+        error,
+        setError,
+        formik,
+    };
 };
 
-export default useContacts;
+export default useContracts;

@@ -1,5 +1,3 @@
-import { FormikProps } from 'formik';
-
 export interface CustomerFormValues {
     name: string;
     domain: string;
@@ -18,7 +16,7 @@ export interface CustomerFormValues {
     about: string;
 }
 
-export interface ContactFormValues {
+export interface ContractFormValues {
     firstName: string;
     lastName: string;
     jobTitle: string;
