@@ -1,7 +1,7 @@
 import { createContext, useState, ReactNode } from 'react';
-import { ContactFormValues } from '../components/Customer/types';
+import { ContactFormValues } from '../types';
 import { FormikProps, useFormik } from 'formik';
-import { contactValidationSchema } from '../components/Customer/schema';
+import { contactValidationSchema } from '../schema';
 
 const contactInitialValues: ContactFormValues = {
     firstName: '',
@@ -46,7 +46,7 @@ const onSubmit = (
     const newContact = values;
     setContacts([...contacts, newContact]);
     setContactSelected([newContact]);
-    alert(JSON.stringify(values, null, 2));
+    alert(JSON.stringify(newContact, null, 2));
 };
 
 export const ContactsProvider = ({ children }: { children: ReactNode }) => {

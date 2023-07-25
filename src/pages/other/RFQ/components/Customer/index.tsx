@@ -1,14 +1,16 @@
 import { useState } from 'react';
 
+import { Button, Card, Col, Container, Image, ProgressBar, Row } from 'react-bootstrap';
+
 import logoImg from '../../../../../assets/images/file-searching.svg';
 
+import { getPasswordStrength, getProgressBarInfo } from '../../utils';
 import { ContactFormValues } from './types';
-import { useCountries, useStates, useCustomers, useContacts } from '../../hooks';
+import { useCountries, useStates } from '../../hooks';
+import { useContacts, useCustomers } from './hooks';
 
 import Form, { Text, Select, TextArea, FileUpload, Multiselect } from '../UI/Form';
 import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../UI/Modal';
-import { getPasswordStrength, getProgressBarInfo } from '../../utils';
-import { Button, Card, Col, Container, Image, ProgressBar, Row } from 'react-bootstrap';
 
 const Customer = () => {
     const {

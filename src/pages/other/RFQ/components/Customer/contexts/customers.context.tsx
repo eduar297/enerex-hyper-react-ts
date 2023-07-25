@@ -1,7 +1,7 @@
 import { createContext, useState, ReactNode } from 'react';
-import { CustomerFormValues } from '../components/Customer/types';
+import { CustomerFormValues } from '../types';
 import { FormikProps, useFormik } from 'formik';
-import { customerValidationSchema } from '../components/Customer/schema';
+import { customerValidationSchema } from '../schema';
 
 const customerInitialValues: CustomerFormValues = {
     name: '',
@@ -54,7 +54,7 @@ const onSubmit = (
     const newCustomer = values;
     setCustomers([...customers, newCustomer]);
     setCustomerSelected(newCustomer);
-    alert(JSON.stringify(values, null, 2));
+    alert(JSON.stringify(newCustomer, null, 2));
 };
 
 export const CustomersProvider = ({ children }: { children: ReactNode }) => {

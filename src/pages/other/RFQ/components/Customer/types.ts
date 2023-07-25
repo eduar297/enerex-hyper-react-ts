@@ -1,4 +1,4 @@
-export interface CustomerFormValues {
+export type CustomerFormValues = {
     name: string;
     domain: string;
     logo: File | null;
@@ -14,9 +14,9 @@ export interface CustomerFormValues {
     taxId?: number;
     legalBusinessName: string;
     about: string;
-}
+};
 
-export interface ContactFormValues {
+export type ContactFormValues = {
     firstName: string;
     lastName: string;
     jobTitle: string;
@@ -24,4 +24,4 @@ export interface ContactFormValues {
     emailAddress: string;
     password: string;
     confirmPassword: string;
-}
+};

@@ -1,6 +1,6 @@
 import { useEffect, useContext } from 'react';
 import { ContactsContext } from '../contexts';
-import { ContactFormValues } from '../components/Customer/types';
+import { ContactFormValues } from '../types';
 import { FormikProps } from 'formik';
 
 const fetchContacts = (): Promise<ContactFormValues[]> => {

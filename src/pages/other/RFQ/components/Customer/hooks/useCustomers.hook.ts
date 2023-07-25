@@ -1,6 +1,6 @@
 import { useEffect, useContext } from 'react';
 import { CustomersContext } from '../contexts';
-import { CustomerFormValues } from '../components/Customer/types';
+import { CustomerFormValues } from '../types';
 import { FormikProps } from 'formik';
 
 const fetchCustomers = (): Promise<CustomerFormValues[]> => {
