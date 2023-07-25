@@ -3,7 +3,7 @@ import { PageTitle } from 'components';
 import Customer from './components/Customer';
 import { Accordion } from './components/UI';
 import { ItemProps } from './components/UI/Accordion';
-import { ContractsProvider, CustomersProvider } from './contexts';
+import { ContactsProvider, CustomersProvider } from './contexts';
 
 const RFQ = () => {
     const items: ItemProps[] = [
@@ -25,9 +25,9 @@ const RFQ = () => {
             />
 
             <CustomersProvider>
-                <ContractsProvider>
+                <ContactsProvider>
                     <Accordion defaultActiveKey="1" items={items} />
-                </ContractsProvider>
+                </ContactsProvider>
             </CustomersProvider>
         </>
     );
