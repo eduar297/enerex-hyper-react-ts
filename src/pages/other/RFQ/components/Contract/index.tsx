@@ -441,7 +441,7 @@ const Contracts = () => {
             </Card>
 
             <Card>
-                <Card.Header>Product Types</Card.Header>
+                <Card.Header>Billing Parameters</Card.Header>
                 <Card.Body>
                     <Container>
                         <Row className="align-items-start">

@@ -12,6 +12,8 @@ import { ContractsProvider } from './components/Contract/contexts';
 import { MeterProvider } from './components/Accounts/contexts';
 import Documents from './components/Documents';
 import { DocumentsProvider } from './components/Documents/contexts';
+import UserPermissions from './components/UserPermissions';
+import { UserPermissionsProvider } from './components/UserPermissions/contexts';
 
 const RFQ = () => {
     const items: ItemProps[] = [
@@ -32,6 +34,14 @@ const RFQ = () => {
             header: 'Documents',
             content: <Documents />,
         },
+        {
+            header: 'Invitation',
+            content: <p>Invitation</p>,
+        },
+        {
+            header: 'User Permissions',
+            content: <UserPermissions />,
+        },
     ];
 
     return (
@@ -49,7 +59,9 @@ const RFQ = () => {
                     <ContractsProvider>
                         <MeterProvider>
                             <DocumentsProvider>
-                                <Accordion defaultActiveKey="4" items={items} />
+                                <UserPermissionsProvider>
+                                    <Accordion defaultActiveKey="6" items={items} />
+                                </UserPermissionsProvider>
                             </DocumentsProvider>
                         </MeterProvider>
                     </ContractsProvider>
