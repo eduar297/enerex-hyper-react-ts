@@ -99,8 +99,8 @@ const Documents = () => {
                                 return (
                                     <Col key={index.toString()} xxl={3} lg={6}>
                                         <Card className="m-1 shadow-none border">
-                                            <div className="p-2">
-                                                <Row>
+                                            <div className="p-2 d-flex">
+                                                <Row className="my-0">
                                                     <Col className="col-auto">
                                                         <div className="avatar-sm">
                                                             <span className="avatar-title bg-light text-secondary rounded">
@@ -116,6 +116,18 @@ const Documents = () => {
                                                         </p>
                                                     </Col>
                                                 </Row>
+                                                <Col className="col-auto ms-auto my-1">
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-light btn-sm"
+                                                        onClick={() => {
+                                                            const newDocuments = [...documents];
+                                                            newDocuments.splice(index, 1);
+                                                            setDocuments(newDocuments);
+                                                        }}>
+                                                        <i className="mdi mdi-close"></i>
+                                                    </button>
+                                                </Col>
                                             </div>
                                         </Card>
                                     </Col>
