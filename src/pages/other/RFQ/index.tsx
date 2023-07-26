@@ -2,13 +2,14 @@ import { PageTitle } from 'components';
 
 import Customer from './components/Customer';
 import Contract from './components/Contract';
+import Accounts from './components/Accounts';
 
 import { Accordion } from './components/UI';
 import { ItemProps } from './components/UI/Accordion';
 
-import { ContactsProvider } from './components/Customer/contexts';
-import { CustomersProvider } from './components/Customer/contexts';
+import { ContactsProvider, CustomersProvider } from './components/Customer/contexts';
 import { ContractsProvider } from './components/Contract/contexts';
+import { MeterProvider } from './components/Accounts/contexts';
 
 const RFQ = () => {
     const items: ItemProps[] = [
@@ -20,6 +21,10 @@ const RFQ = () => {
         {
             header: 'Contract',
             content: <Contract />,
+        },
+        {
+            header: 'Accounts',
+            content: <Accounts />,
         },
     ];
 
@@ -36,7 +41,9 @@ const RFQ = () => {
             <CustomersProvider>
                 <ContactsProvider>
                     <ContractsProvider>
-                        <Accordion defaultActiveKey="2" items={items} />
+                        <MeterProvider>
+                            <Accordion defaultActiveKey="3" items={items} />
+                        </MeterProvider>
                     </ContractsProvider>
                 </ContactsProvider>
             </CustomersProvider>
