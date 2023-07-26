@@ -10,7 +10,6 @@ type SelectProps = {
     name?: string | undefined;
     label?: string | undefined;
     placeholder?: string | null;
-    type?: 'text' | 'email' | 'password' | undefined;
     inputGroupTextStart?: string | undefined;
     inputGroupTextEnd?: string | undefined;
     controlId?: string | undefined;

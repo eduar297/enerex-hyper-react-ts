@@ -3,6 +3,9 @@ import { PageTitle } from 'components';
 import Customer from './components/Customer';
 import Contract from './components/Contract';
 import Accounts from './components/Accounts';
+import UserPermissions from './components/UserPermissions';
+import Documents from './components/Documents';
+import RFQ from './components/RFQ';
 
 import { Accordion } from './components/UI';
 import { ItemProps } from './components/UI/Accordion';
@@ -10,14 +13,13 @@ import { ItemProps } from './components/UI/Accordion';
 import { ContactsProvider, CustomersProvider } from './components/Customer/contexts';
 import { ContractsProvider } from './components/Contract/contexts';
 import { MeterProvider } from './components/Accounts/contexts';
-import Documents from './components/Documents';
 import { DocumentsProvider } from './components/Documents/contexts';
-import UserPermissions from './components/UserPermissions';
 import { UserPermissionsProvider } from './components/UserPermissions/contexts';
+import { RFQProvider } from './components/RFQ/contexts';
 
-const RFQ = () => {
+const RFQCreate = () => {
     const items: ItemProps[] = [
-        { header: 'Rfq', content: <p>RFQ</p> },
+        { header: 'Rfq', content: <RFQ /> },
         {
             header: 'Customer',
             content: <Customer />,
@@ -54,21 +56,23 @@ const RFQ = () => {
                 title={'RFQ'}
             />
 
-            <CustomersProvider>
-                <ContactsProvider>
-                    <ContractsProvider>
-                        <MeterProvider>
-                            <DocumentsProvider>
-                                <UserPermissionsProvider>
-                                    <Accordion defaultActiveKey="6" items={items} />
-                                </UserPermissionsProvider>
-                            </DocumentsProvider>
-                        </MeterProvider>
-                    </ContractsProvider>
-                </ContactsProvider>
-            </CustomersProvider>
+            <RFQProvider>
+                <CustomersProvider>
+                    <ContactsProvider>
+                        <ContractsProvider>
+                            <MeterProvider>
+                                <DocumentsProvider>
+                                    <UserPermissionsProvider>
+                                        <Accordion defaultActiveKey="0" items={items} />
+                                    </UserPermissionsProvider>
+                                </DocumentsProvider>
+                            </MeterProvider>
+                        </ContractsProvider>
+                    </ContactsProvider>
+                </CustomersProvider>
+            </RFQProvider>
         </>
     );
 };
 
-export default RFQ;
+export default RFQCreate;
