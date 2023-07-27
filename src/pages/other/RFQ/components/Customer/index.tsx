@@ -680,18 +680,6 @@ const Customer = () => {
                     </Container>
                 </Card.Body>
             </Card>
-
-            <Row xs="auto" className="justify-content-end align-items-center">
-                <Col>
-                    <Button variant="success">Save as Draft</Button>
-                </Col>
-                <Col>
-                    <Button variant="success">Save and Publish</Button>
-                </Col>
-                <Col>
-                    <Button variant="danger">Cancel</Button>
-                </Col>
-            </Row>
         </Container>
     );
 };

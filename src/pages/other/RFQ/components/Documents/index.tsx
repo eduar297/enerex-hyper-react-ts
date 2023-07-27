@@ -1,4 +1,4 @@
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 
 import { useDocuments } from './hooks';
 import Dropzone from 'react-dropzone';
@@ -25,12 +25,7 @@ const Documents = () => {
                             )}
                         </Dropzone>
                     </Container>
-                </Card.Body>
-            </Card>
 
-            <Card>
-                <Card.Header>Documents List</Card.Header>
-                <Card.Body>
                     <Container>
                         {selectedDocuments.length > 0 && (
                             <div className="dropzone-previews mt-3" id="uploadPreviewTemplate">
@@ -85,18 +80,6 @@ const Documents = () => {
                     </Container>
                 </Card.Body>
             </Card>
-
-            <Row xs="auto" className="justify-content-end align-items-center">
-                <Col>
-                    <Button variant="success">Save as Draft</Button>
-                </Col>
-                <Col>
-                    <Button variant="success">Save and Publish</Button>
-                </Col>
-                <Col>
-                    <Button variant="danger">Cancel</Button>
-                </Col>
-            </Row>
         </Container>
     );
 };
