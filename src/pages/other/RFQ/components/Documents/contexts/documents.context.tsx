@@ -1,18 +1,22 @@
 import { createContext, ReactNode, useState } from 'react';
-import { Document } from '../types';
+import { DocumentType } from '../types';
 
 type DocumentsState = {
-    documents: Document[];
-    setDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
+    selectedDocuments: DocumentType[];
+    setSelectedDocuments: React.Dispatch<React.SetStateAction<DocumentType[]>>;
 };
 
 export const DocumentsContext = createContext<DocumentsState>({
-    documents: [],
-    setDocuments: () => {},
+    selectedDocuments: [],
+    setSelectedDocuments: () => {},
 });
 
 export const DocumentsProvider = ({ children }: { children: ReactNode }) => {
-    const [documents, setDocuments] = useState<Document[]>([]);
+    const [selectedDocuments, setSelectedDocuments] = useState<DocumentType[]>([]);
 
-    return <DocumentsContext.Provider value={{ documents, setDocuments }}>{children}</DocumentsContext.Provider>;
+    return (
+        <DocumentsContext.Provider value={{ selectedDocuments, setSelectedDocuments }}>
+            {children}
+        </DocumentsContext.Provider>
+    );
 };
