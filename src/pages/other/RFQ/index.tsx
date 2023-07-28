@@ -21,21 +21,19 @@ import { ReactNode } from 'react';
 
 export const RootProvider = ({ children }: { children: ReactNode }) => {
     return (
-        <>
-            <RFQProvider>
-                <CustomersProvider>
-                    <ContactsProvider>
-                        <ContractsProvider>
-                            <MeterProvider>
-                                <DocumentsProvider>
-                                    <UserPermissionsProvider>{children}</UserPermissionsProvider>
-                                </DocumentsProvider>
-                            </MeterProvider>
-                        </ContractsProvider>
-                    </ContactsProvider>
-                </CustomersProvider>
-            </RFQProvider>
-        </>
+        <RFQProvider>
+            <CustomersProvider>
+                <ContactsProvider>
+                    <ContractsProvider>
+                        <MeterProvider>
+                            <DocumentsProvider>
+                                <UserPermissionsProvider>{children}</UserPermissionsProvider>
+                            </DocumentsProvider>
+                        </MeterProvider>
+                    </ContractsProvider>
+                </ContactsProvider>
+            </CustomersProvider>
+        </RFQProvider>
     );
 };
 
@@ -123,37 +121,42 @@ const RFQCreate = () => {
                                                                             <Row>
                                                                                 <Col>{item.content}</Col>
                                                                             </Row>
-                                                                            <ul className="list-inline wizard mb-0">
-                                                                                {index > 0 && (
-                                                                                    <li className="previous list-inline-item">
-                                                                                        <Button
-                                                                                            onClick={previous}
-                                                                                            variant="info">
-                                                                                            Previous
-                                                                                        </Button>
-                                                                                    </li>
-                                                                                )}
-                                                                                {index < items.length - 1 && (
-                                                                                    <li className="next list-inline-item float-end">
-                                                                                        <Button
-                                                                                            variant="primary"
-                                                                                            onClick={next}>
-                                                                                            Next
-                                                                                        </Button>
-                                                                                    </li>
-                                                                                )}
-                                                                                {index === items.length - 1 && (
-                                                                                    <li className="next list-inline-item float-end">
-                                                                                        <Button
-                                                                                            variant="success"
-                                                                                            onClick={() =>
-                                                                                                alert('finish')
-                                                                                            }>
-                                                                                            Save
-                                                                                        </Button>
-                                                                                    </li>
-                                                                                )}
-                                                                            </ul>
+
+                                                                            <Row>
+                                                                                <Col>
+                                                                                    <ul className="list-inline wizard mb-0">
+                                                                                        {index > 0 && (
+                                                                                            <li className="previous list-inline-item">
+                                                                                                <Button
+                                                                                                    onClick={previous}
+                                                                                                    variant="info">
+                                                                                                    Previous
+                                                                                                </Button>
+                                                                                            </li>
+                                                                                        )}
+                                                                                        {index < items.length - 1 && (
+                                                                                            <li className="next list-inline-item float-end">
+                                                                                                <Button
+                                                                                                    variant="primary"
+                                                                                                    onClick={next}>
+                                                                                                    Next
+                                                                                                </Button>
+                                                                                            </li>
+                                                                                        )}
+                                                                                        {index === items.length - 1 && (
+                                                                                            <li className="next list-inline-item float-end">
+                                                                                                <Button
+                                                                                                    variant="success"
+                                                                                                    onClick={() =>
+                                                                                                        alert('finish')
+                                                                                                    }>
+                                                                                                    Save
+                                                                                                </Button>
+                                                                                            </li>
+                                                                                        )}
+                                                                                    </ul>
+                                                                                </Col>
+                                                                            </Row>
                                                                         </>
                                                                     )}
                                                                 />
