@@ -411,7 +411,7 @@ const WizardWithFormValidation = () => {
                                 <Step
                                     id="login"
                                     render={({ next }) => (
-                                        <VerticalForm onSubmit={(event, values) => next()} resolver={validationSchema}>
+                                        <VerticalForm onSubmit={(event, values) => next()} resolver={validationSchema}> 
                                             <FormInput
                                                 label="Username/Email"
                                                 type="email"

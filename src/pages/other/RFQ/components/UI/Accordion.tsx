@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 export type ItemProps = {
-    header?: React.ReactNode;
+    header: string;
     content?: React.ReactNode;
 };
 
