@@ -248,6 +248,7 @@ const Contracts = () => {
                                     name="productType"
                                     value={formikContract.values.productType}
                                     handleChange={formikContract.handleChange}
+                                    handleBlur={formikContract.handleBlur}
                                     label="Product Type"
                                     placeholder="Product Type"
                                     controlId="productType"
@@ -258,6 +259,8 @@ const Contracts = () => {
                                         { value: 'block-index', label: 'Block & Index' },
                                         { value: 'peak', label: 'On-Peak / Off-peak' },
                                     ]}
+                                    error={formikContract.errors.productType}
+                                    touched={formikContract.touched.productType}
                                 />
                             </Col>
 
@@ -268,7 +271,10 @@ const Contracts = () => {
                                     label="Product Type Description"
                                     value={formikContract.values.productTypeDescription}
                                     handleChange={formikContract.handleChange}
+                                    handleBlur={formikContract.handleBlur}
                                     placeholder="Description"
+                                    error={formikContract.errors.productTypeDescription}
+                                    touched={formikContract.touched.productTypeDescription}
                                 />
                             </Col>
                         </Row>
@@ -283,6 +289,7 @@ const Contracts = () => {
                                         label="Multiplier"
                                         value={formikContract.values.multiplier}
                                         handleChange={formikContract.handleChange}
+                                        handleBlur={formikContract.handleBlur}
                                         placeholder="Multiplier"
                                         inputGroupTextStart="MMBTU"
                                         inputGroupTextEnd={
@@ -290,6 +297,8 @@ const Contracts = () => {
                                                 ? formikContract.values.procurementUnit
                                                 : undefined
                                         }
+                                        error={formikContract.errors.multiplier}
+                                        touched={formikContract.touched.multiplier}
                                     />
                                 </Col>
                             )}
@@ -304,6 +313,7 @@ const Contracts = () => {
                                         label="Adder"
                                         value={formikContract.values.adder}
                                         handleChange={formikContract.handleChange}
+                                        handleBlur={formikContract.handleBlur}
                                         placeholder="Adder"
                                         inputGroupTextStart="$"
                                         inputGroupTextEnd={
@@ -311,6 +321,8 @@ const Contracts = () => {
                                                 ? formikContract.values.procurementUnit
                                                 : undefined
                                         }
+                                        error={formikContract.errors.adder}
+                                        touched={formikContract.touched.adder}
                                     />
                                 </Col>
                             )}
@@ -323,6 +335,7 @@ const Contracts = () => {
                                         label="On Peak"
                                         value={formikContract.values.onPeak}
                                         handleChange={formikContract.handleChange}
+                                        handleBlur={formikContract.handleBlur}
                                         placeholder="On Peak"
                                         inputGroupTextStart="$"
                                         inputGroupTextEnd={
@@ -330,6 +343,8 @@ const Contracts = () => {
                                                 ? formikContract.values.procurementUnit
                                                 : undefined
                                         }
+                                        error={formikContract.errors.onPeak}
+                                        touched={formikContract.touched.onPeak}
                                     />
                                 </Col>
                             )}
@@ -343,6 +358,7 @@ const Contracts = () => {
                                         label="Off Peak"
                                         value={formikContract.values.offPeak}
                                         handleChange={formikContract.handleChange}
+                                        handleBlur={formikContract.handleBlur}
                                         placeholder="Off Peak"
                                         inputGroupTextStart="$"
                                         inputGroupTextEnd={
@@ -350,6 +366,8 @@ const Contracts = () => {
                                                 ? formikContract.values.procurementUnit
                                                 : undefined
                                         }
+                                        error={formikContract.errors.offPeak}
+                                        touched={formikContract.touched.offPeak}
                                     />
                                 </Col>
                             )}
@@ -359,9 +377,23 @@ const Contracts = () => {
                             <Col sm={12}>
                                 <Button
                                     variant="success"
+                                    disabled={
+                                        !formikContract.values.productType ||
+                                        (formikContract.values.productType === 'heat-rate' &&
+                                            (!formikContract.values.multiplier || !formikContract.values.adder)) ||
+                                        (formikContract.values.productType === 'peak' &&
+                                            (!formikContract.values.onPeak || !formikContract.values.offPeak)) ||
+                                        (formikContract.values.productType === 'index' &&
+                                            !formikContract.values.adder) ||
+                                        (formikContract.values.productType === 'block-index' &&
+                                            !formikContract.values.adder) ||
+                                        !formikContract.values.productTypeDescription
+                                    }
                                     onClick={() => {
                                         const newProduct: Product = {
-                                            type: formikContract.values.productType,
+                                            type: formikContract.values.productType
+                                                ? formikContract.values.productType
+                                                : '',
                                             description: formikContract.values.productTypeDescription,
                                             adder: formikContract.values.adder,
                                             multiplier: formikContract.values.multiplier,
@@ -369,6 +401,13 @@ const Contracts = () => {
                                             onPeak: formikContract.values.onPeak,
                                         };
                                         setProducts([...products, newProduct]);
+
+                                        formikContract.setFieldValue('productTypeDescription', '');
+                                        formikContract.setFieldValue('productType', '');
+                                        formikContract.setFieldValue('adder', '');
+                                        formikContract.setFieldValue('multiplier', '');
+                                        formikContract.setFieldValue('offPeak', '');
+                                        formikContract.setFieldValue('onPeak', '');
                                     }}>
                                     Add
                                 </Button>

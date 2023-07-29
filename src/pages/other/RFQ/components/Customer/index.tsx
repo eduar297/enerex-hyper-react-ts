@@ -2,14 +2,12 @@ import { useState } from 'react';
 
 import { Button, Card, Col, Container, Image, ProgressBar, Row } from 'react-bootstrap';
 
-import logoImg from '../../../../../assets/images/file-searching.svg';
-
 import { getPasswordStrength, getProgressBarInfo } from '../../utils';
-import { ContactFormValues } from './types';
+import { ContactFormValues, CustomerFormValues } from './types';
 import { useCountries, useStates } from '../../hooks';
 import { useContacts, useCustomers } from './hooks';
 
-import Form, { Text, Select, TextArea, FileUpload, Multiselect } from '../UI/Form';
+import Form, { Text, Select, TextArea, Multiselect } from '../UI/Form';
 import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../UI/Modal';
 
 const Customer = () => {
@@ -63,7 +61,7 @@ const Customer = () => {
                     <ModalBody>
                         <div style={{ overflowY: 'auto', maxHeight: '30rem' }}>
                             <Container className="my-1">
-                                <Row className="align-items-end mb-2">
+                                <Row className="align-items-center mb-2">
                                     <Col sm={4}>
                                         <Text
                                             controlId="name"
@@ -80,30 +78,8 @@ const Customer = () => {
                                     </Col>
 
                                     <Col sm={4}>
-                                        <FileUpload
-                                            controlId="logo"
-                                            name="logo"
-                                            label="Logo"
-                                            handleChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                e.target.files &&
-                                                    formikCustomer.setFieldValue('logo', e.target.files[0]);
-                                            }}
-                                            handleBlur={formikCustomer.handleBlur}
-                                            touched={formikCustomer.touched.logo}
-                                            error={formikCustomer.errors.logo}
-                                        />
-                                    </Col>
-
-                                    <Col sm={4}>
-                                        {formikCustomer.values.logo ? (
-                                            <Image
-                                                height={60}
-                                                src={URL.createObjectURL(formikCustomer.values.logo)}
-                                                alt="logo"
-                                                rounded
-                                            />
-                                        ) : (
-                                            <Image height={60} alt="logo_default" src={logoImg} rounded />
+                                        {formikCustomer.values.logo && (
+                                            <Image height={60} src={formikCustomer.values.logo} alt="logo" rounded />
                                         )}
                                     </Col>
                                 </Row>
@@ -479,30 +455,15 @@ const Customer = () => {
                 <Card.Header>Customer Info</Card.Header>
                 <Card.Body>
                     <Container className="h-100">
-                        <Row className="align-items-center mb-2">
+                        <Row className="align-items-start mb-2">
                             <Col sm={6}>
                                 <Select
                                     name="customer"
                                     value={customerSelected?.name}
                                     handleChange={(e) =>
                                         setCustomerSelected(
-                                            customers.find((customer) => customer.name === e.target.value) || {
-                                                about: '',
-                                                address: '',
-                                                city: '',
-                                                country: '',
-                                                domain: '',
-                                                legalBusinessName: '',
-                                                logo: null,
-                                                name: '',
-                                                state: '',
-                                                website: '',
-                                                duns: 0,
-                                                founded: 0,
-                                                numberOfEmployees: 0,
-                                                taxId: 0,
-                                                zip: 0,
-                                            }
+                                            customers.find((customer) => customer.name === e.target.value) ||
+                                                ({} as CustomerFormValues)
                                         )
                                     }
                                     placeholder="Select a customer"
@@ -534,18 +495,11 @@ const Customer = () => {
                                 />
                             </Col>
 
-                            <Col sm={3}>
-                                {customerSelected?.logo ? (
-                                    <Image
-                                        height={80}
-                                        src={URL.createObjectURL(customerSelected?.logo)}
-                                        alt="logo"
-                                        rounded
-                                    />
-                                ) : (
-                                    <Image height={80} alt="logo_default" src={logoImg} rounded />
-                                )}
-                            </Col>
+                            {customerSelected.logo && (
+                                <Col sm={3}>
+                                    <Image height={60} src={customerSelected.logo} alt="logo" rounded />
+                                </Col>
+                            )}
                         </Row>
 
                         <Row className="my-2">

@@ -6,7 +6,7 @@ import { customerValidationSchema } from '../schema';
 const customerInitialValues: CustomerFormValues = {
     name: '',
     domain: '',
-    logo: null,
+    logo: '',
     address: '',
     city: '',
     country: '',

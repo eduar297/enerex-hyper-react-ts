@@ -8,7 +8,7 @@ export const customerValidationSchema = yup.object().shape({
         .typeError('Enter a domain')
         .required('Domain is required')
         .matches(/^[a-z0-9]+(\.[a-z0-9]+)*\.[a-z]{2,}$/i, 'Enter a valid domain'),
-    logo: yup.mixed().required('Logo is required'),
+    logo: yup.string(),
     address: yup.string().typeError('Enter a address').required('Address is required'),
     city: yup.string().typeError('Enter a city').required('City is required'),
     country: yup.string().required('Country is required'),
@@ -36,7 +36,7 @@ export const customerValidationSchema = yup.object().shape({
         .string()
         .typeError('Enter a legal business name')
         .required('Legal business name is required'),
-    about: yup.string().typeError('Enter a about').required('About is required'),
+    about: yup.string().typeError('Enter a about'),
 });
 
 export const contactValidationSchema = yup.object().shape({

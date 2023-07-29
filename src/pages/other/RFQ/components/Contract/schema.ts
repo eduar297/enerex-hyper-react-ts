@@ -21,13 +21,10 @@ export const contractValidationSchema = yup.object().shape({
         .min(0, 'Renewable content requirement must be positive')
         .max(100, 'Renewable content requirement must be less than or equal to 100')
         .required('Renewable content requirement is required'),
-    term: yup
-        .string()
-        .matches(/^\d+(,\d+)*$/, 'Term must be a comma-separated list of numbers')
-        .required('Term is required'),
+    term: yup.string().matches(/^\d+(,\d+)*$/, 'Term must be a comma-separated list of numbers'),
     // product
-    productType: yup.string().required('Product Type is required'),
-    productTypeDescription: yup.string().required('Product Type Description is required'),
+    productType: yup.string(),
+    productTypeDescription: yup.string(),
     multiplier: yup
         .number()
         .min(0, 'Multiplier must be positive')

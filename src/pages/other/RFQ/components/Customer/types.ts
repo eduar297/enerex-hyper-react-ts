@@ -1,7 +1,7 @@
 export type CustomerFormValues = {
     name: string;
     domain: string;
-    logo: File | null;
+    logo?: string;
     address: string;
     city: string;
     country: string;
@@ -13,7 +13,7 @@ export type CustomerFormValues = {
     duns?: number;
     taxId?: number;
     legalBusinessName: string;
-    about: string;
+    about?: string;
 };
 
 export type ContactFormValues = {

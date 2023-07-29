@@ -10,7 +10,7 @@ const fetchCustomers = (): Promise<CustomerFormValues[]> => {
                 {
                     name: 'Acme Inc.',
                     domain: 'acme.com',
-                    logo: null,
+                    logo: 'https://logo.clearbit.com/enerex.com',
                     address: '123 Main Street',
                     city: 'New York',
                     country: 'US',
@@ -27,7 +27,7 @@ const fetchCustomers = (): Promise<CustomerFormValues[]> => {
                 {
                     name: 'Widget Co.',
                     domain: 'widget.co',
-                    logo: null,
+                    logo: 'https://logo.clearbit.com/enerex.com',
                     address: '456 High Street',
                     city: 'London',
                     country: 'GB',
@@ -83,6 +83,26 @@ const useCustomers = (): {
                 setLoading(false);
             });
     }, []);
+
+    useEffect(() => {
+        formik.validateField('domain');
+        if (!formik.errors.domain) {
+            const logoUrl = `https://logo.clearbit.com/${formik.values.domain}`;
+            fetch(logoUrl)
+                .then((response) => {
+                    if (response.ok) {
+                        formik.setFieldValue('logo', logoUrl);
+                    } else {
+                        formik.setFieldValue('logo', '');
+                    }
+                })
+                .catch(() => {
+                    formik.setFieldValue('logo', '');
+                });
+        } else {
+            formik.setFieldValue('logo', '');
+        }
+    }, [formik.values.domain]);
 
     return {
         customers,

@@ -1,18 +1,18 @@
 export type ContractFormValues = {
-    startDate?: Date;
+    startDate?: Date | null;
     commodityType: string;
     country: string;
     state: string;
-    minimumBandwidth: number;
+    minimumBandwidth?: number;
     deliveryPoint: string;
     annualProcurementAmount: string;
     procurementUnit: string;
-    fee: number;
-    renewableContentRequirement: number;
-    term: string;
+    fee?: number;
+    renewableContentRequirement?: number;
+    term?: string;
     // product
-    productType: string;
-    productTypeDescription: string;
+    productType?: string;
+    productTypeDescription?: string;
     multiplier?: number;
     adder?: number;
     onPeak?: number;
@@ -23,7 +23,7 @@ export type ContractFormValues = {
 
 export type Product = {
     type: string;
-    description: string;
+    description?: string;
     multiplier?: number;
     adder?: number;
     onPeak?: number;

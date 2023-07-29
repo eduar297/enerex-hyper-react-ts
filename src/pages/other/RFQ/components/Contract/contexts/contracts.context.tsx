@@ -4,23 +4,23 @@ import { FormikProps, useFormik } from 'formik';
 import { contractValidationSchema } from '../schema';
 
 const contractInitialValues: ContractFormValues = {
-    startDate: new Date(),
+    startDate: null,
     commodityType: '',
     country: '',
     state: '',
-    minimumBandwidth: 0,
+    minimumBandwidth: undefined,
     deliveryPoint: '',
     annualProcurementAmount: '',
     procurementUnit: '',
-    fee: 0,
-    renewableContentRequirement: 0,
+    fee: undefined,
+    renewableContentRequirement: undefined,
     term: '',
     productType: '',
     productTypeDescription: '',
-    adder: 0,
-    multiplier: 0,
-    offPeak: 0,
-    onPeak: 0,
+    adder: undefined,
+    multiplier: undefined,
+    offPeak: undefined,
+    onPeak: undefined,
 };
 
 type ContractsState = {
