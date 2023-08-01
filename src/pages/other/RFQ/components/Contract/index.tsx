@@ -10,7 +10,7 @@ const Contracts = () => {
     const { products, setProducts, formik: formikContract } = useContracts();
 
     const { countries, loading: loadingCountries, error: errorCountries } = useCountries();
-    const { states, loading: loadingStates, error: errorStates } = useStates(formikContract.values.country);
+    const { states, loading: loadingStates, error: errorStates } = useStates('ALL');
 
     return (
         <Container fluid>
@@ -83,7 +83,7 @@ const Contracts = () => {
                         </Row>
 
                         <Row className="my-2">
-                            <Col sm={4}>
+                            {/* <Col sm={4}>
                                 <Select
                                     name="country"
                                     value={formikContract.values.country}
@@ -101,11 +101,11 @@ const Contracts = () => {
                                         label: country.name,
                                     }))}
                                 />
-                            </Col>
+                            </Col> */}
 
                             <Col sm={4}>
                                 <Select
-                                    enabled={Boolean(formikContract.values.country)}
+                                    // enabled={Boolean(formikContract.values.country)}
                                     name="state"
                                     value={formikContract.values.state}
                                     handleChange={formikContract.handleChange}
@@ -142,19 +142,21 @@ const Contracts = () => {
                         </Row>
 
                         <Row className="my-2">
-                            <Col sm={4}>
-                                <Text
-                                    controlId="deliveryPoint"
-                                    name="deliveryPoint"
-                                    label="Delivery Point"
-                                    value={formikContract.values.deliveryPoint}
-                                    handleChange={formikContract.handleChange}
-                                    handleBlur={formikContract.handleBlur}
-                                    touched={formikContract.touched.deliveryPoint}
-                                    error={formikContract.errors.deliveryPoint}
-                                    placeholder="Delivery Point"
-                                />
-                            </Col>
+                            {formikContract.values.commodityType === 'gas' && (
+                                <Col sm={4}>
+                                    <Text
+                                        controlId="deliveryPoint"
+                                        name="deliveryPoint"
+                                        label="Delivery Point"
+                                        value={formikContract.values.deliveryPoint}
+                                        handleChange={formikContract.handleChange}
+                                        handleBlur={formikContract.handleBlur}
+                                        touched={formikContract.touched.deliveryPoint}
+                                        error={formikContract.errors.deliveryPoint}
+                                        placeholder="Delivery Point"
+                                    />
+                                </Col>
+                            )}
 
                             <Col sm={4}>
                                 <Text
@@ -186,13 +188,13 @@ const Contracts = () => {
                                     type="number"
                                     controlId="fee"
                                     name="fee"
-                                    label="Fee"
+                                    label="Broker Fee"
                                     value={formikContract.values.fee}
                                     handleChange={formikContract.handleChange}
                                     handleBlur={formikContract.handleBlur}
                                     touched={formikContract.touched.fee}
                                     error={formikContract.errors.fee}
-                                    placeholder="Fee"
+                                    placeholder="Broker Fee"
                                     inputGroupTextStart="$"
                                     inputGroupTextEnd={
                                         Boolean(formikContract.values.commodityType)
@@ -268,11 +270,11 @@ const Contracts = () => {
                                 <Text
                                     controlId="productTypeDescription"
                                     name="productTypeDescription"
-                                    label="Product Type Description"
+                                    label="Product Type Notes"
                                     value={formikContract.values.productTypeDescription}
                                     handleChange={formikContract.handleChange}
                                     handleBlur={formikContract.handleBlur}
-                                    placeholder="Description"
+                                    placeholder="Notes"
                                     error={formikContract.errors.productTypeDescription}
                                     touched={formikContract.touched.productTypeDescription}
                                 />
@@ -480,7 +482,7 @@ const Contracts = () => {
             </Card>
 
             <Card>
-                <Card.Header>Billing Parameters</Card.Header>
+                <Card.Header>Billing Preferences</Card.Header>
                 <Card.Body>
                     <Container>
                         <Row className="align-items-start">

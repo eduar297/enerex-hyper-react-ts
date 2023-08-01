@@ -1,8 +1,12 @@
 import { FormControl, FormGroup, FormLabel, InputGroup } from 'react-bootstrap';
 import ReactSelect from 'react-select';
+import makeAnimated from 'react-select/animated';
 import Spinner from '../Spinner';
 
+const animatedComponents = makeAnimated();
+
 type MultiselectProps = {
+    className?: string;
     value: { label: string; value: string }[] | undefined;
     handleChange?: (value: any, actionMeta: any) => void | undefined;
     touched?: boolean | undefined;
@@ -24,6 +28,7 @@ type MultiselectProps = {
 };
 
 const Multiselect = ({
+    className,
     value,
     handleChange,
     touched,
@@ -39,7 +44,7 @@ const Multiselect = ({
     enabled = true,
 }: MultiselectProps) => {
     return (
-        <FormGroup controlId={controlId}>
+        <FormGroup controlId={controlId} className={className}>
             {Boolean(label) && <FormLabel>{label}</FormLabel>}
             <InputGroup>
                 {Boolean(inputGroupTextStart) && <InputGroup.Text>{inputGroupTextStart}</InputGroup.Text>}
@@ -64,6 +69,24 @@ const Multiselect = ({
                 )}
             </InputGroup>
         </FormGroup>
+        // <FormGroup controlId={controlId} className={className}>
+        //     {Boolean(label) && <FormLabel>{label}</FormLabel>}
+        //     {/* <InputGroup> */}
+        //     {Boolean(inputGroupTextStart) && <InputGroup.Text>{inputGroupTextStart}</InputGroup.Text>}
+        //     <ReactSelect
+        //         components={animatedComponents}
+        //         isMulti={true}
+        //         value={value}
+        //         options={options}
+        //         onChange={handleChange}
+        //         className="react-select"
+        //         classNamePrefix="react-select"
+        //         placeholder={placeholder}
+        //         isLoading={loading}
+        //         loadingMessage={() => <Spinner />}
+        //     />
+        //     {/* </InputGroup> */}
+        // </FormGroup>
     );
 };
 

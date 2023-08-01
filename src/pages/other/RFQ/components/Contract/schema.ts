@@ -3,13 +3,16 @@ import * as yup from 'yup';
 export const contractValidationSchema = yup.object().shape({
     startDate: yup.date(),
     commodityType: yup.string().required('Commodity type is required'),
-    country: yup.string().required('Country is required'),
+    country: yup.string(),
     state: yup.string().required('State is required'),
     minimumBandwidth: yup
         .number()
         .min(0, 'Minimum bandwidth must be positive')
         .required('Minimum bandwidth is required'),
-    deliveryPoint: yup.string().required('Delivery point is required'),
+    deliveryPoint: yup.string().when('commodityType', {
+        is: (value: string) => value === 'gas',
+        then: (schema) => schema.required('Delivery point is required when commodity type is Gas'),
+    }),
     annualProcurementAmount: yup
         .string()
         .matches(/^\d+(,\d+)*$/, 'Annual procurement amount must be a comma-separated list of numbers')

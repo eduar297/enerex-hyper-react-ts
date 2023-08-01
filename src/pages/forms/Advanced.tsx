@@ -26,8 +26,7 @@ const ReactSelect = () => {
                         { value: 'chocolate', label: 'Chocolate' },
                         { value: 'strawberry', label: 'Strawberry' },
                         { value: 'vanilla', label: 'Vanilla' },
-                    ]}
-                ></Select>
+                    ]}></Select>
 
                 <p className="mb-1 mt-3 fw-bold text-muted">Multiple Selection</p>
                 <p className="text-muted font-14">React-Select based Select (Multiple) element</p>
@@ -39,8 +38,7 @@ const ReactSelect = () => {
                         { value: 'vanilla', label: 'Vanilla' },
                     ]}
                     className="react-select"
-                    classNamePrefix="react-select"
-                ></Select>
+                    classNamePrefix="react-select"></Select>
             </Card.Body>
         </Card>
     );
@@ -209,8 +207,7 @@ const InputMasks = () => {
                     <Link
                         rel="noreferrer"
                         to={{ pathname: 'https://github.com/text-mask/text-mask/tree/master/react#readme' }}
-                        target="_blank"
-                    >
+                        target="_blank">
                         react-text-mask
                     </Link>
                 </p>

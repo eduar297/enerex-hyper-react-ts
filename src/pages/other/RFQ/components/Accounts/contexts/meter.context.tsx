@@ -5,11 +5,11 @@ import { meterValidationSchema } from '../schema';
 
 const meterInitialValues: MeterFormValues = {
     utility: '',
-    accountNumber: 0,
-    meterNumber: 0,
+    accountNumber: undefined,
+    meterNumber: undefined,
     city: '',
     state: '',
-    zip: 0,
+    zip: undefined,
     addressLine1: '',
     addressLine2: '',
     addressLine3: '',

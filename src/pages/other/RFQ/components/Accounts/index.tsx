@@ -1,15 +1,16 @@
 import { useState } from 'react';
 
-import { Button, Card, Col, Container, FormCheck, ListGroup, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Container, FormCheck, Row, Table } from 'react-bootstrap';
 
 import { useStates, useUtilities } from '../../hooks';
-import { useMeters } from './hooks';
+import { useMeters, useAccounts } from './hooks';
 
-import Form, { Text, Select } from '../UI/Form';
+import Form, { Text, Select, Multiselect } from '../UI/Form';
 import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../UI/Modal';
 
 const Accounts = () => {
     const { meters, formik: formikMeter, metersSelected, setMetersSelected } = useMeters();
+    const { numberOfAccounts, setNumberOfAccounts, selectedUtilities, setSelectedUtilities } = useAccounts();
 
     const { states, loading: loadingStates, error: errorStates } = useStates('ALL');
     const { utilities, loading: loadingUtilities, error: errorUtilities } = useUtilities();
@@ -56,6 +57,21 @@ const Accounts = () => {
                                 </Row>
 
                                 <Row className="my-2">
+                                    <Col sm={3}>
+                                        <Text
+                                            type="number"
+                                            controlId="accountNumber"
+                                            name="accountNumber"
+                                            label="Account Number"
+                                            value={formikMeter.values.accountNumber}
+                                            handleChange={formikMeter.handleChange}
+                                            handleBlur={formikMeter.handleBlur}
+                                            touched={formikMeter.touched.accountNumber}
+                                            error={formikMeter.errors.accountNumber}
+                                            placeholder="Account Number"
+                                        />
+                                    </Col>
+
                                     <Col sm={3}>
                                         <Text
                                             type="number"
@@ -179,33 +195,58 @@ const Accounts = () => {
             </Modal>
 
             <Container>
-                <Row className="align-items-center mb-2">
-                    <Col sm={4}>
-                        <p>{`Number of accounts ${1}`}</p>
+                <Row className="align-items-end mb-2">
+                    <Col sm={3}>
+                        <Text
+                            type="number"
+                            controlId="numberOfAccounts"
+                            name="numberOfAccounts"
+                            label="Number of Accounts"
+                            value={numberOfAccounts}
+                            handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setNumberOfAccounts(parseInt(e.target.value))
+                            }
+                            placeholder="Number of Accounts"
+                        />
                     </Col>
 
                     <Col sm={6}>
-                        <p>Utilities</p>
-                        <ListGroup>
-                            {metersSelected
-                                .map((meter) => meter.utility)
-                                .filter((utility, index, self) => self.indexOf(utility) === index)
-                                .map((utility, index) => (
-                                    <ListGroup.Item key={index}>{utility}</ListGroup.Item>
-                                ))}
-                        </ListGroup>
+                        <Multiselect
+                            name="utility"
+                            value={(selectedUtilities || []).map((utility) => ({
+                                value: utility.id,
+                                label: utility.text,
+                            }))}
+                            handleChange={(value: { label: string; value: string }[]) => {
+                                const _utilities = value.map((utility) => ({
+                                    id: utility.value,
+                                    text: utility.label,
+                                }));
+
+                                setSelectedUtilities(_utilities);
+                            }}
+                            placeholder="Select a utilities"
+                            inputGroupTextStart="Select an existing utility"
+                            // label="Select an existing utility"
+                            controlId="utility"
+                            loading={loadingUtilities}
+                            options={utilities.map((utility) => ({
+                                value: utility.id,
+                                label: utility.text,
+                            }))}
+                        />
                     </Col>
 
                     <Col sm={3}>
                         <Button variant="primary" type="button" onClick={handleCreateMeterModalShow}>
-                            <i className="mdi mdi-plus me-1"></i> <span>Create New Meter</span>
+                            <i className="mdi mdi-plus me-1"></i> <span>Create New Account</span>
                         </Button>
                     </Col>
                 </Row>
             </Container>
 
             <Card>
-                <Card.Header>Select an existing Meter from the Customer</Card.Header>
+                <Card.Header>Select from the Customer's Existing Accounts</Card.Header>
                 <Card.Body>
                     <Container className="h-100">
                         <Row className="align-items-center">

@@ -19,7 +19,7 @@ const UserPermissions = () => {
                 <Card.Header>Add user role</Card.Header>
                 <Card.Body>
                     <Container>
-                        <Row className="align-items-start mb-2">
+                        <Row className="align-items-end mb-2">
                             <Col sm={4}>
                                 <Select
                                     name="userSelected"
@@ -29,8 +29,8 @@ const UserPermissions = () => {
                                         setUserSelected(_user);
                                         getPermissionsByUserId(_user.id);
                                     }}
-                                    label="Select an existin user"
-                                    placeholder="Select an existin user"
+                                    label="Select an existing user"
+                                    placeholder="Select an existing user"
                                     controlId="userSelected"
                                     options={users
                                         .filter(
@@ -53,8 +53,8 @@ const UserPermissions = () => {
                                         ) as Permission;
                                         setPermissionSelected(_permission);
                                     }}
-                                    label="Select a user role"
-                                    placeholder="Select a user role"
+                                    label="Select a role"
+                                    placeholder="Select a role"
                                     controlId="permissionSelected"
                                     options={permissions.map((permission) => ({
                                         label: permission.text,
@@ -62,10 +62,8 @@ const UserPermissions = () => {
                                     }))}
                                 />
                             </Col>
-                        </Row>
 
-                        <Row className="my-2">
-                            <Col sm={12}>
+                            <Col sm={4}>
                                 <Button
                                     variant="success"
                                     onClick={() => {

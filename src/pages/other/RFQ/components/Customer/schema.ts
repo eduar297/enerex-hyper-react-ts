@@ -6,36 +6,26 @@ export const customerValidationSchema = yup.object().shape({
     domain: yup
         .string()
         .typeError('Enter a domain')
-        .required('Domain is required')
         .matches(/^[a-z0-9]+(\.[a-z0-9]+)*\.[a-z]{2,}$/i, 'Enter a valid domain'),
     logo: yup.string(),
-    address: yup.string().typeError('Enter a address').required('Address is required'),
-    city: yup.string().typeError('Enter a city').required('City is required'),
-    country: yup.string().required('Country is required'),
-    state: yup.string().typeError('Enter a state').required('State is required'),
+    address: yup.string().typeError('Enter a address'),
+    city: yup.string().typeError('Enter a city'),
+    country: yup.string(),
+    state: yup.string().typeError('Enter a state'),
     zip: yup
         .string()
         .typeError('Enter a zip')
-        .required('Zip is required')
         .matches(/^[0-9]{5}(-[0-9]{4})?$/, 'Enter a valid zip code'),
-    numberOfEmployees: yup
-        .number()
-        .typeError('Enter a number of employees')
-        .min(0)
-        .required('Number of employees is required'),
+    numberOfEmployees: yup.number().typeError('Enter a number of employees').min(0),
     founded: yup
         .number()
         .typeError('Enter a founded')
-        .required('Founded is required')
         .min(0)
         .max(new Date().getFullYear(), 'Founded cannot be greater than current year'),
-    website: yup.string().typeError('Enter a website').required('Website is required').url('Enter a valid website'),
+    website: yup.string().typeError('Enter a website').url('Enter a valid website'),
     duns: yup.number().typeError('Enter a DUNS').min(0),
-    taxId: yup.number().typeError('Enter a tax Id').required('Tax ID is required'),
-    legalBusinessName: yup
-        .string()
-        .typeError('Enter a legal business name')
-        .required('Legal business name is required'),
+    taxId: yup.number().typeError('Enter a tax Id').min(100000000, 'Tax Id must be 9 digits'),
+    legalBusinessName: yup.string().typeError('Enter a legal business name'),
     about: yup.string().typeError('Enter a about'),
 });
 

@@ -1,7 +1,7 @@
 export type ContractFormValues = {
     startDate?: Date | null;
     commodityType: string;
-    country: string;
+    country?: string;
     state: string;
     minimumBandwidth?: number;
     deliveryPoint: string;

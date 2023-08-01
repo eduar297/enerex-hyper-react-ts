@@ -1,33 +1,37 @@
+import { Button, Col, Container, ProgressBar, Row } from 'react-bootstrap';
+
 import { PageTitle } from 'components';
 
 import Customer from './components/Customer';
-import Contract from './components/Contract';
+import Contracts from './components/Contract';
 import Accounts from './components/Accounts';
 import UserPermissions from './components/UserPermissions';
 import Documents from './components/Documents';
 
 import { ContactsProvider, CustomersProvider } from './components/Customer/contexts';
 import { ContractsProvider } from './components/Contract/contexts';
-import { MeterProvider } from './components/Accounts/contexts';
+import { AccountProvider, MeterProvider } from './components/Accounts/contexts';
 import { DocumentsProvider } from './components/Documents/contexts';
 import { UserPermissionsProvider } from './components/UserPermissions/contexts';
-import { Badge, Button, Card, Col, Container, ProgressBar, Row } from 'react-bootstrap';
+
 import { Step, Steps, Wizard } from 'react-albus';
 import { ReactNode } from 'react';
-import Contracts from './components/Contract';
 import { useCustomers } from './components/Customer/hooks';
 import { useContracts } from './components/Contract/hooks';
+import { Ribbon } from './components/UI';
 
 export const RootProvider = ({ children }: { children: ReactNode }) => {
     return (
         <CustomersProvider>
             <ContactsProvider>
                 <ContractsProvider>
-                    <MeterProvider>
-                        <DocumentsProvider>
-                            <UserPermissionsProvider>{children}</UserPermissionsProvider>
-                        </DocumentsProvider>
-                    </MeterProvider>
+                    <AccountProvider>
+                        <MeterProvider>
+                            <DocumentsProvider>
+                                <UserPermissionsProvider>{children}</UserPermissionsProvider>
+                            </DocumentsProvider>
+                        </MeterProvider>
+                    </AccountProvider>
                 </ContractsProvider>
             </ContactsProvider>
         </CustomersProvider>
@@ -96,11 +100,18 @@ const WizardActions = ({ header, next, previous, index, len }: WizardActionsProp
             )}
 
             {canFinish && (
-                <li className="next list-inline-item float-end">
-                    <Button variant="success" onClick={finish}>
-                        Save
-                    </Button>
-                </li>
+                <>
+                    <li className="next list-inline-item float-end mx-2">
+                        <Button variant="danger" onClick={finish}>
+                            Cancel
+                        </Button>
+                    </li>
+                    <li className="next list-inline-item float-end">
+                        <Button variant="success" onClick={finish}>
+                            Submit
+                        </Button>
+                    </li>
+                </>
             )}
         </ul>
     );
@@ -154,7 +165,7 @@ const RFQCreate = () => {
             ),
         },
         {
-            header: 'User Permissions',
+            header: 'User Permissions (Opcional)',
             content: (next: () => void, previous: () => void, index: number, len: number) => (
                 <>
                     <UserPermissions />
@@ -178,62 +189,54 @@ const RFQCreate = () => {
                 <Container fluid>
                     <Row className="mb-2">
                         <Col>
-                            <Card>
-                                <Card.Body>
-                                    <Wizard
-                                        render={({ step, steps }) => (
-                                            <>
-                                                <Row className="justify-content-md-center">
-                                                    <Col className="text-center">
-                                                        {steps.indexOf(step) >= 0 &&
-                                                            steps.indexOf(step) < items.length && (
-                                                                <Badge bg="info" style={{ marginTop: -70 }}>
-                                                                    <h5 className="">
-                                                                        {items[steps.indexOf(step)].header}
-                                                                    </h5>
-                                                                </Badge>
-                                                            )}
-                                                    </Col>
-                                                </Row>
+                            <Wizard
+                                render={({ step, steps }) => (
+                                    <>
+                                        <Ribbon
+                                            color="success"
+                                            direction="left"
+                                            label={
+                                                steps.indexOf(step) >= 0 && steps.indexOf(step) < items.length
+                                                    ? items[steps.indexOf(step)].header
+                                                    : ''
+                                            }>
+                                            <Row>
+                                                <Col>
+                                                    <ProgressBar
+                                                        animated
+                                                        striped
+                                                        variant="success"
+                                                        now={((steps.indexOf(step) + 1) / steps.length) * 100}
+                                                        className="mb-3 progress-sm"
+                                                    />
+                                                </Col>
+                                            </Row>
 
-                                                <Row>
-                                                    <Col>
-                                                        <ProgressBar
-                                                            animated
-                                                            striped
-                                                            variant="info"
-                                                            now={((steps.indexOf(step) + 1) / steps.length) * 100}
-                                                            className="mb-3 progress-sm"
-                                                        />
-                                                    </Col>
-                                                </Row>
+                                            <Row>
+                                                <Col>
+                                                    <Steps>
+                                                        {items.map((item, index) => (
+                                                            <Step
+                                                                id={item.header}
+                                                                render={({ next, previous }) => {
+                                                                    const content = item.content(
+                                                                        next,
+                                                                        previous,
+                                                                        index,
+                                                                        items.length
+                                                                    );
 
-                                                <Row>
-                                                    <Col>
-                                                        <Steps>
-                                                            {items.map((item, index) => (
-                                                                <Step
-                                                                    id={item.header}
-                                                                    render={({ next, previous }) => {
-                                                                        const content = item.content(
-                                                                            next,
-                                                                            previous,
-                                                                            index,
-                                                                            items.length
-                                                                        );
-
-                                                                        return content;
-                                                                    }}
-                                                                />
-                                                            ))}
-                                                        </Steps>
-                                                    </Col>
-                                                </Row>
-                                            </>
-                                        )}
-                                    />
-                                </Card.Body>
-                            </Card>
+                                                                    return content;
+                                                                }}
+                                                            />
+                                                        ))}
+                                                    </Steps>
+                                                </Col>
+                                            </Row>
+                                        </Ribbon>
+                                    </>
+                                )}
+                            />
                         </Col>
                     </Row>
                 </Container>

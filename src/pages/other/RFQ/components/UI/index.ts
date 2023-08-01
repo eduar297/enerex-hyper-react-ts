@@ -1,4 +1,5 @@
 import Spinner from './Spinner';
 import Accordion from './Accordion';
+import Ribbon from './Ribbon';
 
-export { Spinner, Accordion };
+export { Spinner, Accordion, Ribbon };

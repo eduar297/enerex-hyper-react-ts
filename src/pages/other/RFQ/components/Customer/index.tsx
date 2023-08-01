@@ -67,7 +67,6 @@ const Customer = () => {
                                             controlId="name"
                                             name="name"
                                             label="Customer Name"
-                                            inputGroupTextStart="@"
                                             value={formikCustomer.values.name}
                                             handleChange={formikCustomer.handleChange}
                                             handleBlur={formikCustomer.handleBlur}
@@ -455,7 +454,7 @@ const Customer = () => {
                 <Card.Header>Customer Info</Card.Header>
                 <Card.Body>
                     <Container className="h-100">
-                        <Row className="align-items-start mb-2">
+                        <Row className="align-items-end mb-2">
                             <Col sm={6}>
                                 <Select
                                     name="customer"
@@ -468,6 +467,7 @@ const Customer = () => {
                                     }
                                     placeholder="Select a customer"
                                     inputGroupTextStart="Select an existing customer"
+                                    // label="Select an existing customer"
                                     controlId="customer"
                                     loading={loadingCustomers}
                                     fetchError={errorCustomers}
@@ -490,7 +490,7 @@ const Customer = () => {
                                 <Text
                                     enabled={false}
                                     label="Customer Name"
-                                    inputGroupTextStart="@"
+                                    // inputGroupTextStart="@"
                                     value={customerSelected?.name}
                                 />
                             </Col>
@@ -599,7 +599,7 @@ const Customer = () => {
 
                 <Card.Body>
                     <Container className="h-100">
-                        <Row className="align-items-start">
+                        <Row className="align-items-end">
                             <Col sm={6}>
                                 <Multiselect
                                     name="contact"
@@ -616,6 +616,7 @@ const Customer = () => {
                                     }}
                                     placeholder="Select a contacts"
                                     inputGroupTextStart="Select an existing contact"
+                                    // label="Select an existing contact"
                                     controlId="contact"
                                     loading={loadingContacts}
                                     options={contacts.map((contact) => ({

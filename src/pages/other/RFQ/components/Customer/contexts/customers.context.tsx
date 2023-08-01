@@ -9,7 +9,7 @@ const customerInitialValues: CustomerFormValues = {
     logo: '',
     address: '',
     city: '',
-    country: '',
+    country: 'US',
     state: '',
     zip: undefined,
     numberOfEmployees: undefined,
