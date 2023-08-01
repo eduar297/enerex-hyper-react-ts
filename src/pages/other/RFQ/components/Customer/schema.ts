@@ -24,7 +24,15 @@ export const customerValidationSchema = yup.object().shape({
         .max(new Date().getFullYear(), 'Founded cannot be greater than current year'),
     website: yup.string().typeError('Enter a website').url('Enter a valid website'),
     duns: yup.number().typeError('Enter a DUNS').min(0),
-    taxId: yup.number().typeError('Enter a tax Id').min(100000000, 'Tax Id must be 9 digits'),
+    taxId: yup
+        .number()
+        .typeError('Enter a tax Id')
+        .test('len', 'Tax Id must be 9 digits exactly', (val) => {
+            if (val) {
+                return val.toString().length === 9;
+            }
+            return true;
+        }),
     legalBusinessName: yup.string().typeError('Enter a legal business name'),
     about: yup.string().typeError('Enter a about'),
 });
