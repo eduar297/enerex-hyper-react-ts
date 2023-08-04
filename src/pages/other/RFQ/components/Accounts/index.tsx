@@ -29,7 +29,7 @@ const Accounts = () => {
             <Modal handleClose={handleCreateMeterModalClose} show={showCreateMeterModal}>
                 <Form id="meter-frm" onSubmit={formikMeter.handleSubmit}>
                     <ModalHeader>
-                        <ModalTitle>Create new meter</ModalTitle>
+                        <ModalTitle>Create new account</ModalTitle>
                     </ModalHeader>
                     <ModalBody>
                         <div style={{ overflowY: 'auto', maxHeight: '30rem' }}>
