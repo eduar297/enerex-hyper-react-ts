@@ -70,7 +70,7 @@ const WizardActions = ({ header, next, previous, index, len }: WizardActionsProp
             disableNext = !formikContracts.dirty || !formikContracts.isValid;
             break;
         case 'documents':
-            disableNext = selectedDocuments.length === 0;
+            disableNext = false;
             break;
         case 'invitation':
             disableNext = false;
@@ -136,33 +136,41 @@ const NavList = ({ items }: { items: Item[] }) => {
     const { customerSelected } = useCustomers();
     const { formik: formikContracts } = useContracts();
     const { selectedUtilities, numberOfAccounts } = useAccounts();
-    const { selectedDocuments } = useDocuments();
 
     const [enabled, setEnabled] = useState<{ [key: string]: boolean }>({
         customer: true,
-        contract: true,
+        contract: false,
         accounts: false,
         documents: false,
         invitation: false,
-        'user-permissions': true,
+        'user-permissions': false,
     });
 
     useEffect(() => {
-        setEnabled({
+        setEnabled((prevEnabled) => ({
             customer: true,
-            contract: Boolean(customerSelected.domain),
-            accounts: formikContracts.dirty && formikContracts.isValid,
-            documents: selectedUtilities.length > 0 && Boolean(numberOfAccounts && numberOfAccounts > 0),
-            invitation: selectedDocuments.length > 0,
-            'user-permissions': true,
-        });
+            contract: prevEnabled['customer'] && Boolean(customerSelected.domain),
+            accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
+            documents:
+                prevEnabled['accounts'] &&
+                selectedUtilities.length > 0 &&
+                Boolean(numberOfAccounts && numberOfAccounts > 0),
+            invitation:
+                prevEnabled['accounts'] &&
+                selectedUtilities.length > 0 &&
+                Boolean(numberOfAccounts && numberOfAccounts > 0),
+            'user-permissions':
+                prevEnabled['accounts'] &&
+                selectedUtilities.length > 0 &&
+                Boolean(numberOfAccounts && numberOfAccounts > 0),
+        }));
     }, [
         customerSelected.domain,
         formikContracts.dirty,
         formikContracts.isValid,
         selectedUtilities,
         numberOfAccounts,
-        selectedDocuments,
+        setEnabled,
     ]);
 
     return (
@@ -229,8 +237,7 @@ const RFQCreate = () => {
         },
         {
             id: 'user-permissions',
-            // header: 'User Permissions (Opcional)',
-            header: 'User Permissions',
+            header: 'User Permissions (Opcional)',
             content: (next: () => void, previous: () => void, index: number, len: number) => (
                 <>
                     <UserPermissions />
@@ -281,7 +288,7 @@ const RFQCreate = () => {
                             <ProgressBar
                                 animated
                                 striped
-                                variant="success"
+                                variant="info"
                                 now={((activeIndex + 1) / items.length) * 100}
                                 className="my-3 progress-sm mx-4 progress-md"
                             />
