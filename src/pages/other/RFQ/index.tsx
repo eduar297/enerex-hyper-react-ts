@@ -18,6 +18,7 @@ import { CurrentUserProvider } from './contexts';
 import { useCustomers } from './components/Customer/hooks';
 import { useContracts } from './components/Contract/hooks';
 import { useAccounts } from './components/Accounts/hooks';
+import { useCurrentUser } from './hooks';
 
 import { Item } from './types';
 
@@ -149,8 +150,7 @@ const NavList = ({ items }: { items: Item[] }) => {
         setEnabled((prevEnabled) => ({
             customer: true,
             contract: prevEnabled['customer'] && !!customerSelected,
-            // accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
-            accounts: true,
+            accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
             documents:
                 prevEnabled['accounts'] &&
                 selectedUtilities.length > 0 &&
@@ -184,7 +184,9 @@ const NavList = ({ items }: { items: Item[] }) => {
 };
 
 const RFQCreate = () => {
-    const items: Item[] = [
+    const { currentUserData } = useCurrentUser();
+
+    const [items, setItems] = useState<Item[]>([
         {
             id: 'customer',
             header: 'Customer',
@@ -225,27 +227,30 @@ const RFQCreate = () => {
                 </>
             ),
         },
-        // {
-        //     id: 'invitation',
-        //     header: 'Invitation',
-        //     content: (next: () => void, previous: () => void, index: number, len: number) => (
-        //         <>
-        //             <p>Invitation</p>
-        //             <WizardActions header="invitation" next={next} previous={previous} index={index} len={len} />
-        //         </>
-        //     ),
-        // },
-        {
-            id: 'user-permissions',
-            header: 'User Permissions (Opcional)',
-            content: (next: () => void, previous: () => void, index: number, len: number) => (
-                <>
-                    <UserPermissions />
-                    <WizardActions header="userPermissions" next={next} previous={previous} index={index} len={len} />
-                </>
-            ),
-        },
-    ];
+    ]);
+
+    useEffect(() => {
+        if (!currentUserData?.IsBrokerInSupplierCompany) {
+            const userPermissionsItem = {
+                id: 'user-permissions',
+                header: 'User Permissions (Opcional)',
+                content: (next: () => void, previous: () => void, index: number, len: number) => (
+                    <>
+                        <UserPermissions />
+                        <WizardActions
+                            header="userPermissions"
+                            next={next}
+                            previous={previous}
+                            index={index}
+                            len={len}
+                        />
+                    </>
+                ),
+            };
+
+            setItems([...items, userPermissionsItem]);
+        }
+    }, []);
 
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -300,4 +305,12 @@ const RFQCreate = () => {
     );
 };
 
-export default RFQCreate;
+const RFQCreateWrapper = () => {
+    return (
+        <RootProvider>
+            <RFQCreate />
+        </RootProvider>
+    );
+};
+
+export default RFQCreateWrapper;
