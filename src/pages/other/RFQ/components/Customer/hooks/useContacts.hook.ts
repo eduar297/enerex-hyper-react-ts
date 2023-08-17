@@ -13,8 +13,8 @@ const fetchContacts = (): Promise<ContactFormValues[]> => {
                     jobTitle: 'software developer',
                     primaryPhoneNumber: '058286995',
                     emailAddress: 'eduar2.moreira@gmail.com',
-                    password: 'NeKjp4Ah',
-                    confirmPassword: 'NeKjp4Ah',
+                    // password: 'NeKjp4Ah',
+                    // confirmPassword: 'NeKjp4Ah',
                 },
                 {
                     firstName: 'Test',
@@ -22,8 +22,8 @@ const fetchContacts = (): Promise<ContactFormValues[]> => {
                     jobTitle: 'software developer',
                     primaryPhoneNumber: '111111111',
                     emailAddress: 'test.test@gmail.com',
-                    password: 'test',
-                    confirmPassword: 'tests',
+                    // password: 'test',
+                    // confirmPassword: 'tests',
                 },
             ]);
         }, 1000);
@@ -33,8 +33,8 @@ const fetchContacts = (): Promise<ContactFormValues[]> => {
 const useContacts = (): {
     contacts: ContactFormValues[];
     setContacts: React.Dispatch<React.SetStateAction<ContactFormValues[]>>;
-    contactSelected: ContactFormValues[];
-    setContactSelected: React.Dispatch<React.SetStateAction<ContactFormValues[]>>;
+    contactSelected: ContactFormValues | null;
+    setContactSelected: React.Dispatch<React.SetStateAction<ContactFormValues | null>>;
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     error: any;

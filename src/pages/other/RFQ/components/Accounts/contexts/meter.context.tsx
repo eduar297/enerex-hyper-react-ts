@@ -42,11 +42,14 @@ export const MeterContext = createContext<MeterState>({
 const onSubmit = (
     values: MeterFormValues,
     meters: MeterFormValues[],
-    setMeters: React.Dispatch<React.SetStateAction<MeterFormValues[]>>
+    setMeters: React.Dispatch<React.SetStateAction<MeterFormValues[]>>,
+    resetForm: () => void
 ) => {
     const newMeter = values;
     setMeters([...meters, newMeter]);
     alert(JSON.stringify(newMeter, null, 2));
+
+    resetForm();
 };
 
 export const MeterProvider = ({ children }: { children: ReactNode }) => {
@@ -58,7 +61,7 @@ export const MeterProvider = ({ children }: { children: ReactNode }) => {
     const formik = useFormik<MeterFormValues>({
         initialValues: meterInitialValues,
         validationSchema: meterValidationSchema,
-        onSubmit: (values) => onSubmit(values, meters, setMeters),
+        onSubmit: (values, formikBag) => onSubmit(values, meters, setMeters, formikBag.resetForm),
     });
 
     return (

@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { commonPasswords, getPasswordStrength } from '../../utils';
+// import { commonPasswords, getPasswordStrength } from '../../utils';
 
 export const customerValidationSchema = yup.object().shape({
     name: yup.string().typeError('Enter a name').required('Name is required'),
@@ -40,31 +40,31 @@ export const customerValidationSchema = yup.object().shape({
 export const contactValidationSchema = yup.object().shape({
     firstName: yup.string().typeError('Enter a first name').required('First name is required'),
     lastName: yup.string().typeError('Enter a last name').required('Last name is required'),
-    jobTitle: yup.string().typeError('Enter a job title'),
-    primaryPhoneNumber: yup.string().typeError('Enter a primary phone number'),
     emailAddress: yup
         .string()
         .typeError('Enter a email address')
         .email('Please enter a valid email address')
         .required('Email address is required'),
-    password: yup
-        .string()
-        .typeError('Enter a password')
-        .required('Password is required')
-        .test('password-common', 'Password is too common, please choose a different one', (value) => {
-            return !commonPasswords.includes(value);
-        })
-        .test(
-            'password-strength',
-            'Password must be at least 8 characters and contain at least 3 of the following: uppercase, lowercase, number, special character',
-            (value) => {
-                return getPasswordStrength(value) >= 3;
-            }
-        ),
+    jobTitle: yup.string().typeError('Enter a job title'),
+    primaryPhoneNumber: yup.string().typeError('Enter a primary phone number'),
+    // password: yup
+    //     .string()
+    //     .typeError('Enter a password')
+    //     .required('Password is required')
+    //     .test('password-common', 'Password is too common, please choose a different one', (value) => {
+    //         return !commonPasswords.includes(value);
+    //     })
+    //     .test(
+    //         'password-strength',
+    //         'Password must be at least 8 characters and contain at least 3 of the following: uppercase, lowercase, number, special character',
+    //         (value) => {
+    //             return getPasswordStrength(value) >= 3;
+    //         }
+    //     ),
 
-    confirmPassword: yup
-        .string()
-        .typeError('Enter a confirm password')
-        .required('Confirm password is required')
-        .oneOf([yup.ref('password')], 'Passwords must match'),
+    // confirmPassword: yup
+    //     .string()
+    //     .typeError('Enter a confirm password')
+    //     .required('Confirm password is required')
+    //     .oneOf([yup.ref('password')], 'Passwords must match'),
 });

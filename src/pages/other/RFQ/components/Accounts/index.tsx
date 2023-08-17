@@ -1,12 +1,11 @@
 import { useState } from 'react';
 
-import { Button, Card, Col, Container, FormCheck, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Collapse, Container, FormCheck, Row, Table } from 'react-bootstrap';
 
 import { useStates, useUtilities } from '../../hooks';
 import { useMeters, useAccounts } from './hooks';
 
-import Form, { Text, Select, Multiselect } from '../UI/Form';
-import Modal, { ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../UI/Modal';
+import { Text, Select, Multiselect } from '../UI/Form';
 
 const Accounts = () => {
     const { meters, formik: formikMeter, metersSelected, setMetersSelected } = useMeters();
@@ -15,185 +14,16 @@ const Accounts = () => {
     const { states, loading: loadingStates, error: errorStates } = useStates('ALL');
     const { utilities, loading: loadingUtilities, error: errorUtilities } = useUtilities();
 
-    const [showCreateMeterModal, setShowCreateMeterModal] = useState(false);
+    const [showCreateMeter, setShowCreateMeter] = useState(false);
 
-    const handleCreateMeterModalClose = () => {
-        formikMeter.resetForm();
-        formikMeter.setErrors({});
-        setShowCreateMeterModal(false);
+    const toggleCreateMeter = () => setShowCreateMeter((prev) => !prev);
+
+    const handleCreateMeter = () => {
+        formikMeter.handleSubmit();
     };
-    const handleCreateMeterModalShow = () => setShowCreateMeterModal(true);
 
     return (
         <Container fluid>
-            <Modal handleClose={handleCreateMeterModalClose} show={showCreateMeterModal}>
-                <Form id="meter-frm" onSubmit={formikMeter.handleSubmit}>
-                    <ModalHeader>
-                        <ModalTitle>Create new account</ModalTitle>
-                    </ModalHeader>
-                    <ModalBody>
-                        <div style={{ overflowY: 'auto', maxHeight: '30rem' }}>
-                            <Container className="my-1">
-                                <Row className="align-items-end mb-2">
-                                    <Col sm={6}>
-                                        <Select
-                                            name="utility"
-                                            value={formikMeter.values.utility}
-                                            handleChange={formikMeter.handleChange}
-                                            handleBlur={formikMeter.handleBlur}
-                                            touched={formikMeter.touched.utility}
-                                            error={formikMeter.errors.utility}
-                                            label="Utility"
-                                            placeholder="Select a utility"
-                                            controlId="utility"
-                                            loading={loadingUtilities}
-                                            fetchError={errorUtilities}
-                                            options={utilities.map((utility) => ({
-                                                value: utility.id,
-                                                label: utility.text,
-                                            }))}
-                                        />
-                                    </Col>
-                                </Row>
-
-                                <Row className="my-2">
-                                    <Col sm={3}>
-                                        <Text
-                                            type="number"
-                                            controlId="accountNumber"
-                                            name="accountNumber"
-                                            label="Account Number"
-                                            value={formikMeter.values.accountNumber}
-                                            handleChange={formikMeter.handleChange}
-                                            handleBlur={formikMeter.handleBlur}
-                                            touched={formikMeter.touched.accountNumber}
-                                            error={formikMeter.errors.accountNumber}
-                                            placeholder="Account Number"
-                                        />
-                                    </Col>
-
-                                    <Col sm={3}>
-                                        <Text
-                                            type="number"
-                                            controlId="meterNumber"
-                                            name="meterNumber"
-                                            label="Meter Number"
-                                            value={formikMeter.values.meterNumber}
-                                            handleChange={formikMeter.handleChange}
-                                            handleBlur={formikMeter.handleBlur}
-                                            touched={formikMeter.touched.zip}
-                                            error={formikMeter.errors.zip}
-                                            placeholder="Meter Number"
-                                        />
-                                    </Col>
-
-                                    <Col sm={3}>
-                                        <Text
-                                            controlId="city"
-                                            name="city"
-                                            label="City"
-                                            value={formikMeter.values.city}
-                                            handleChange={formikMeter.handleChange}
-                                            handleBlur={formikMeter.handleBlur}
-                                            touched={formikMeter.touched.city}
-                                            error={formikMeter.errors.city}
-                                            placeholder="City"
-                                        />
-                                    </Col>
-
-                                    <Col sm={3}>
-                                        <Select
-                                            name="state"
-                                            value={formikMeter.values.state}
-                                            handleChange={formikMeter.handleChange}
-                                            handleBlur={formikMeter.handleBlur}
-                                            touched={formikMeter.touched.state}
-                                            error={formikMeter.errors.state}
-                                            label="State"
-                                            placeholder="Select a state"
-                                            controlId="state"
-                                            loading={loadingStates}
-                                            fetchError={errorStates}
-                                            options={states.map((state) => ({
-                                                value: state.code,
-                                                label: state.name,
-                                            }))}
-                                        />
-                                    </Col>
-                                </Row>
-
-                                <Row className="my-2">
-                                    <Col sm={3}>
-                                        <Text
-                                            type="number"
-                                            controlId="zip"
-                                            name="zip"
-                                            label="Postal Code"
-                                            value={formikMeter.values.zip}
-                                            handleChange={formikMeter.handleChange}
-                                            handleBlur={formikMeter.handleBlur}
-                                            touched={formikMeter.touched.zip}
-                                            error={formikMeter.errors.zip}
-                                            placeholder="Postal Code"
-                                        />
-                                    </Col>
-
-                                    <Col sm={3}>
-                                        <Text
-                                            controlId="addressLine1"
-                                            name="addressLine1"
-                                            label="Address Line 1"
-                                            value={formikMeter.values.addressLine1}
-                                            handleChange={formikMeter.handleChange}
-                                            handleBlur={formikMeter.handleBlur}
-                                            touched={formikMeter.touched.addressLine1}
-                                            error={formikMeter.errors.addressLine1}
-                                            placeholder="Address Line 1"
-                                        />
-                                    </Col>
-
-                                    <Col sm={3}>
-                                        <Text
-                                            controlId="addressLine2"
-                                            name="addressLine2"
-                                            label="Address Line 2"
-                                            value={formikMeter.values.addressLine2}
-                                            handleChange={formikMeter.handleChange}
-                                            handleBlur={formikMeter.handleBlur}
-                                            touched={formikMeter.touched.addressLine2}
-                                            error={formikMeter.errors.addressLine2}
-                                            placeholder="Address Line 2"
-                                        />
-                                    </Col>
-
-                                    <Col sm={3}>
-                                        <Text
-                                            controlId="addressLine3"
-                                            name="addressLine3"
-                                            label="Address Line 3"
-                                            value={formikMeter.values.addressLine3}
-                                            handleChange={formikMeter.handleChange}
-                                            handleBlur={formikMeter.handleBlur}
-                                            touched={formikMeter.touched.addressLine3}
-                                            error={formikMeter.errors.addressLine3}
-                                            placeholder="Address Line 3"
-                                        />
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </div>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button variant="success" type="submit" disabled={!formikMeter.dirty || !formikMeter.isValid}>
-                            Save
-                        </Button>
-                        <Button variant="danger" onClick={handleCreateMeterModalClose}>
-                            Cancel
-                        </Button>
-                    </ModalFooter>
-                </Form>
-            </Modal>
-
             <Container>
                 <Row className="align-items-end mb-2">
                     <Col sm={3}>
@@ -236,14 +66,185 @@ const Accounts = () => {
                             }))}
                         />
                     </Col>
+                </Row>
 
+                <Row className="align-items-end mt-4 mb-2">
                     <Col sm={3}>
-                        <Button variant="primary" type="button" onClick={handleCreateMeterModalShow}>
-                            <i className="mdi mdi-plus me-1"></i> <span>Create New Account</span>
+                        <Button variant="primary" type="button" onClick={toggleCreateMeter}>
+                            Show create new account
                         </Button>
                     </Col>
                 </Row>
             </Container>
+
+            <Collapse in={showCreateMeter}>
+                <Card>
+                    <Card.Body>
+                        <Container className="my-1">
+                            <Row className="align-items-end mb-2">
+                                <Col sm={6}>
+                                    <Select
+                                        name="utility"
+                                        value={formikMeter.values.utility}
+                                        handleChange={formikMeter.handleChange}
+                                        handleBlur={formikMeter.handleBlur}
+                                        touched={formikMeter.touched.utility}
+                                        error={formikMeter.errors.utility}
+                                        label="Utility"
+                                        placeholder="Select a utility"
+                                        controlId="utility"
+                                        loading={loadingUtilities}
+                                        fetchError={errorUtilities}
+                                        options={utilities.map((utility) => ({
+                                            value: utility.id,
+                                            label: utility.text,
+                                        }))}
+                                    />
+                                </Col>
+                            </Row>
+
+                            <Row className="my-2">
+                                <Col sm={3}>
+                                    <Text
+                                        type="number"
+                                        controlId="accountNumber"
+                                        name="accountNumber"
+                                        label="Account Number"
+                                        value={formikMeter.values.accountNumber}
+                                        handleChange={formikMeter.handleChange}
+                                        handleBlur={formikMeter.handleBlur}
+                                        touched={formikMeter.touched.accountNumber}
+                                        error={formikMeter.errors.accountNumber}
+                                        placeholder="Account Number"
+                                    />
+                                </Col>
+
+                                <Col sm={3}>
+                                    <Text
+                                        type="number"
+                                        controlId="meterNumber"
+                                        name="meterNumber"
+                                        label="Meter Number"
+                                        value={formikMeter.values.meterNumber}
+                                        handleChange={formikMeter.handleChange}
+                                        handleBlur={formikMeter.handleBlur}
+                                        touched={formikMeter.touched.meterNumber}
+                                        error={formikMeter.errors.meterNumber}
+                                        placeholder="Meter Number"
+                                    />
+                                </Col>
+
+                                <Col sm={3}>
+                                    <Text
+                                        controlId="city"
+                                        name="city"
+                                        label="City"
+                                        value={formikMeter.values.city}
+                                        handleChange={formikMeter.handleChange}
+                                        handleBlur={formikMeter.handleBlur}
+                                        touched={formikMeter.touched.city}
+                                        error={formikMeter.errors.city}
+                                        placeholder="City"
+                                    />
+                                </Col>
+
+                                <Col sm={3}>
+                                    <Select
+                                        name="state"
+                                        value={formikMeter.values.state}
+                                        handleChange={formikMeter.handleChange}
+                                        handleBlur={formikMeter.handleBlur}
+                                        touched={formikMeter.touched.state}
+                                        error={formikMeter.errors.state}
+                                        label="State"
+                                        placeholder="Select a state"
+                                        controlId="state"
+                                        loading={loadingStates}
+                                        fetchError={errorStates}
+                                        options={states.map((state) => ({
+                                            value: state.code,
+                                            label: state.name,
+                                        }))}
+                                    />
+                                </Col>
+                            </Row>
+
+                            <Row className="my-2">
+                                <Col sm={3}>
+                                    <Text
+                                        type="number"
+                                        controlId="zip"
+                                        name="zip"
+                                        label="Postal Code"
+                                        value={formikMeter.values.zip}
+                                        handleChange={formikMeter.handleChange}
+                                        handleBlur={formikMeter.handleBlur}
+                                        touched={formikMeter.touched.zip}
+                                        error={formikMeter.errors.zip}
+                                        placeholder="Postal Code"
+                                    />
+                                </Col>
+
+                                <Col sm={3}>
+                                    <Text
+                                        controlId="addressLine1"
+                                        name="addressLine1"
+                                        label="Address Line 1"
+                                        value={formikMeter.values.addressLine1}
+                                        handleChange={formikMeter.handleChange}
+                                        handleBlur={formikMeter.handleBlur}
+                                        touched={formikMeter.touched.addressLine1}
+                                        error={formikMeter.errors.addressLine1}
+                                        placeholder="Address Line 1"
+                                    />
+                                </Col>
+
+                                <Col sm={3}>
+                                    <Text
+                                        controlId="addressLine2"
+                                        name="addressLine2"
+                                        label="Address Line 2"
+                                        value={formikMeter.values.addressLine2}
+                                        handleChange={formikMeter.handleChange}
+                                        handleBlur={formikMeter.handleBlur}
+                                        touched={formikMeter.touched.addressLine2}
+                                        error={formikMeter.errors.addressLine2}
+                                        placeholder="Address Line 2"
+                                    />
+                                </Col>
+
+                                <Col sm={3}>
+                                    <Text
+                                        controlId="addressLine3"
+                                        name="addressLine3"
+                                        label="Address Line 3"
+                                        value={formikMeter.values.addressLine3}
+                                        handleChange={formikMeter.handleChange}
+                                        handleBlur={formikMeter.handleBlur}
+                                        touched={formikMeter.touched.addressLine3}
+                                        error={formikMeter.errors.addressLine3}
+                                        placeholder="Address Line 3"
+                                    />
+                                </Col>
+                            </Row>
+                        </Container>
+                    </Card.Body>
+
+                    <Card.Footer>
+                        <Row>
+                            <Col className="text-end">
+                                <Button
+                                    variant="primary"
+                                    type="button"
+                                    onClick={handleCreateMeter}
+                                    disabled={!formikMeter.dirty || !formikMeter.isValid}>
+                                    <i className="mdi mdi-plus me-1"></i> <span>Create new account</span>
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Card.Footer>
+                </Card>
+            </Collapse>
 
             <Card>
                 <Card.Header>Select from the Customer's Existing Accounts</Card.Header>

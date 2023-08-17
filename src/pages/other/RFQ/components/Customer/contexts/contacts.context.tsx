@@ -9,15 +9,15 @@ const contactInitialValues: ContactFormValues = {
     jobTitle: '',
     primaryPhoneNumber: '',
     emailAddress: '',
-    password: '',
-    confirmPassword: '',
+    // password: '',
+    // confirmPassword: '',
 };
 
 type ContactsState = {
     contacts: ContactFormValues[];
     setContacts: React.Dispatch<React.SetStateAction<ContactFormValues[]>>;
-    contactSelected: ContactFormValues[];
-    setContactSelected: React.Dispatch<React.SetStateAction<ContactFormValues[]>>;
+    contactSelected: ContactFormValues | null;
+    setContactSelected: React.Dispatch<React.SetStateAction<ContactFormValues | null>>;
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     error: any;
@@ -28,7 +28,7 @@ type ContactsState = {
 export const ContactsContext = createContext<ContactsState>({
     contacts: [],
     setContacts: () => {},
-    contactSelected: [],
+    contactSelected: {} as ContactFormValues,
     setContactSelected: () => {},
     loading: false,
     setLoading: () => {},
@@ -39,26 +39,30 @@ export const ContactsContext = createContext<ContactsState>({
 
 const onSubmit = (
     values: ContactFormValues,
-    setContactSelected: React.Dispatch<React.SetStateAction<ContactFormValues[]>>,
+    setContactSelected: React.Dispatch<React.SetStateAction<ContactFormValues | null>>,
     setContacts: React.Dispatch<React.SetStateAction<ContactFormValues[]>>,
-    contacts: ContactFormValues[]
+    contacts: ContactFormValues[],
+    resetForm: () => void
 ) => {
     const newContact = values;
     setContacts([...contacts, newContact]);
-    setContactSelected([newContact]);
+    setContactSelected(newContact);
     alert(JSON.stringify(newContact, null, 2));
+
+    resetForm();
 };
 
 export const ContactsProvider = ({ children }: { children: ReactNode }) => {
     const [contacts, setContacts] = useState<ContactFormValues[]>([]);
-    const [contactSelected, setContactSelected] = useState<ContactFormValues[]>([]);
+    const [contactSelected, setContactSelected] = useState<ContactFormValues | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const formik = useFormik<ContactFormValues>({
         initialValues: contactInitialValues,
         validationSchema: contactValidationSchema,
-        onSubmit: (values) => onSubmit(values, setContactSelected, setContacts, contacts),
+        onSubmit: (values, formikBag) =>
+            onSubmit(values, setContactSelected, setContacts, contacts, formikBag.resetForm),
     });
 
     return (

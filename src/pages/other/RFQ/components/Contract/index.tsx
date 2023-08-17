@@ -1,16 +1,22 @@
+import { useEffect } from 'react';
+
 import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
 
-import { useCountries, useStates } from '../../hooks';
+import { useStates } from '../../hooks';
 import { useContracts } from './hooks';
 
-import Form, { Text, Select, Datepicker } from '../UI/Form';
+import { Text, Select, Datepicker } from '../UI/Form';
 import { Product } from './types';
 
 const Contracts = () => {
     const { products, setProducts, formik: formikContract } = useContracts();
-
-    const { countries, loading: loadingCountries, error: errorCountries } = useCountries();
     const { states, loading: loadingStates, error: errorStates } = useStates('ALL');
+
+    useEffect(() => {
+        formikContract.setFieldError('procurementUnit', '');
+        formikContract.setFieldValue('procurementUnit', '');
+        formikContract.setFieldTouched('procurementUnit', false);
+    }, [formikContract.values.commodityType]);
 
     return (
         <Container fluid>
@@ -388,8 +394,7 @@ const Contracts = () => {
                                         (formikContract.values.productType === 'index' &&
                                             !formikContract.values.adder) ||
                                         (formikContract.values.productType === 'block-index' &&
-                                            !formikContract.values.adder) ||
-                                        !formikContract.values.productTypeDescription
+                                            !formikContract.values.adder)
                                     }
                                     onClick={() => {
                                         const newProduct: Product = {
@@ -410,6 +415,20 @@ const Contracts = () => {
                                         formikContract.setFieldValue('multiplier', '');
                                         formikContract.setFieldValue('offPeak', '');
                                         formikContract.setFieldValue('onPeak', '');
+
+                                        formikContract.setFieldTouched('productTypeDescription', false);
+                                        formikContract.setFieldTouched('productType', false);
+                                        formikContract.setFieldTouched('adder', false);
+                                        formikContract.setFieldTouched('multiplier', false);
+                                        formikContract.setFieldTouched('offPeak', false);
+                                        formikContract.setFieldTouched('onPeak', false);
+
+                                        formikContract.setFieldError('productTypeDescription', '');
+                                        formikContract.setFieldError('productType', '');
+                                        formikContract.setFieldError('adder', '');
+                                        formikContract.setFieldError('multiplier', '');
+                                        formikContract.setFieldError('offPeak', '');
+                                        formikContract.setFieldError('onPeak', '');
                                     }}>
                                     Add
                                 </Button>

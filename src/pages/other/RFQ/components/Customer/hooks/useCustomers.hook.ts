@@ -49,8 +49,8 @@ const fetchCustomers = (): Promise<CustomerFormValues[]> => {
 const useCustomers = (): {
     customers: CustomerFormValues[];
     setCustomers: React.Dispatch<React.SetStateAction<CustomerFormValues[]>>;
-    customerSelected: CustomerFormValues;
-    setCustomerSelected: React.Dispatch<React.SetStateAction<CustomerFormValues>>;
+    customerSelected: CustomerFormValues | null;
+    setCustomerSelected: React.Dispatch<React.SetStateAction<CustomerFormValues | null>>;
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     error: any;

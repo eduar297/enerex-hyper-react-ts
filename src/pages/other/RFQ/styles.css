@@ -1,0 +1,12 @@
+.tab-create-rfq-container .nav-link {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    border-color: transparent !important;
+    border-radius: 0 !important;
+    color: black;
+}
+
+.tab-create-rfq-container .nav-link.active {
+    color: #fff !important;
+    background-color: var(--ct-primary) !important;
+}

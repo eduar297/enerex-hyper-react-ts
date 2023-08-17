@@ -19,9 +19,9 @@ export type CustomerFormValues = {
 export type ContactFormValues = {
     firstName: string;
     lastName: string;
-    jobTitle: string;
-    primaryPhoneNumber: string;
     emailAddress: string;
-    password: string;
-    confirmPassword: string;
+    jobTitle?: string;
+    primaryPhoneNumber?: string;
+    // password?: string;
+    // confirmPassword?: string;
 };

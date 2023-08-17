@@ -2,7 +2,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button, Card, Col, Nav, ProgressBar, Row, Tab } from 'react-bootstrap';
-import { PageTitle } from 'components';
 
 import Customer from './components/Customer';
 import Contracts from './components/Contract';
@@ -19,7 +18,6 @@ import { UserPermissionsProvider } from './components/UserPermissions/contexts';
 import { useCustomers } from './components/Customer/hooks';
 import { useContracts } from './components/Contract/hooks';
 import { useAccounts } from './components/Accounts/hooks';
-import { useDocuments } from './components/Documents/hooks';
 
 import { Item } from './types';
 
@@ -55,13 +53,12 @@ const WizardActions = ({ header, next, previous, index, len }: WizardActionsProp
     const { customerSelected } = useCustomers();
     const { formik: formikContracts } = useContracts();
     const { selectedUtilities, numberOfAccounts } = useAccounts();
-    const { selectedDocuments } = useDocuments();
 
     let disableNext = false;
 
     switch (header) {
         case 'customer':
-            disableNext = !Boolean(customerSelected.domain);
+            disableNext = !customerSelected;
             break;
         case 'accounts':
             disableNext = !Boolean(numberOfAccounts) || selectedUtilities.length === 0;
@@ -124,7 +121,7 @@ const WizardActions = ({ header, next, previous, index, len }: WizardActionsProp
 
 const NavItem = ({ index, header, disabled }: { index: number; header: string; disabled: boolean }) => {
     return (
-        <Nav.Item key={index.toString()}>
+        <Nav.Item key={index.toString()} className="">
             <Nav.Link as={Link} to="#" eventKey={header} disabled={disabled}>
                 <span className="d-none d-md-block">{header}</span>
             </Nav.Link>
@@ -149,8 +146,9 @@ const NavList = ({ items }: { items: Item[] }) => {
     useEffect(() => {
         setEnabled((prevEnabled) => ({
             customer: true,
-            contract: prevEnabled['customer'] && Boolean(customerSelected.domain),
-            accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
+            contract: prevEnabled['customer'] && !!customerSelected,
+            // accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
+            accounts: true,
             documents:
                 prevEnabled['accounts'] &&
                 selectedUtilities.length > 0 &&
@@ -165,7 +163,7 @@ const NavList = ({ items }: { items: Item[] }) => {
                 Boolean(numberOfAccounts && numberOfAccounts > 0),
         }));
     }, [
-        customerSelected.domain,
+        customerSelected,
         formikContracts.dirty,
         formikContracts.isValid,
         selectedUtilities,
@@ -174,7 +172,7 @@ const NavList = ({ items }: { items: Item[] }) => {
     ]);
 
     return (
-        <Nav variant="tabs" justify>
+        <Nav variant="tabs" justify className="tab-create-rfq-container">
             {items.map((item, index) => {
                 console.log(item.id, enabled[item.id]);
                 return <NavItem header={item.header} index={index} disabled={!enabled[item.id]} />;
@@ -225,16 +223,16 @@ const RFQCreate = () => {
                 </>
             ),
         },
-        {
-            id: 'invitation',
-            header: 'Invitation',
-            content: (next: () => void, previous: () => void, index: number, len: number) => (
-                <>
-                    <p>Invitation</p>
-                    <WizardActions header="invitation" next={next} previous={previous} index={index} len={len} />
-                </>
-            ),
-        },
+        // {
+        //     id: 'invitation',
+        //     header: 'Invitation',
+        //     content: (next: () => void, previous: () => void, index: number, len: number) => (
+        //         <>
+        //             <p>Invitation</p>
+        //             <WizardActions header="invitation" next={next} previous={previous} index={index} len={len} />
+        //         </>
+        //     ),
+        // },
         {
             id: 'user-permissions',
             header: 'User Permissions (Opcional)',
@@ -267,46 +265,36 @@ const RFQCreate = () => {
     };
 
     return (
-        <>
-            <PageTitle
-                breadCrumbItems={[
-                    { label: 'Pages', path: '/pages/rfq' },
-                    { label: 'RFQ', path: '/pages/rfq', active: true },
-                ]}
-                title={'RFQ'}
-            />
+        <RootProvider>
+            <Card>
+                <Card.Body className="p-2">
+                    <Tab.Container
+                        defaultActiveKey="Customer"
+                        activeKey={items[activeIndex].header}
+                        onSelect={handleSelect}>
+                        <NavList items={items} />
 
-            <RootProvider>
-                <Card>
-                    <Card.Body className="p-2">
-                        <Tab.Container
-                            defaultActiveKey="Customer"
-                            activeKey={items[activeIndex].header}
-                            onSelect={handleSelect}>
-                            <NavList items={items} />
+                        <ProgressBar
+                            animated
+                            striped
+                            variant="info"
+                            now={((activeIndex + 1) / items.length) * 100}
+                            className="my-3 progress-sm progress-md"
+                        />
 
-                            <ProgressBar
-                                animated
-                                striped
-                                variant="info"
-                                now={((activeIndex + 1) / items.length) * 100}
-                                className="my-3 progress-sm mx-4 progress-md"
-                            />
-
-                            <Tab.Content>
-                                {items.map((item, index) => (
-                                    <Tab.Pane eventKey={item.header} id={item.id} key={index.toString()}>
-                                        <Row>
-                                            <Col sm="12">{item.content(next, previous, index, items.length)}</Col>
-                                        </Row>
-                                    </Tab.Pane>
-                                ))}
-                            </Tab.Content>
-                        </Tab.Container>
-                    </Card.Body>
-                </Card>
-            </RootProvider>
-        </>
+                        <Tab.Content>
+                            {items.map((item, index) => (
+                                <Tab.Pane eventKey={item.header} id={item.id} key={index.toString()}>
+                                    <Row>
+                                        <Col sm="12">{item.content(next, previous, index, items.length)}</Col>
+                                    </Row>
+                                </Tab.Pane>
+                            ))}
+                        </Tab.Content>
+                    </Tab.Container>
+                </Card.Body>
+            </Card>
+        </RootProvider>
     );
 };
 

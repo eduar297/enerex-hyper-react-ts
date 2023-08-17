@@ -24,8 +24,8 @@ const customerInitialValues: CustomerFormValues = {
 type CustomersState = {
     customers: CustomerFormValues[];
     setCustomers: React.Dispatch<React.SetStateAction<CustomerFormValues[]>>;
-    customerSelected: CustomerFormValues;
-    setCustomerSelected: React.Dispatch<React.SetStateAction<CustomerFormValues>>;
+    customerSelected: CustomerFormValues | null;
+    setCustomerSelected: React.Dispatch<React.SetStateAction<CustomerFormValues | null>>;
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     error: any;
@@ -47,26 +47,30 @@ export const CustomersContext = createContext<CustomersState>({
 
 const onSubmit = (
     values: CustomerFormValues,
-    setCustomerSelected: React.Dispatch<React.SetStateAction<CustomerFormValues>>,
+    setCustomerSelected: React.Dispatch<React.SetStateAction<CustomerFormValues | null>>,
     setCustomers: React.Dispatch<React.SetStateAction<CustomerFormValues[]>>,
-    customers: CustomerFormValues[]
+    customers: CustomerFormValues[],
+    resetForm: () => void
 ) => {
-    const newCustomer = values;
+    const newCustomer = { ...values };
     setCustomers([...customers, newCustomer]);
     setCustomerSelected(newCustomer);
     alert(JSON.stringify(newCustomer, null, 2));
+
+    resetForm();
 };
 
 export const CustomersProvider = ({ children }: { children: ReactNode }) => {
     const [customers, setCustomers] = useState<CustomerFormValues[]>([]);
-    const [customerSelected, setCustomerSelected] = useState<CustomerFormValues>({} as CustomerFormValues);
+    const [customerSelected, setCustomerSelected] = useState<CustomerFormValues | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const formik = useFormik<CustomerFormValues>({
         initialValues: customerInitialValues,
         validationSchema: customerValidationSchema,
-        onSubmit: (values) => onSubmit(values, setCustomerSelected, setCustomers, customers),
+        onSubmit: (values, formikBag) =>
+            onSubmit(values, setCustomerSelected, setCustomers, customers, formikBag.resetForm),
     });
 
     return (

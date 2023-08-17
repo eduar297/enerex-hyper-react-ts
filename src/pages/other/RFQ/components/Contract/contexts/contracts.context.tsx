@@ -13,7 +13,7 @@ const contractInitialValues: ContractFormValues = {
     annualProcurementAmount: '',
     procurementUnit: '',
     fee: undefined,
-    renewableContentRequirement: undefined,
+    renewableContentRequirement: 0,
     term: '',
     productType: '',
     productTypeDescription: '',

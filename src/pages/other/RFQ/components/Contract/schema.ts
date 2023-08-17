@@ -24,7 +24,11 @@ export const contractValidationSchema = yup.object().shape({
         .min(0, 'Renewable content requirement must be positive')
         .max(100, 'Renewable content requirement must be less than or equal to 100')
         .required('Renewable content requirement is required'),
-    term: yup.string().matches(/^\d+(,\d+)*$/, 'Term must be a comma-separated list of numbers'),
+    term: yup
+        .string()
+        .trim()
+        .matches(/^\d+(\s*,\s*\d+)*$/, 'Term must be a comma-separated list of numbers'),
+
     // product
     productType: yup.string(),
     productTypeDescription: yup.string(),
