@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import { Button, Card, Col, Nav, ProgressBar, Row, Tab } from 'react-bootstrap';
 
@@ -121,8 +120,8 @@ const WizardActions = ({ header, next, previous, index, len }: WizardActionsProp
 
 const NavItem = ({ index, header, disabled }: { index: number; header: string; disabled: boolean }) => {
     return (
-        <Nav.Item key={index.toString()} className="">
-            <Nav.Link as={Link} to="#" eventKey={header} disabled={disabled}>
+        <Nav.Item key={index.toString()}>
+            <Nav.Link href="#" eventKey={header} disabled={disabled}>
                 <span className="d-none d-md-block">{header}</span>
             </Nav.Link>
         </Nav.Item>

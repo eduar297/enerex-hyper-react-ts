@@ -29,6 +29,8 @@ const Customer = () => {
 
     const handleCreateCustomer = () => formikCustomer.handleSubmit();
 
+    const handleClearDataCustomer = () => setCustomerSelected(null);
+
     const handleCreateContact = () => formikContact.handleSubmit();
 
     return (
@@ -333,21 +335,36 @@ const Customer = () => {
                         </Row>
                     </Container>
                 </Card.Body>
-                {!customerSelected && (
-                    <Card.Footer>
+                <Card.Footer>
+                    {!customerSelected && (
                         <Row>
                             <Col className="text-end">
                                 <Button
                                     variant="primary"
                                     type="button"
                                     onClick={handleCreateCustomer}
-                                    disabled={!formikCustomer.dirty || !formikCustomer.isValid}>
+                                    // disabled={!formikCustomer.dirty || !formikCustomer.isValid}
+                                >
                                     <i className="mdi mdi-plus me-1"></i> <span>Create new customer</span>
                                 </Button>
                             </Col>
                         </Row>
-                    </Card.Footer>
-                )}
+                    )}
+                    {customerSelected && (
+                        <Row>
+                            <Col className="text-end">
+                                <Button
+                                    variant="primary"
+                                    type="button"
+                                    onClick={handleClearDataCustomer}
+                                    // disabled={!formikCustomer.dirty || !formikCustomer.isValid}
+                                >
+                                    <i className="mdi mdi-plus me-1"></i> <span>Clear Data</span>
+                                </Button>
+                            </Col>
+                        </Row>
+                    )}
+                </Card.Footer>
             </Card>
 
             <Card className="mt-3">
