@@ -13,6 +13,7 @@ import { ContractsProvider } from './components/Contract/contexts';
 import { AccountProvider, MeterProvider } from './components/Accounts/contexts';
 import { DocumentsProvider } from './components/Documents/contexts';
 import { UserPermissionsProvider } from './components/UserPermissions/contexts';
+import { CurrentUserProvider } from './contexts';
 
 import { useCustomers } from './components/Customer/hooks';
 import { useContracts } from './components/Contract/hooks';
@@ -22,19 +23,21 @@ import { Item } from './types';
 
 export const RootProvider = ({ children }: { children: ReactNode }) => {
     return (
-        <CustomersProvider>
-            <ContactsProvider>
-                <ContractsProvider>
-                    <AccountProvider>
-                        <MeterProvider>
-                            <DocumentsProvider>
-                                <UserPermissionsProvider>{children}</UserPermissionsProvider>
-                            </DocumentsProvider>
-                        </MeterProvider>
-                    </AccountProvider>
-                </ContractsProvider>
-            </ContactsProvider>
-        </CustomersProvider>
+        <CurrentUserProvider>
+            <CustomersProvider>
+                <ContactsProvider>
+                    <ContractsProvider>
+                        <AccountProvider>
+                            <MeterProvider>
+                                <DocumentsProvider>
+                                    <UserPermissionsProvider>{children}</UserPermissionsProvider>
+                                </DocumentsProvider>
+                            </MeterProvider>
+                        </AccountProvider>
+                    </ContractsProvider>
+                </ContactsProvider>
+            </CustomersProvider>
+        </CurrentUserProvider>
     );
 };
 
