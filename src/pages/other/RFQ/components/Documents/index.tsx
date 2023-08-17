@@ -2,7 +2,6 @@ import { Card, Col, Container, Row } from 'react-bootstrap';
 
 import { useDocuments } from './hooks';
 import Dropzone from 'react-dropzone';
-import { Link } from 'react-router-dom';
 
 const Documents = () => {
     const { selectedDocuments, handleAcceptedDocuments, removeDocument } = useDocuments();
@@ -54,21 +53,17 @@ const Documents = () => {
                                                         </Col>
                                                     )}
                                                     <Col className="ps-0">
-                                                        <Link to="#" className="text-muted fw-bold">
-                                                            {document.name}
-                                                        </Link>
+                                                        <span className="text-muted fw-bold">{document.name}</span>
                                                         <p className="mb-0 font-13">
                                                             <strong>{document.formattedSize}</strong>
                                                         </p>
                                                     </Col>
                                                     <Col className="text-end">
-                                                        <Link
-                                                            to="#"
-                                                            className="btn btn-link btn-lg text-muted shadow-none">
+                                                        <span className="btn btn-link btn-lg text-muted shadow-none">
                                                             <i
                                                                 className="dripicons-cross"
                                                                 onClick={() => removeDocument(document)}></i>
-                                                        </Link>
+                                                        </span>
                                                     </Col>
                                                 </Row>
                                             </div>
