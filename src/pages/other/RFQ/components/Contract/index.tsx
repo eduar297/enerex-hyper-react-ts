@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
 
-import { useStates } from '../../hooks';
+import { useCurrentUser, useStates } from '../../hooks';
 import { useContracts } from './hooks';
 
 import { Text, Select, Datepicker } from '../UI/Form';
@@ -11,6 +11,8 @@ import { Product } from './types';
 const Contracts = () => {
     const { products, setProducts, formik: formikContract } = useContracts();
     const { states, loading: loadingStates, error: errorStates } = useStates('ALL');
+
+    const { currentUserData } = useCurrentUser();
 
     useEffect(() => {
         formikContract.setFieldError('procurementUnit', '');
@@ -444,7 +446,9 @@ const Contracts = () => {
                                                 <tr>
                                                     <th>Product Type</th>
                                                     <th>Description</th>
-                                                    <th>Sarting Price</th>
+                                                    {!currentUserData?.IsBrokerInSupplierCompany && (
+                                                        <th>Sarting Price</th>
+                                                    )}
                                                     <th>Remove</th>
                                                 </tr>
                                             </thead>
@@ -455,29 +459,31 @@ const Contracts = () => {
                                                             <td>{product.type}</td>
                                                         </th>
                                                         <td>{product.description}</td>
-                                                        <td>
-                                                            {(product.type === 'index' ||
-                                                                product.type === 'block-index') && (
-                                                                <p>
-                                                                    {`Adder: $${product.adder}/${formikContract.values.procurementUnit}`}
-                                                                </p>
-                                                            )}
-                                                            {(product.type === 'peak' ||
-                                                                product.type === 'block-index') && (
-                                                                <p>{`On-Peak: $${product.onPeak}/${formikContract.values.procurementUnit} / Off-Peak: $${product.offPeak}/${formikContract.values.procurementUnit}`}</p>
-                                                            )}
-                                                            {(product.type === 'block-index' ||
-                                                                product.type === 'block-index') && (
-                                                                <p>
-                                                                    {`Adder: $${product.adder}/${formikContract.values.procurementUnit}`}
-                                                                </p>
-                                                            )}
-                                                            {product.type === 'heat-rate' && (
-                                                                <p>
-                                                                    {`Multiplier: ${product.multiplier} MMBTU/${formikContract.values.procurementUnit} / Adder: $${product.adder}/${formikContract.values.procurementUnit}`}
-                                                                </p>
-                                                            )}
-                                                        </td>
+                                                        {!currentUserData?.IsBrokerInSupplierCompany && (
+                                                            <td>
+                                                                {(product.type === 'index' ||
+                                                                    product.type === 'block-index') && (
+                                                                    <p>
+                                                                        {`Adder: $${product.adder}/${formikContract.values.procurementUnit}`}
+                                                                    </p>
+                                                                )}
+                                                                {(product.type === 'peak' ||
+                                                                    product.type === 'block-index') && (
+                                                                    <p>{`On-Peak: $${product.onPeak}/${formikContract.values.procurementUnit} / Off-Peak: $${product.offPeak}/${formikContract.values.procurementUnit}`}</p>
+                                                                )}
+                                                                {(product.type === 'block-index' ||
+                                                                    product.type === 'block-index') && (
+                                                                    <p>
+                                                                        {`Adder: $${product.adder}/${formikContract.values.procurementUnit}`}
+                                                                    </p>
+                                                                )}
+                                                                {product.type === 'heat-rate' && (
+                                                                    <p>
+                                                                        {`Multiplier: ${product.multiplier} MMBTU/${formikContract.values.procurementUnit} / Adder: $${product.adder}/${formikContract.values.procurementUnit}`}
+                                                                    </p>
+                                                                )}
+                                                            </td>
+                                                        )}
 
                                                         <td>
                                                             <Button
