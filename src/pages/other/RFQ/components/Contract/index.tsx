@@ -446,7 +446,7 @@ const Contracts = () => {
                                                 <tr>
                                                     <th>Product Type</th>
                                                     <th>Description</th>
-                                                    {!currentUserData?.IsBrokerInSupplierCompany && (
+                                                    {currentUserData?.IsBrokerInSupplierCompany === false && (
                                                         <th>Sarting Price</th>
                                                     )}
                                                     <th>Remove</th>
@@ -459,7 +459,7 @@ const Contracts = () => {
                                                             <td>{product.type}</td>
                                                         </th>
                                                         <td>{product.description}</td>
-                                                        {!currentUserData?.IsBrokerInSupplierCompany && (
+                                                        {currentUserData?.IsBrokerInSupplierCompany === false && (
                                                             <td>
                                                                 {(product.type === 'index' ||
                                                                     product.type === 'block-index') && (

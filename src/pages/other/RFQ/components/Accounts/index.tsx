@@ -172,7 +172,6 @@ const Accounts = () => {
                             <Row className="my-2">
                                 <Col sm={3}>
                                     <Text
-                                        type="number"
                                         controlId="zip"
                                         name="zip"
                                         label="Postal Code"
@@ -198,34 +197,6 @@ const Accounts = () => {
                                         placeholder="Address Line 1"
                                     />
                                 </Col>
-
-                                <Col sm={3}>
-                                    <Text
-                                        controlId="addressLine2"
-                                        name="addressLine2"
-                                        label="Address Line 2"
-                                        value={formikMeter.values.addressLine2}
-                                        handleChange={formikMeter.handleChange}
-                                        handleBlur={formikMeter.handleBlur}
-                                        touched={formikMeter.touched.addressLine2}
-                                        error={formikMeter.errors.addressLine2}
-                                        placeholder="Address Line 2"
-                                    />
-                                </Col>
-
-                                <Col sm={3}>
-                                    <Text
-                                        controlId="addressLine3"
-                                        name="addressLine3"
-                                        label="Address Line 3"
-                                        value={formikMeter.values.addressLine3}
-                                        handleChange={formikMeter.handleChange}
-                                        handleBlur={formikMeter.handleBlur}
-                                        touched={formikMeter.touched.addressLine3}
-                                        error={formikMeter.errors.addressLine3}
-                                        placeholder="Address Line 3"
-                                    />
-                                </Col>
                             </Row>
                         </Container>
                     </Card.Body>
@@ -238,7 +209,7 @@ const Accounts = () => {
                                     type="button"
                                     onClick={handleCreateMeter}
                                     disabled={!formikMeter.dirty || !formikMeter.isValid}>
-                                    <i className="mdi mdi-plus me-1"></i> <span>Create new account</span>
+                                    <i className="mdi mdi-plus me-1"></i> <span>Create Account</span>
                                 </Button>
                             </Col>
                         </Row>

@@ -3,8 +3,8 @@ import { CurrentUserContext } from '../contexts';
 import { CurrentUserData } from '../types';
 
 const useCurrentUser = (): {
-    currentUserData: CurrentUserData | null;
-    setCurrentUserData: React.Dispatch<React.SetStateAction<CurrentUserData | null>>;
+    currentUserData: CurrentUserData | undefined;
+    setCurrentUserData: React.Dispatch<React.SetStateAction<CurrentUserData | undefined>>;
 } => {
     const { currentUserData, setCurrentUserData } = useContext(CurrentUserContext);
 

@@ -175,10 +175,9 @@ const NavList = ({ items }: { items: Item[] }) => {
 
     return (
         <Nav variant="tabs" justify className="tab-create-rfq-container">
-            {items.map((item, index) => {
-                console.log(item.id, enabled[item.id]);
-                return <NavItem header={item.header} index={index} disabled={!enabled[item.id]} />;
-            })}
+            {items.map((item, index) => (
+                <NavItem header={item.header} index={index} disabled={!enabled[item.id]} />
+            ))}
         </Nav>
     );
 };
@@ -230,10 +229,10 @@ const RFQCreate = () => {
     ]);
 
     useEffect(() => {
-        if (!currentUserData?.IsBrokerInSupplierCompany) {
+        if (currentUserData?.IsBrokerInSupplierCompany === false) {
             const userPermissionsItem = {
                 id: 'user-permissions',
-                header: 'User Permissions (Opcional)',
+                header: 'User Permissions (Optional)',
                 content: (next: () => void, previous: () => void, index: number, len: number) => (
                     <>
                         <UserPermissions />
@@ -247,10 +246,11 @@ const RFQCreate = () => {
                     </>
                 ),
             };
-
-            setItems([...items, userPermissionsItem]);
+            if (!items.find((item) => item.id === userPermissionsItem.id)) {
+                setItems([...items, userPermissionsItem]);
+            }
         }
-    }, []);
+    }, [currentUserData]);
 
     const [activeIndex, setActiveIndex] = useState(0);
 

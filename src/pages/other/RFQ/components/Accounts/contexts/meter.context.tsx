@@ -10,9 +10,7 @@ const meterInitialValues: MeterFormValues = {
     city: '',
     state: '',
     zip: undefined,
-    addressLine1: '',
-    addressLine2: '',
-    addressLine3: '',
+    addressLine1: ''
 };
 
 type MeterState = {

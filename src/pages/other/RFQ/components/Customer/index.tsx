@@ -371,6 +371,7 @@ const Customer = () => {
                         <Row className="align-items-center mb-2">
                             <Col sm={5} className="contact-customer-select">
                                 <Select
+                                    enabled={!contactSelected && !!customerSelected}
                                     name="contact"
                                     value={contactSelected?.emailAddress}
                                     handleChange={(e) =>
@@ -394,7 +395,7 @@ const Customer = () => {
                         <Row className="align-items-start my-2">
                             <Col sm={4}>
                                 <Text
-                                    enabled={!contactSelected}
+                                    enabled={!contactSelected && !!customerSelected}
                                     controlId="firstName"
                                     name="firstName"
                                     label="First Name"
@@ -411,7 +412,7 @@ const Customer = () => {
 
                             <Col sm={4}>
                                 <Text
-                                    enabled={!contactSelected}
+                                    enabled={!contactSelected && !!customerSelected}
                                     controlId="lastName"
                                     name="lastName"
                                     label="Last Name"
@@ -428,7 +429,7 @@ const Customer = () => {
 
                             <Col sm={4}>
                                 <Text
-                                    enabled={!contactSelected}
+                                    enabled={!contactSelected && !!customerSelected}
                                     controlId="jobTitle"
                                     name="jobTitle"
                                     label="Job Title"
@@ -447,7 +448,7 @@ const Customer = () => {
                         <Row className="align-items-start my-2">
                             <Col sm={4}>
                                 <Text
-                                    enabled={!contactSelected}
+                                    enabled={!contactSelected && !!customerSelected}
                                     controlId="primaryPhoneNumber"
                                     name="primaryPhoneNumber"
                                     label="Primary Phone Number"
@@ -466,7 +467,7 @@ const Customer = () => {
 
                             <Col sm={4}>
                                 <Text
-                                    enabled={!contactSelected}
+                                    enabled={!contactSelected && !!customerSelected}
                                     controlId="emailAddress"
                                     name="emailAddress"
                                     label="Email Address"

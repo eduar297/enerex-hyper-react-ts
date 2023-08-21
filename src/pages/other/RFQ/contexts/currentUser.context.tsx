@@ -2,17 +2,17 @@ import { createContext, useState, ReactNode, useEffect } from 'react';
 import { CurrentUserData } from '../types';
 
 type CurrentUserState = {
-    currentUserData: CurrentUserData | null;
-    setCurrentUserData: React.Dispatch<React.SetStateAction<CurrentUserData | null>>;
+    currentUserData: CurrentUserData | undefined;
+    setCurrentUserData: React.Dispatch<React.SetStateAction<CurrentUserData | undefined>>;
 };
 
 export const CurrentUserContext = createContext<CurrentUserState>({
-    currentUserData: null,
+    currentUserData: undefined,
     setCurrentUserData: () => {},
 });
 
 export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
-    const [currentUserData, setCurrentUserData] = useState<CurrentUserData | null>(null);
+    const [currentUserData, setCurrentUserData] = useState<CurrentUserData | undefined>(undefined);
 
     useEffect(() => {
         const storedData = localStorage.getItem('currentUserData');

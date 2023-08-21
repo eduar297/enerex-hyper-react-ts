@@ -6,7 +6,7 @@ export type CustomerFormValues = {
     city: string;
     country: string;
     state: string;
-    zip?: number;
+    zip?: string;
     numberOfEmployees?: number;
     founded?: number;
     website: string;

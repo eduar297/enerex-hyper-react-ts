@@ -59,11 +59,11 @@ const Multiselect = ({
                 />
                 {Boolean(inputGroupTextEnd) && <InputGroup.Text>{inputGroupTextEnd}</InputGroup.Text>}
 
-                {loading && (
+                {/* {loading && (
                     <InputGroup.Text>
                         <Spinner />
                     </InputGroup.Text>
-                )}
+                )} */}
                 {enabled && touched && Boolean(error) && (
                     <FormControl.Feedback type="invalid">{error}</FormControl.Feedback>
                 )}

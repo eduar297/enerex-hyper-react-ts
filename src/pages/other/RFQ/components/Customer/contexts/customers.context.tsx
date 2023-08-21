@@ -11,7 +11,7 @@ const customerInitialValues: CustomerFormValues = {
     city: '',
     country: 'US',
     state: '',
-    zip: undefined,
+    zip: '',
     numberOfEmployees: undefined,
     founded: undefined,
     website: '',
