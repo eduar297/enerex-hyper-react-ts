@@ -162,7 +162,7 @@ const Accounts = () => {
                                         loading={loadingStates}
                                         fetchError={errorStates}
                                         options={states.map((state) => ({
-                                            value: state.code,
+                                            value: state.name,
                                             label: state.name,
                                         }))}
                                     />

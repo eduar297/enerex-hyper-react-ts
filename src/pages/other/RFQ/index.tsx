@@ -20,7 +20,7 @@ import { useContracts } from './components/Contract/hooks';
 import { useAccounts } from './components/Accounts/hooks';
 import { useCurrentUser } from './hooks';
 
-import { Item } from './types';
+import { Item } from './contracts';
 
 export const RootProvider = ({ children }: { children: ReactNode }) => {
     return (
@@ -139,39 +139,47 @@ const NavList = ({ items }: { items: Item[] }) => {
 
     const [enabled, setEnabled] = useState<{ [key: string]: boolean }>({
         customer: true,
-        contract: false,
-        accounts: false,
-        documents: false,
-        invitation: false,
-        'user-permissions': false,
+        contract: true,
+        accounts: true,
+        documents: true,
+        invitation: true,
+        'user-permissions': true,
     });
+    // const [enabled, setEnabled] = useState<{ [key: string]: boolean }>({
+    //     customer: true,
+    //     contract: false,
+    //     accounts: false,
+    //     documents: false,
+    //     invitation: false,
+    //     'user-permissions': false,
+    // });
 
-    useEffect(() => {
-        setEnabled((prevEnabled) => ({
-            customer: true,
-            contract: prevEnabled['customer'] && !!customerSelected,
-            accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
-            documents:
-                prevEnabled['accounts'] &&
-                selectedUtilities.length > 0 &&
-                Boolean(numberOfAccounts && numberOfAccounts > 0),
-            invitation:
-                prevEnabled['accounts'] &&
-                selectedUtilities.length > 0 &&
-                Boolean(numberOfAccounts && numberOfAccounts > 0),
-            'user-permissions':
-                prevEnabled['accounts'] &&
-                selectedUtilities.length > 0 &&
-                Boolean(numberOfAccounts && numberOfAccounts > 0),
-        }));
-    }, [
-        customerSelected,
-        formikContracts.dirty,
-        formikContracts.isValid,
-        selectedUtilities,
-        numberOfAccounts,
-        setEnabled,
-    ]);
+    // useEffect(() => {
+    //     setEnabled((prevEnabled) => ({
+    //         customer: true,
+    //         contract: prevEnabled['customer'] && !!customerSelected,
+    //         accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
+    //         documents:
+    //             prevEnabled['accounts'] &&
+    //             selectedUtilities.length > 0 &&
+    //             Boolean(numberOfAccounts && numberOfAccounts > 0),
+    //         invitation:
+    //             prevEnabled['accounts'] &&
+    //             selectedUtilities.length > 0 &&
+    //             Boolean(numberOfAccounts && numberOfAccounts > 0),
+    //         'user-permissions':
+    //             prevEnabled['accounts'] &&
+    //             selectedUtilities.length > 0 &&
+    //             Boolean(numberOfAccounts && numberOfAccounts > 0),
+    //     }));
+    // }, [
+    //     customerSelected,
+    //     formikContracts.dirty,
+    //     formikContracts.isValid,
+    //     selectedUtilities,
+    //     numberOfAccounts,
+    //     setEnabled,
+    // ]);
 
     return (
         <Nav variant="tabs" justify className="tab-create-rfq-container">
@@ -250,7 +258,7 @@ const RFQCreate = () => {
                 setItems([...items, userPermissionsItem]);
             }
         }
-    }, [currentUserData]);
+    }, [currentUserData, items]);
 
     const [activeIndex, setActiveIndex] = useState(0);
 

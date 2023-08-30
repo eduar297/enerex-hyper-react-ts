@@ -1,5 +1,5 @@
-import { createContext, useState, ReactNode, useEffect } from 'react';
-import { CurrentUserData } from '../types';
+import { createContext, useState, ReactNode } from 'react';
+import { CurrentUserData } from '../contracts';
 
 type CurrentUserState = {
     currentUserData: CurrentUserData | undefined;
@@ -13,15 +13,6 @@ export const CurrentUserContext = createContext<CurrentUserState>({
 
 export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
     const [currentUserData, setCurrentUserData] = useState<CurrentUserData | undefined>(undefined);
-
-    useEffect(() => {
-        const storedData = localStorage.getItem('currentUserData');
-
-        if (storedData) {
-            const parsedData = JSON.parse(storedData);
-            setCurrentUserData(parsedData as CurrentUserData);
-        }
-    }, []);
 
     return (
         <CurrentUserContext.Provider

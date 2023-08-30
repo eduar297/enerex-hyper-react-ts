@@ -29,3 +29,13 @@ export type Product = {
     onPeak?: number;
     offPeak?: number;
 };
+
+export type CommodityType = {
+    text: string;
+    id: string;
+};
+
+export type ProcurementUnit = {
+    text: string;
+    id: string;
+};

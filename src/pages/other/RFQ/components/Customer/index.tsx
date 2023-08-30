@@ -4,42 +4,82 @@ import { useCountries, useStates } from '../../hooks';
 import { useContacts, useCustomers } from './hooks';
 
 import { Text, Select, TextArea } from '../UI/Form';
+import { useEffect } from 'react';
 
 const Customer = () => {
     const {
-        contacts,
-        loading: loadingContacts,
-        error: errorContact,
-        formik: formikContact,
+        contactsChoice,
+        setContactsChoice,
+
+        contactChoiceSelected,
+        setContactChoiceSelected,
+
         contactSelected,
         setContactSelected,
+
+        loadingContactSelected,
+        loadingContactsChoice,
+
+        errorContactSelected,
+        errorContactsChoice,
+
+        formik: formikContact,
     } = useContacts();
 
     const {
-        customers,
-        loading: loadingCustomers,
-        error: errorCustomers,
-        formik: formikCustomer,
+        customersChoice,
+        setCustomersChoice,
+
+        customerChoiceSelected,
+        setCustomerChoiceSelected,
+
         customerSelected,
         setCustomerSelected,
+
+        loadingCustomerSelected,
+        loadingCustomersChoice,
+
+        errorCustomerSelected,
+        errorCustomersChoice,
+
+        formik: formikCustomer,
     } = useCustomers();
 
     const { countries, loading: loadingCountries, error: errorCountries } = useCountries();
-    const { states, loading: loadingStates, error: errorStates } = useStates(formikCustomer.values.country);
+
+    const {
+        states,
+        loading: loadingStates,
+        error: errorStates,
+    } = useStates(!!customerSelected ? customerSelected.CountryId || '' : formikCustomer.values.CountryId || '');
 
     const handleCreateCustomer = () => formikCustomer.handleSubmit();
 
     const handleClearDataCustomer = () => {
         setCustomerSelected(null);
+        setCustomerChoiceSelected(null);
         formikCustomer.resetForm();
     };
 
     const handleClearDataContact = () => {
         setContactSelected(null);
+        setContactChoiceSelected(null);
         formikContact.resetForm();
     };
 
     const handleCreateContact = () => formikContact.handleSubmit();
+
+    useEffect(() => {
+        console.log({ states });
+    }, [states]);
+
+    useEffect(() => {
+        console.log({ customerSelected });
+    }, [customerSelected]);
+
+    useEffect(() => {
+        console.log({ formik: formikCustomer.values });
+    }, [formikCustomer]);
 
     return (
         <Container fluid>
@@ -51,27 +91,33 @@ const Customer = () => {
                             <Col sm={5} className="existing-customer-select">
                                 <Select
                                     name="customer"
-                                    value={customerSelected?.name}
+                                    value={!!customerChoiceSelected ? customerChoiceSelected?.id : ''}
                                     handleChange={(e) =>
-                                        setCustomerSelected(
-                                            customers.find((customer) => customer.name === e.target.value) || null
+                                        setCustomerChoiceSelected(
+                                            customersChoice.find((customer) => customer.id === e.target.value) || null
                                         )
                                     }
                                     placeholder="Select a customer"
                                     inputGroupTextStart="Select an existing customer"
                                     controlId="customer"
-                                    loading={loadingCustomers}
-                                    fetchError={errorCustomers}
-                                    options={customers.map((customer) => ({
-                                        value: customer.name,
-                                        label: customer.name,
+                                    loading={loadingCustomersChoice}
+                                    fetchError={errorCustomersChoice}
+                                    options={customersChoice.map((customer) => ({
+                                        value: customer.id,
+                                        label: customer.text,
                                     }))}
                                 />
                             </Col>
 
-                            {customerSelected?.logo && (
+                            {customerSelected?.LogoUrl && (
                                 <Col sm={3}>
-                                    <Image height={60} src={customerSelected?.logo} alt="logo" rounded />
+                                    <Image height={60} src={customerSelected?.LogoUrl} alt="logo" rounded />
+                                </Col>
+                            )}
+
+                            {formikCustomer.values?.LogoUrl && (
+                                <Col sm={3}>
+                                    <Image height={60} src={formikCustomer.values.LogoUrl || ''} alt="logo" rounded />
                                 </Col>
                             )}
                         </Row>
@@ -80,32 +126,32 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!customerSelected}
-                                    controlId="name"
-                                    name="name"
+                                    controlId="Name"
+                                    name="Name"
                                     label="Customer Name"
-                                    value={!!customerSelected ? customerSelected?.name : formikCustomer.values.name}
+                                    value={!!customerSelected ? customerSelected?.Name : formikCustomer.values.Name}
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.name}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.name}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.Name}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.Name}
                                     placeholder="Name"
                                 />
                             </Col>
                             <Col sm={4}>
                                 <Text
                                     enabled={!customerSelected}
-                                    controlId="legalBusinessName"
-                                    name="legalBusinessName"
+                                    controlId="AccountLegalName"
+                                    name="AccountLegalName"
                                     label="Legal Business Name"
                                     value={
                                         !!customerSelected
-                                            ? customerSelected?.legalBusinessName
-                                            : formikCustomer.values.legalBusinessName
+                                            ? customerSelected?.AccountLegalName || ''
+                                            : formikCustomer.values.AccountLegalName || ''
                                     }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.legalBusinessName}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.legalBusinessName}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.AccountLegalName}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.AccountLegalName}
                                     placeholder="Legal Business Name"
                                 />
                             </Col>
@@ -113,14 +159,18 @@ const Customer = () => {
                                 <Text
                                     enabled={!customerSelected}
                                     type="number"
-                                    controlId="taxId"
-                                    name="taxId"
+                                    controlId="TaxID"
+                                    name="TaxID"
                                     label="Tax Id"
-                                    value={!!customerSelected ? customerSelected?.taxId : formikCustomer.values.taxId}
+                                    value={
+                                        !!customerSelected
+                                            ? customerSelected?.TaxID || ''
+                                            : formikCustomer.values.TaxID || ''
+                                    }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.taxId}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.taxId}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.TaxID}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.TaxID}
                                     placeholder="Tax Id"
                                 />
                             </Col>
@@ -130,16 +180,18 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!customerSelected}
-                                    controlId="address"
-                                    name="address"
+                                    controlId="Address"
+                                    name="Address"
                                     label="Address"
                                     value={
-                                        !!customerSelected ? customerSelected?.address : formikCustomer.values.address
+                                        !!customerSelected
+                                            ? customerSelected?.Address || ''
+                                            : formikCustomer.values.Address || ''
                                     }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.address}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.address}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.Address}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.Address}
                                     placeholder="Address"
                                 />
                             </Col>
@@ -147,93 +199,86 @@ const Customer = () => {
                             <Col sm={2}>
                                 <Text
                                     enabled={!customerSelected}
-                                    controlId="city"
-                                    name="city"
+                                    controlId="City"
+                                    name="City"
                                     label="City"
-                                    value={!!customerSelected ? customerSelected?.city : formikCustomer.values.city}
+                                    value={
+                                        !!customerSelected
+                                            ? customerSelected?.City || ''
+                                            : formikCustomer.values.City || ''
+                                    }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.city}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.city}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.City}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.City}
                                     placeholder="City"
                                 />
                             </Col>
                             <Col sm={2}>
-                                {!customerSelected ? (
-                                    <Select
-                                        enabled={!!formikCustomer.values.country}
-                                        controlId="state"
-                                        name="state"
-                                        label="State"
-                                        value={formikCustomer.values.state}
-                                        handleChange={formikCustomer.handleChange}
-                                        handleBlur={formikCustomer.handleBlur}
-                                        touched={formikCustomer.touched.state}
-                                        error={formikCustomer.errors.state}
-                                        placeholder="Select a state"
-                                        options={states.map((state) => ({
-                                            value: state.code,
-                                            label: state.name,
-                                        }))}
-                                        loading={loadingStates}
-                                        fetchError={errorStates}
-                                    />
-                                ) : (
-                                    <Select
-                                        enabled={false}
-                                        value={customerSelected?.state}
-                                        label="State"
-                                        options={states.map((state) => ({
-                                            value: state.code,
-                                            label: state.name,
-                                        }))}
-                                    />
-                                )}
+                                <Select
+                                    enabled={!customerSelected && !!formikCustomer.values.CountryId}
+                                    controlId="StateId"
+                                    name="StateId"
+                                    label="State"
+                                    value={
+                                        !!customerSelected
+                                            ? customerSelected?.StateId || ''
+                                            : formikCustomer?.values?.StateId || ''
+                                    }
+                                    handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
+                                    handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.StateId}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.StateId}
+                                    placeholder="Select a state"
+                                    options={states.map((state) => ({
+                                        value: state.id,
+                                        label: state.name,
+                                    }))}
+                                    loading={!!customerSelected ? undefined : loadingStates}
+                                    fetchError={!!customerSelected ? undefined : errorStates}
+                                />
                             </Col>
                             <Col sm={2}>
                                 <Text
                                     enabled={!customerSelected}
-                                    controlId="zip"
-                                    name="zip"
+                                    controlId="PostalCode"
+                                    name="PostalCode"
                                     label="Postal Code"
-                                    value={!!customerSelected ? customerSelected?.zip : formikCustomer.values.zip}
+                                    value={
+                                        !!customerSelected
+                                            ? customerSelected?.PostalCode || ''
+                                            : formikCustomer.values.PostalCode || ''
+                                    }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.zip}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.zip}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.PostalCode}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.PostalCode}
                                     placeholder="Postal"
                                 />
                             </Col>
                             <Col sm={2}>
-                                {!customerSelected ? (
-                                    <Select
-                                        controlId="country"
-                                        name="country"
-                                        label="Country"
-                                        value={formikCustomer.values.country}
-                                        handleChange={formikCustomer.handleChange}
-                                        handleBlur={formikCustomer.handleBlur}
-                                        touched={formikCustomer.touched.country}
-                                        error={formikCustomer.errors.country}
-                                        placeholder="Select a country"
-                                        options={countries.map((country) => ({
-                                            value: country.code,
-                                            label: country.name,
-                                        }))}
-                                        loading={loadingCountries}
-                                        fetchError={errorCountries}
-                                    />
-                                ) : (
-                                    <Select
-                                        enabled={false}
-                                        value={customerSelected?.country}
-                                        label="Country"
-                                        options={countries.map((country) => ({
-                                            value: country.code,
-                                            label: country.name,
-                                        }))}
-                                    />
-                                )}
+                                <Select
+                                    enabled={!customerSelected}
+                                    controlId="CountryId"
+                                    name="CountryId"
+                                    label="Country"
+                                    value={
+                                        !!customerSelected
+                                            ? customerSelected?.CountryId || ''
+                                            : formikCustomer?.values?.CountryId || ''
+                                    }
+                                    handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
+                                    handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.CountryId}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.CountryId}
+                                    placeholder="Select a country"
+                                    options={countries.map((country) => ({
+                                        value: country.id,
+                                        label: country.name,
+                                    }))}
+                                    loading={!!customerSelected ? undefined : loadingCountries}
+                                    fetchError={!!customerSelected ? undefined : errorCountries}
+                                />
                             </Col>
                         </Row>
 
@@ -241,14 +286,18 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!customerSelected}
-                                    controlId="domain"
-                                    name="domain"
+                                    controlId="Domain"
+                                    name="Domain"
                                     label="Domain"
-                                    value={!!customerSelected ? customerSelected?.domain : formikCustomer.values.domain}
+                                    value={
+                                        !!customerSelected
+                                            ? customerSelected?.Domain || ''
+                                            : formikCustomer.values.Domain || ''
+                                    }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.domain}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.domain}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.Domain}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.Domain}
                                     placeholder="Domain"
                                 />
                             </Col>
@@ -256,18 +305,18 @@ const Customer = () => {
                                 <Text
                                     enabled={!customerSelected}
                                     type="number"
-                                    controlId="numberOfEmployees"
-                                    name="numberOfEmployees"
+                                    controlId="NumberOfEmployees"
+                                    name="NumberOfEmployees"
                                     label="Number of Employees"
                                     value={
                                         !!customerSelected
-                                            ? customerSelected?.numberOfEmployees
-                                            : formikCustomer.values.numberOfEmployees
+                                            ? customerSelected?.NumberOfEmployees || ''
+                                            : formikCustomer.values.NumberOfEmployees || ''
                                     }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.numberOfEmployees}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.numberOfEmployees}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.NumberOfEmployees}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.NumberOfEmployees}
                                     placeholder="Number of Employees"
                                 />
                             </Col>
@@ -276,16 +325,18 @@ const Customer = () => {
                                 <Text
                                     enabled={!customerSelected}
                                     type="number"
-                                    controlId="founded"
-                                    name="founded"
+                                    controlId="Founded  "
+                                    name="Founded"
                                     label="Founded"
                                     value={
-                                        !!customerSelected ? customerSelected?.founded : formikCustomer.values.founded
+                                        !!customerSelected
+                                            ? customerSelected?.Founded || ''
+                                            : formikCustomer.values.Founded || ''
                                     }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.founded}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.founded}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.Founded}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.Founded}
                                     placeholder="Founding Year"
                                 />
                             </Col>
@@ -295,16 +346,18 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!customerSelected}
-                                    controlId="website"
-                                    name="website"
+                                    controlId="Website"
+                                    name="Website"
                                     label="Website"
                                     value={
-                                        !!customerSelected ? customerSelected?.website : formikCustomer.values.website
+                                        !!customerSelected
+                                            ? customerSelected?.Website || ''
+                                            : formikCustomer.values.Website || ''
                                     }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.website}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.website}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.Website}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.Website}
                                     placeholder="Website"
                                 />
                             </Col>
@@ -312,14 +365,18 @@ const Customer = () => {
                                 <Text
                                     enabled={!customerSelected}
                                     type="number"
-                                    controlId="duns"
-                                    name="duns"
+                                    controlId="DUNS"
+                                    name="DUNS"
                                     label="DUNS"
-                                    value={!!customerSelected ? customerSelected?.duns : formikCustomer.values.duns}
+                                    value={
+                                        !!customerSelected
+                                            ? customerSelected?.DUNS || ''
+                                            : formikCustomer.values.DUNS || ''
+                                    }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.duns}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.duns}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.DUNS}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.DUNS}
                                     placeholder="DUNS"
                                 />
                             </Col>
@@ -329,14 +386,18 @@ const Customer = () => {
                             <Col sm={12}>
                                 <TextArea
                                     enabled={!customerSelected}
-                                    controlId="about"
-                                    name="about"
+                                    controlId="About"
+                                    name="About"
                                     label="About"
-                                    value={!!customerSelected ? customerSelected?.about : formikCustomer.values.about}
+                                    value={
+                                        !!customerSelected
+                                            ? customerSelected?.About || ''
+                                            : formikCustomer.values.About || ''
+                                    }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
-                                    touched={!!customerSelected ? undefined : formikCustomer.touched.about}
-                                    error={!!customerSelected ? undefined : formikCustomer.errors.about}
+                                    touched={!!customerSelected ? undefined : formikCustomer.touched.About}
+                                    error={!!customerSelected ? undefined : formikCustomer.errors.About}
                                     placeholder="About"
                                 />
                             </Col>
@@ -344,23 +405,19 @@ const Customer = () => {
                     </Container>
                 </Card.Body>
                 <Card.Footer>
-                    {customerSelected ? (
-                        <Row>
-                            <Col className="text-end">
+                    <Row>
+                        <Col className="text-end">
+                            {customerSelected ? (
                                 <Button variant="danger" type="button" onClick={handleClearDataCustomer}>
                                     Clear Data
                                 </Button>
-                            </Col>
-                        </Row>
-                    ) : (
-                        <Row>
-                            <Col className="text-end">
+                            ) : (
                                 <Button variant="primary" type="button" onClick={handleCreateCustomer}>
                                     <i className="mdi mdi-plus me-1"></i> <span>Create new customer</span>
                                 </Button>
-                            </Col>
-                        </Row>
-                    )}
+                            )}
+                        </Col>
+                    </Row>
                 </Card.Footer>
             </Card>
 
@@ -373,20 +430,20 @@ const Customer = () => {
                                 <Select
                                     enabled={!contactSelected && !!customerSelected}
                                     name="contact"
-                                    value={contactSelected?.emailAddress}
+                                    value={!!contactChoiceSelected ? contactChoiceSelected?.id : ''}
                                     handleChange={(e) =>
-                                        setContactSelected(
-                                            contacts.find((contact) => contact.emailAddress === e.target.value) || null
+                                        setContactChoiceSelected(
+                                            contactsChoice.find((contact) => contact.id === e.target.value) || null
                                         )
                                     }
                                     placeholder="Select a contact"
                                     inputGroupTextStart="Select an existing contact"
                                     controlId="contact"
-                                    loading={loadingContacts}
-                                    fetchError={errorContact}
-                                    options={contacts.map((contact) => ({
-                                        value: contact.emailAddress,
-                                        label: contact.firstName,
+                                    loading={loadingContactsChoice}
+                                    fetchError={errorContactsChoice}
+                                    options={contactsChoice.map((contact) => ({
+                                        value: contact.id,
+                                        label: contact.text,
                                     }))}
                                 />
                             </Col>
@@ -396,16 +453,18 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!contactSelected && !!customerSelected}
-                                    controlId="firstName"
-                                    name="firstName"
+                                    controlId="FirstName"
+                                    name="FirstName"
                                     label="First Name"
                                     value={
-                                        !!contactSelected ? contactSelected?.firstName : formikContact.values.firstName
+                                        !!contactSelected
+                                            ? contactSelected?.FirstName || ''
+                                            : formikContact.values.FirstName || ''
                                     }
                                     handleChange={!!contactSelected ? undefined : formikContact.handleChange}
                                     handleBlur={!!contactSelected ? undefined : formikContact.handleBlur}
-                                    touched={!!contactSelected ? undefined : formikContact.touched.firstName}
-                                    error={!!contactSelected ? undefined : formikContact.errors.firstName}
+                                    touched={!!contactSelected ? undefined : formikContact.touched.FirstName}
+                                    error={!!contactSelected ? undefined : formikContact.errors.FirstName}
                                     placeholder="First Name"
                                 />
                             </Col>
@@ -413,16 +472,18 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!contactSelected && !!customerSelected}
-                                    controlId="lastName"
-                                    name="lastName"
+                                    controlId="LastName"
+                                    name="LastName"
                                     label="Last Name"
                                     value={
-                                        !!contactSelected ? contactSelected?.lastName : formikContact.values.lastName
+                                        !!contactSelected
+                                            ? contactSelected?.LastName || ''
+                                            : formikContact.values.LastName || ''
                                     }
                                     handleChange={!!contactSelected ? undefined : formikContact.handleChange}
                                     handleBlur={!!contactSelected ? undefined : formikContact.handleBlur}
-                                    touched={!!contactSelected ? undefined : formikContact.touched.lastName}
-                                    error={!!contactSelected ? undefined : formikContact.errors.lastName}
+                                    touched={!!contactSelected ? undefined : formikContact.touched.LastName}
+                                    error={!!contactSelected ? undefined : formikContact.errors.LastName}
                                     placeholder="Last Name"
                                 />
                             </Col>
@@ -430,16 +491,18 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!contactSelected && !!customerSelected}
-                                    controlId="jobTitle"
-                                    name="jobTitle"
+                                    controlId="JobTitle"
+                                    name="JobTitle"
                                     label="Job Title"
                                     value={
-                                        !!contactSelected ? contactSelected?.jobTitle : formikContact.values.jobTitle
+                                        !!contactSelected
+                                            ? contactSelected?.JobTitle || ''
+                                            : formikContact.values.JobTitle || ''
                                     }
                                     handleChange={!!contactSelected ? undefined : formikContact.handleChange}
                                     handleBlur={!!contactSelected ? undefined : formikContact.handleBlur}
-                                    touched={!!contactSelected ? undefined : formikContact.touched.jobTitle}
-                                    error={!!contactSelected ? undefined : formikContact.errors.jobTitle}
+                                    touched={!!contactSelected ? undefined : formikContact.touched.JobTitle}
+                                    error={!!contactSelected ? undefined : formikContact.errors.JobTitle}
                                     placeholder="Job Title"
                                 />
                             </Col>
@@ -449,18 +512,18 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!contactSelected && !!customerSelected}
-                                    controlId="primaryPhoneNumber"
-                                    name="primaryPhoneNumber"
+                                    controlId="Phone"
+                                    name="Phone"
                                     label="Primary Phone Number"
                                     value={
                                         !!contactSelected
-                                            ? contactSelected?.primaryPhoneNumber
-                                            : formikContact.values.primaryPhoneNumber
+                                            ? contactSelected?.Phone || ''
+                                            : formikContact.values.Phone || ''
                                     }
                                     handleChange={!!contactSelected ? undefined : formikContact.handleChange}
                                     handleBlur={!!contactSelected ? undefined : formikContact.handleBlur}
-                                    touched={!!contactSelected ? undefined : formikContact.touched.primaryPhoneNumber}
-                                    error={!!contactSelected ? undefined : formikContact.errors.primaryPhoneNumber}
+                                    touched={!!contactSelected ? undefined : formikContact.touched.Phone}
+                                    error={!!contactSelected ? undefined : formikContact.errors.Phone}
                                     placeholder="(555) 555-5555"
                                 />
                             </Col>
@@ -468,18 +531,18 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!contactSelected && !!customerSelected}
-                                    controlId="emailAddress"
-                                    name="emailAddress"
+                                    controlId="Email"
+                                    name="Email"
                                     label="Email Address"
                                     value={
                                         !!contactSelected
-                                            ? contactSelected?.emailAddress
-                                            : formikContact.values.emailAddress
+                                            ? contactSelected?.Email || ''
+                                            : formikContact.values.Email || ''
                                     }
                                     handleChange={!!contactSelected ? undefined : formikContact.handleChange}
                                     handleBlur={!!contactSelected ? undefined : formikContact.handleBlur}
-                                    touched={!!contactSelected ? undefined : formikContact.touched.emailAddress}
-                                    error={!!contactSelected ? undefined : formikContact.errors.emailAddress}
+                                    touched={!!contactSelected ? undefined : formikContact.touched.Email}
+                                    error={!!contactSelected ? undefined : formikContact.errors.Email}
                                     placeholder="johndoe@company.com"
                                 />
                             </Col>
@@ -487,23 +550,19 @@ const Customer = () => {
                     </Container>
                 </Card.Body>
                 <Card.Footer>
-                    {contactSelected ? (
-                        <Row>
-                            <Col className="text-end">
+                    <Row>
+                        <Col className="text-end">
+                            {contactSelected ? (
                                 <Button variant="danger" type="button" onClick={handleClearDataContact}>
                                     Clear Data
                                 </Button>
-                            </Col>
-                        </Row>
-                    ) : (
-                        <Row>
-                            <Col className="text-end">
+                            ) : (
                                 <Button variant="primary" type="button" onClick={handleCreateContact}>
                                     <i className="mdi mdi-plus me-1"></i> <span>Create new contact</span>
                                 </Button>
-                            </Col>
-                        </Row>
-                    )}
+                            )}
+                        </Col>
+                    </Row>
                 </Card.Footer>
             </Card>
         </Container>

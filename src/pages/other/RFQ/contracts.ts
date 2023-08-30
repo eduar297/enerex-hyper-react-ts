@@ -6,6 +6,31 @@ export type Item = {
     content: (next: () => void, previous: () => void, index: number, len: number) => ReactNode;
 };
 
+export interface Country {
+    name: string;
+    id: string;
+}
+
+export interface State {
+    name: string;
+    id: string;
+}
+
+export interface CountryApi {
+    text: string;
+    id: string;
+}
+
+export interface StateApi {
+    text: string;
+    id: string;
+}
+
+export type Utility = {
+    id: string;
+    text: string;
+};
+
 export interface CurrentUserData {
     User: User;
     SupplierId: null;

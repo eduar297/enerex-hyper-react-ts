@@ -1,25 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Country } from '../contracts';
+import { CommodityType } from '../types';
 
-import { countryService } from '../services';
+import { CommodityTypeService } from '../services';
 
-const useCountries = (): {
-    countries: Country[];
+const useCommoditiesType = (): {
+    commoditiesType: CommodityType[];
     loading: boolean;
     error: any;
 } => {
-    const [countries, setCountries] = useState<Country[]>([]);
+    const [commoditiesType, setCommoditiesType] = useState<CommodityType[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<any>(null);
 
     useEffect(() => {
         setLoading(true);
-        setCountries([]);
+        setCommoditiesType([]);
         setError(null);
-        countryService
-            .getAllCountries()
+        CommodityTypeService.getAllCommoditiesType()
             .then((data) => {
-                setCountries(data);
+                setCommoditiesType(data);
                 setLoading(false);
             })
             .catch((err) => {
@@ -28,7 +27,7 @@ const useCountries = (): {
             });
     }, []);
 
-    return { countries, loading, error };
+    return { commoditiesType, loading, error };
 };
 
-export default useCountries;
+export default useCommoditiesType;

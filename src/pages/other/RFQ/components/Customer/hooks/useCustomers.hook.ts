@@ -1,118 +1,134 @@
 import { useEffect, useContext } from 'react';
 import { CustomersContext } from '../contexts';
-import { CustomerFormValues } from '../types';
+import { Customer, CustomerFormValues, CustomerChoice } from '../contracts';
 import { FormikProps } from 'formik';
-
-const fetchCustomers = (): Promise<CustomerFormValues[]> => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve([
-                {
-                    name: 'Acme Inc.',
-                    domain: 'acme.com',
-                    logo: 'https://logo.clearbit.com/enerex.com',
-                    address: '123 Main Street',
-                    city: 'New York',
-                    country: 'US',
-                    state: 'NY',
-                    zip: '10001',
-                    numberOfEmployees: 100,
-                    founded: 2000,
-                    website: 'https://acme.com',
-                    duns: 123456789,
-                    taxId: 987654321,
-                    legalBusinessName: 'Acme Incorporated',
-                    about: 'We make the best products in the world.',
-                },
-                {
-                    name: 'Widget Co.',
-                    domain: 'widget.co',
-                    logo: 'https://logo.clearbit.com/enerex.com',
-                    address: '456 High Street',
-                    city: 'London',
-                    country: 'GB',
-                    state: '',
-                    zip: '10001',
-                    numberOfEmployees: 50,
-                    founded: 2010,
-                    website: 'https://widget.co',
-                    duns: 123456789,
-                    taxId: 987654321,
-                    legalBusinessName: 'Widget Company Ltd.',
-                    about: 'We make the most innovative widgets in the market.',
-                },
-            ]);
-        }, 1000);
-    });
-};
+import { customerService } from '../services';
 
 const useCustomers = (): {
-    customers: CustomerFormValues[];
-    setCustomers: React.Dispatch<React.SetStateAction<CustomerFormValues[]>>;
-    customerSelected: CustomerFormValues | null;
-    setCustomerSelected: React.Dispatch<React.SetStateAction<CustomerFormValues | null>>;
-    loading: boolean;
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    error: any;
-    setError: React.Dispatch<React.SetStateAction<any>>;
+    customersChoice: CustomerChoice[];
+    setCustomersChoice: React.Dispatch<React.SetStateAction<CustomerChoice[]>>;
+
+    customerChoiceSelected: CustomerChoice | null;
+    setCustomerChoiceSelected: React.Dispatch<React.SetStateAction<CustomerChoice | null>>;
+
+    customerSelected: Customer | null;
+    setCustomerSelected: React.Dispatch<React.SetStateAction<Customer | null>>;
+
+    loadingCustomersChoice: boolean;
+    setLoadingCustomersChoice: React.Dispatch<React.SetStateAction<boolean>>;
+
+    loadingCustomerSelected: boolean;
+    setLoadingCustomerSelected: React.Dispatch<React.SetStateAction<boolean>>;
+
+    errorCustomersChoice: any;
+    setErrorCustomersChoice: React.Dispatch<React.SetStateAction<any>>;
+
+    errorCustomerSelected: any;
+    setErrorCustomerSelected: React.Dispatch<React.SetStateAction<any>>;
+
     formik: FormikProps<CustomerFormValues>;
 } => {
     const {
-        customers,
-        error,
-        loading,
-        setCustomers,
-        setError,
-        setLoading,
+        customersChoice,
+        setCustomersChoice,
+
+        customerChoiceSelected,
+        setCustomerChoiceSelected,
+
         customerSelected,
         setCustomerSelected,
+
+        loadingCustomersChoice,
+        setLoadingCustomersChoice,
+
+        loadingCustomerSelected,
+        setLoadingCustomerSelected,
+
+        errorCustomersChoice,
+        setErrorCustomersChoice,
+
+        errorCustomerSelected,
+        setErrorCustomerSelected,
+
         formik,
     } = useContext(CustomersContext);
 
     useEffect(() => {
-        setLoading(true);
-        setCustomers([]);
-        setError(null);
-        fetchCustomers()
+        setLoadingCustomersChoice(true);
+        setCustomersChoice([]);
+        setErrorCustomersChoice(null);
+        customerService
+            .getAllCustomersSelect()
             .then((data) => {
-                setCustomers(data);
-                setLoading(false);
+                setCustomersChoice(data);
+                setLoadingCustomersChoice(false);
             })
             .catch((err) => {
-                setError(err);
-                setLoading(false);
+                setErrorCustomersChoice(err);
+                setLoadingCustomersChoice(false);
             });
-    }, []);
+    }, [setCustomersChoice, setErrorCustomersChoice, setLoadingCustomersChoice]);
 
     useEffect(() => {
-        formik.validateField('domain');
-        if (!formik.errors.domain) {
-            const logoUrl = `https://logo.clearbit.com/${formik.values.domain}`;
+        setLoadingCustomerSelected(true);
+        setCustomerSelected(null);
+        setErrorCustomerSelected(null);
+
+        customerChoiceSelected?.id &&
+            customerService
+                .getCustomer(customerChoiceSelected?.id || '')
+                .then((data) => {
+                    setCustomerSelected(data);
+                    setLoadingCustomerSelected(false);
+                })
+                .catch((err:any) => {
+                    setErrorCustomerSelected(err);
+                    setLoadingCustomerSelected(false);
+                });
+    }, [customerChoiceSelected, setCustomerSelected, setErrorCustomerSelected, setLoadingCustomerSelected]);
+
+    useEffect(() => {
+        formik.validateField('Domain');
+        if (!formik.errors.Domain) {
+            const logoUrl = `https://logo.clearbit.com/${formik.values.Domain}`;
             fetch(logoUrl)
                 .then((response) => {
                     if (response.ok) {
-                        formik.setFieldValue('logo', logoUrl);
+                        formik.setFieldValue('LogoUrl', logoUrl);
                     } else {
-                        formik.setFieldValue('logo', '');
+                        formik.setFieldValue('LogoUrl', '');
                     }
                 })
                 .catch(() => {
-                    formik.setFieldValue('logo', '');
+                    formik.setFieldValue('LogoUrl', '');
                 });
         } else {
-            formik.setFieldValue('logo', '');
+            formik.setFieldValue('LogoUrl', '');
         }
-    }, [formik.values.domain]);
+    }, [formik.values.Domain]);
 
     return {
-        customers,
-        setCustomers,
+        customersChoice,
+        setCustomersChoice,
+
+        customerChoiceSelected,
+        setCustomerChoiceSelected,
+
         customerSelected,
         setCustomerSelected,
-        loading,
-        setLoading,
-        error,
-        setError,
+
+        loadingCustomersChoice,
+        setLoadingCustomersChoice,
+
+        loadingCustomerSelected,
+        setLoadingCustomerSelected,
+
+        errorCustomersChoice,
+        setErrorCustomersChoice,
+
+        errorCustomerSelected,
+        setErrorCustomerSelected,
+
         formik,
     };
 };

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
 
 import { useCurrentUser, useStates } from '../../hooks';
-import { useContracts } from './hooks';
+import { useCommoditiesType, useContracts, useProcurementUnities } from './hooks';
 
 import { Text, Select, Datepicker } from '../UI/Form';
 import { Product } from './types';
@@ -12,9 +12,18 @@ const Contracts = () => {
     const { products, setProducts, formik: formikContract } = useContracts();
     const { states, loading: loadingStates, error: errorStates } = useStates('ALL');
 
+    const { commoditiesType, loading: loadingCommodityType, error: errorCommodityType } = useCommoditiesType();
+
+    const {
+        procurementUnities,
+        loading: loadingProcurementUnities,
+        error: errorProcurementUnities,
+    } = useProcurementUnities(formikContract.values.commodityType);
+
     const { currentUserData } = useCurrentUser();
 
     useEffect(() => {
+        console.log({ commodityType: formikContract.values.commodityType });
         formikContract.setFieldError('procurementUnit', '');
         formikContract.setFieldValue('procurementUnit', '');
         formikContract.setFieldTouched('procurementUnit', false);
@@ -53,10 +62,10 @@ const Contracts = () => {
                                     label="Commodity Type"
                                     placeholder="Commodity Type"
                                     controlId="commodityType"
-                                    options={[
-                                        { value: 'electricity', label: 'Electricity' },
-                                        { value: 'gas', label: 'Gas' },
-                                    ]}
+                                    options={commoditiesType.map((ct) => ({
+                                        value: ct.id,
+                                        label: ct.text,
+                                    }))}
                                 />
                             </Col>
 
@@ -72,20 +81,10 @@ const Contracts = () => {
                                     label="Procurement Unit"
                                     placeholder="Procurement Unit"
                                     controlId="procurementUnit"
-                                    options={
-                                        formikContract.values.commodityType === 'electricity'
-                                            ? [
-                                                  { value: 'kWh', label: 'kWh' },
-                                                  { value: 'MWh', label: 'MWh' },
-                                                  { value: 'MW', label: 'MW' },
-                                              ]
-                                            : [
-                                                  { value: 'thm', label: 'thm' },
-                                                  { value: 'DTH', label: 'DTH' },
-                                                  { value: 'MMBTU', label: 'MMBTU' },
-                                                  { value: 'MCF', label: 'MCF' },
-                                              ]
-                                    }
+                                    options={procurementUnities.map((pu) => ({
+                                        value: pu.text,
+                                        label: pu.text,
+                                    }))}
                                 />
                             </Col>
                         </Row>
@@ -126,7 +125,7 @@ const Contracts = () => {
                                     loading={loadingStates}
                                     fetchError={errorStates}
                                     options={states.map((state) => ({
-                                        value: state.code,
+                                        value: state.name,
                                         label: state.name,
                                     }))}
                                 />

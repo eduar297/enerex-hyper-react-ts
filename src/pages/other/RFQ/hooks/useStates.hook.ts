@@ -1,71 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-
-const fetchStates = (countryCode: string): Promise<State[]> => {
-    const states = {
-        US: [
-            { name: 'Alabama', code: 'AL' },
-            { name: 'Alaska', code: 'AK' },
-            { name: 'Arizona', code: 'AZ' },
-        ],
-        CA: [
-            { name: 'Alberta', code: 'AB' },
-            { name: 'British Columbia', code: 'BC' },
-            { name: 'Manitoba', code: 'MB' },
-        ],
-        AU: [
-            { name: 'New South Wales', code: 'NSW' },
-            { name: 'Queensland', code: 'QLD' },
-            { name: 'South Australia', code: 'SA' },
-        ],
-        GB: [
-            { name: 'England', code: 'ENG' },
-            { name: 'Northern Ireland', code: 'NIR' },
-            { name: 'Scotland', code: 'SCT' },
-            { name: 'Wales', code: 'WLS' },
-        ],
-        DE: [
-            { name: 'Baden-Württemberg', code: 'BW' },
-            { name: 'Bavaria', code: 'BY' },
-            { name: 'Berlin', code: 'BE' },
-            { name: 'Brandenburg', code: 'BB' },
-        ],
-    };
-
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            switch (countryCode) {
-                case 'US':
-                    resolve(states['US']);
-                    break;
-                case 'CA':
-                    resolve(states['CA']);
-                    break;
-                case 'AU':
-                    resolve(states['AU']);
-                    break;
-                case 'GB':
-                    resolve(states['GB']);
-                    break;
-                case 'DE':
-                    resolve(states['DE']);
-                    break;
-                case 'ALL':
-                    resolve([...states['US'], ...states['CA'], ...states['AU'], ...states['GB'], ...states['DE']]);
-                    break;
-                default:
-                    reject(new Error('Invalid country code'));
-            }
-        }, 1000);
-    });
-};
-
-interface State {
-    name: string;
-    code: string;
-}
+import { State } from '../contracts';
+import { stateService } from '../services';
 
 const useStates = (
-    countryCode: string
+    countryId: string
 ): {
     states: State[];
     loading: boolean;
@@ -81,14 +19,15 @@ const useStates = (
         setLoading(true);
         setStates([]);
         setError(null);
-        if (cache.has(countryCode)) {
-            setStates(cache.get(countryCode)!);
+        if (cache.has(countryId)) {
+            setStates(cache.get(countryId)!);
             setLoading(false);
         } else {
-            fetchStates(countryCode)
+            stateService
+                .getStatesByCountry(countryId)
                 .then((data) => {
                     setStates(data);
-                    cache.set(countryCode, data);
+                    cache.set(countryId, data);
                     setLoading(false);
                 })
                 .catch((err) => {
@@ -96,7 +35,7 @@ const useStates = (
                     setLoading(false);
                 });
         }
-    }, [countryCode, cache]);
+    }, [countryId, cache]);
 
     return { states, loading, error };
 };
