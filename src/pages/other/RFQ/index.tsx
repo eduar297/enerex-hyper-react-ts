@@ -22,7 +22,11 @@ import { useCurrentUser } from './hooks';
 
 import { Item } from './contracts';
 
-export const RootProvider = ({ children }: { children: ReactNode }) => {
+type RootProps = {
+    children: ReactNode;
+};
+
+export const RootProvider = ({ children }: RootProps) => {
     return (
         <CurrentUserProvider>
             <CustomersProvider>

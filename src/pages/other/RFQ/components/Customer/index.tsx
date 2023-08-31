@@ -8,27 +8,7 @@ import { useEffect } from 'react';
 
 const Customer = () => {
     const {
-        contactsChoice,
-        setContactsChoice,
-
-        contactChoiceSelected,
-        setContactChoiceSelected,
-
-        contactSelected,
-        setContactSelected,
-
-        loadingContactSelected,
-        loadingContactsChoice,
-
-        errorContactSelected,
-        errorContactsChoice,
-
-        formik: formikContact,
-    } = useContacts();
-
-    const {
         customersChoice,
-        setCustomersChoice,
 
         customerChoiceSelected,
         setCustomerChoiceSelected,
@@ -36,14 +16,28 @@ const Customer = () => {
         customerSelected,
         setCustomerSelected,
 
-        loadingCustomerSelected,
         loadingCustomersChoice,
 
-        errorCustomerSelected,
         errorCustomersChoice,
 
         formik: formikCustomer,
     } = useCustomers();
+
+    const {
+        contactsChoice,
+
+        contactChoiceSelected,
+        setContactChoiceSelected,
+
+        contactSelected,
+        setContactSelected,
+
+        loadingContactsChoice,
+
+        errorContactsChoice,
+
+        formik: formikContact,
+    } = useContacts(!!customerSelected ? customerSelected?.Id?.toString() || '' : '');
 
     const { countries, loading: loadingCountries, error: errorCountries } = useCountries();
 

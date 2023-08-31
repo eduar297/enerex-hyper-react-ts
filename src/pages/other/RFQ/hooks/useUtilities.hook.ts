@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Utility } from '../contracts';
-import { utilityService } from '../services/utility.service';
+import { utilityService } from '../services';
 
-const useUtilities = (): {
+const useStates = (
+    countryId: string
+): {
     utilities: Utility[];
     loading: boolean;
     error: any;
@@ -11,23 +13,31 @@ const useUtilities = (): {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<any>(null);
 
+    const cache = useMemo(() => new Map<string, Utility[]>(), []);
+
     useEffect(() => {
         setLoading(true);
         setUtilities([]);
         setError(null);
-        utilityService
-            .getAllUtilities()
-            .then((data) => {
-                setUtilities(data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err);
-                setLoading(false);
-            });
-    }, []);
+        if (cache.has(countryId)) {
+            setUtilities(cache.get(countryId)!);
+            setLoading(false);
+        } else {
+            utilityService
+                .getUtilitiesByCountryId(countryId)
+                .then((data) => {
+                    setUtilities(data);
+                    cache.set(countryId, data);
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    setError(err);
+                    setLoading(false);
+                });
+        }
+    }, [countryId, cache]);
 
     return { utilities, loading, error };
 };
 
-export default useUtilities;
+export default useStates;

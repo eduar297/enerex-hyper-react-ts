@@ -7,10 +7,13 @@ import { useCommoditiesType, useContracts, useProcurementUnities } from './hooks
 
 import { Text, Select, Datepicker } from '../UI/Form';
 import { Product } from './types';
+import { useCustomers } from '../Customer/hooks';
 
 const Contracts = () => {
     const { products, setProducts, formik: formikContract } = useContracts();
-    const { states, loading: loadingStates, error: errorStates } = useStates('ALL');
+    const { customerSelected } = useCustomers();
+
+    const { states, loading: loadingStates, error: errorStates } = useStates(customerSelected?.CountryId || '');
 
     const { commoditiesType, loading: loadingCommodityType, error: errorCommodityType } = useCommoditiesType();
 
@@ -23,7 +26,7 @@ const Contracts = () => {
     const { currentUserData } = useCurrentUser();
 
     useEffect(() => {
-        console.log({ commodityType: formikContract.values.commodityType });
+        // console.log({ commodityType: formikContract.values.commodityType });
         formikContract.setFieldError('procurementUnit', '');
         formikContract.setFieldValue('procurementUnit', '');
         formikContract.setFieldTouched('procurementUnit', false);
@@ -62,10 +65,12 @@ const Contracts = () => {
                                     label="Commodity Type"
                                     placeholder="Commodity Type"
                                     controlId="commodityType"
-                                    options={commoditiesType.map((ct) => ({
-                                        value: ct.id,
-                                        label: ct.text,
-                                    }))}
+                                    options={commoditiesType
+                                        .map((ct) => ({
+                                            value: ct.id,
+                                            label: ct.text,
+                                        }))
+                                        .filter((ct) => ct.value !== '12')}
                                 />
                             </Col>
 
@@ -149,7 +154,7 @@ const Contracts = () => {
                         </Row>
 
                         <Row className="my-2">
-                            {formikContract.values.commodityType === 'gas' && (
+                            {formikContract.values.commodityType === '2' && (
                                 <Col sm={4}>
                                     <Text
                                         controlId="deliveryPoint"

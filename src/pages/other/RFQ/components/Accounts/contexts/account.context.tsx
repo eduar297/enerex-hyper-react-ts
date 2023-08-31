@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode } from 'react';
-import { Utility } from '../types';
+import { Utility } from 'pages/other/RFQ/contracts'; 
 
 type AccountState = {
     loading: boolean;

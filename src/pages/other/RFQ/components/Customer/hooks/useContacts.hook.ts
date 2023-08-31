@@ -4,7 +4,9 @@ import { Contact, ContactFormValues, ContactChoice } from '../contracts';
 import { FormikProps } from 'formik';
 import { contactService } from '../services';
 
-const useContacts = (): {
+const useContacts = (
+    customerId: string
+): {
     contactsChoice: ContactChoice[];
     setContactsChoice: React.Dispatch<React.SetStateAction<ContactChoice[]>>;
 
@@ -58,7 +60,7 @@ const useContacts = (): {
         setContactsChoice([]);
         setErrorContactsChoice(null);
         contactService
-            .getAllContactsSelect()
+            .getAllContactsSelectByCustomerId(customerId)
             .then((data) => {
                 setContactsChoice(data);
                 setLoadingContactsChoice(false);
@@ -67,7 +69,7 @@ const useContacts = (): {
                 setErrorContactsChoice(err);
                 setLoadingContactsChoice(false);
             });
-    }, [setContactsChoice, setErrorContactsChoice, setLoadingContactsChoice]);
+    }, [customerId, setContactsChoice, setErrorContactsChoice, setLoadingContactsChoice]);
 
     useEffect(() => {
         setLoadingContactSelected(true);

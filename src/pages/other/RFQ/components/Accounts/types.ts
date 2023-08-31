@@ -7,8 +7,3 @@ export type MeterFormValues = {
     zip?: string;
     addressLine1?: string;
 };
-
-export type Utility = {
-    id: string;
-    text: string;
-};

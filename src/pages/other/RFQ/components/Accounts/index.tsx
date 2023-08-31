@@ -6,13 +6,21 @@ import { useStates, useUtilities } from '../../hooks';
 import { useMeters, useAccounts } from './hooks';
 
 import { Text, Select, Multiselect } from '../UI/Form';
+import { useCustomers } from '../Customer/hooks';
 
 const Accounts = () => {
     const { meters, formik: formikMeter, metersSelected, setMetersSelected } = useMeters();
     const { numberOfAccounts, setNumberOfAccounts, selectedUtilities, setSelectedUtilities } = useAccounts();
 
-    const { states, loading: loadingStates, error: errorStates } = useStates('ALL');
-    const { utilities, loading: loadingUtilities, error: errorUtilities } = useUtilities();
+    const { customerSelected } = useCustomers();
+
+    const { states, loading: loadingStates, error: errorStates } = useStates(customerSelected?.CountryId || '');
+
+    const {
+        utilities,
+        loading: loadingUtilities,
+        error: errorUtilities,
+    } = useUtilities(customerSelected?.CountryId || '');
 
     const [showCreateMeter, setShowCreateMeter] = useState(false);
 

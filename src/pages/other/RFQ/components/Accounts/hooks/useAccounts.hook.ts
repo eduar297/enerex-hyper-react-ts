@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { AccountContext } from '../contexts';
-import { Utility } from '../types';
+import { Utility } from 'pages/other/RFQ/contracts';
 
 const useAccounts = (): {
     loading: boolean;
