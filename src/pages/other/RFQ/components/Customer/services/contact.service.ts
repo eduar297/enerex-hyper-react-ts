@@ -1,4 +1,4 @@
-import { apiFetch } from 'pages/other/RFQ/api';
+import { apiFetch } from '../../../api';
 import { Contact, ContactChoice } from '../contracts';
 
 const getAllContactsSelectByCustomerId = async (customerId: string) => {

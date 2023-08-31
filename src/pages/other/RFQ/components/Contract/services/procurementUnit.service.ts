@@ -1,4 +1,4 @@
-import { apiFetch } from 'pages/other/RFQ/api';
+import { apiFetch } from '../../../api';
 import { ProcurementUnit } from '../types';
 
 const getProcurementUnitByCommodityType = async (commodityTypeId: string) => {
