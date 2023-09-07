@@ -13,35 +13,6 @@ const getAllCountries = async () => {
     return countries;
 };
 
-// const getAllCountries = (): Promise<Country[]> => {
-//     return new Promise((resolve, reject) => {
-//         setTimeout(() => {
-//             resolve([
-//                 {
-//                     id: '1',
-//                     name: 'USA',
-//                 },
-//                 {
-//                     id: '2',
-//                     name: 'United Kingdom',
-//                 },
-//                 {
-//                     id: '3',
-//                     name: 'Canada',
-//                 },
-//                 {
-//                     id: '5',
-//                     name: 'Australia',
-//                 },
-//                 {
-//                     id: '6',
-//                     name: 'Germany',
-//                 },
-//             ]);
-//         }, 1000);
-//     });
-// };
-
 export const countryService = {
     getAllCountries,
 };
