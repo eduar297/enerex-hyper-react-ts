@@ -1,8 +1,8 @@
-import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 
 import { useRFQs } from './hooks';
 
-import Form, { Text, Select, Datepicker, CheckBox, TextArea } from '../UI/Form';
+import { Text, Select, Datepicker, CheckBox, TextArea } from '../UI/Form';
 
 const RFQ = () => {
     const { formik: formikRFQ } = useRFQs();
@@ -12,8 +12,8 @@ const RFQ = () => {
             <Card>
                 <Card.Header>Details</Card.Header>
                 <Card.Body>
-                    <Container>
-                        <Row className="mb-2">
+                    <Container className="h-100">
+                        <Row className="align-items-center mb-2">
                             <Col sm={4}>
                                 <CheckBox
                                     controlId="isWholesale"
@@ -150,7 +150,7 @@ const RFQ = () => {
                             </Row>
                         )}
 
-                        <Row className="my-2">
+                        <Row className="my-2 align-items-center">
                             <Col sm={4}>
                                 <Datepicker
                                     controlId="proposedStartTime"
@@ -181,7 +181,7 @@ const RFQ = () => {
                                 />
                             </Col>
 
-                            <Col sm={4}>
+                            <Col sm={2}>
                                 <CheckBox
                                     controlId="chat"
                                     value={formikRFQ.values.chat}
@@ -192,6 +192,9 @@ const RFQ = () => {
                                     touched={formikRFQ.touched.chat}
                                     label="Chat?"
                                 />
+                            </Col>
+
+                            <Col sm={2}>
                                 <CheckBox
                                     controlId="priceComments"
                                     value={formikRFQ.values.priceComments}
@@ -202,6 +205,11 @@ const RFQ = () => {
                                     touched={formikRFQ.touched.priceComments}
                                     label="Price Comments?"
                                 />
+                            </Col>
+                        </Row>
+
+                        <Row className="my-2">
+                            <Col>
                                 <CheckBox
                                     controlId="firstBidBlind"
                                     value={formikRFQ.values.firstBidBlind}
@@ -294,7 +302,7 @@ const RFQ = () => {
                 </Card.Body>
             </Card>
 
-            <Card>
+            <Card className="mt-3">
                 <Card.Body>
                     <Container>
                         <Row className="my-2">
@@ -343,18 +351,6 @@ const RFQ = () => {
                     </Container>
                 </Card.Body>
             </Card>
-
-            <Row xs="auto" className="justify-content-end align-items-center">
-                <Col>
-                    <Button variant="success">Save as Draft</Button>
-                </Col>
-                <Col>
-                    <Button variant="success">Save and Publish</Button>
-                </Col>
-                <Col>
-                    <Button variant="danger">Cancel</Button>
-                </Col>
-            </Row>
         </Container>
     );
 };

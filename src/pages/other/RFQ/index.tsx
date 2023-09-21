@@ -21,6 +21,8 @@ import { useAccounts } from './components/Accounts/hooks';
 import { useCurrentUser } from './hooks';
 
 import { Item } from './contracts';
+import { RFQProvider } from './components/RFQ/contexts';
+import RFQ from './components/RFQ';
 
 type RootProps = {
     children: ReactNode;
@@ -29,24 +31,26 @@ type RootProps = {
 export const RootProvider = ({ children }: RootProps) => {
     return (
         <CurrentUserProvider>
-            <CustomersProvider>
-                <ContactsProvider>
-                    <ContractsProvider>
-                        <AccountProvider>
-                            <MeterProvider>
-                                <DocumentsProvider>
-                                    <UserPermissionsProvider>{children}</UserPermissionsProvider>
-                                </DocumentsProvider>
-                            </MeterProvider>
-                        </AccountProvider>
-                    </ContractsProvider>
-                </ContactsProvider>
-            </CustomersProvider>
+            <RFQProvider>
+                <CustomersProvider>
+                    <ContactsProvider>
+                        <ContractsProvider>
+                            <AccountProvider>
+                                <MeterProvider>
+                                    <DocumentsProvider>
+                                        <UserPermissionsProvider>{children}</UserPermissionsProvider>
+                                    </DocumentsProvider>
+                                </MeterProvider>
+                            </AccountProvider>
+                        </ContractsProvider>
+                    </ContactsProvider>
+                </CustomersProvider>
+            </RFQProvider>
         </CurrentUserProvider>
     );
 };
 
-type THeader = 'customer' | 'contract' | 'accounts' | 'documents' | 'invitation' | 'userPermissions';
+type THeader = 'rfq' | 'customer' | 'contract' | 'accounts' | 'documents' | 'invitation' | 'userPermissions';
 
 type WizardActionsProps = {
     header: THeader;
@@ -64,6 +68,9 @@ const WizardActions = ({ header, next, previous, index, len }: WizardActionsProp
     let disableNext = false;
 
     switch (header) {
+        case 'rfq':
+            disableNext = false;
+            break;
         case 'customer':
             disableNext = !customerSelected;
             break;
@@ -142,6 +149,7 @@ const NavList = ({ items }: { items: Item[] }) => {
     const { selectedUtilities, numberOfAccounts } = useAccounts();
 
     const [enabled, setEnabled] = useState<{ [key: string]: boolean }>({
+        rfq: true,
         customer: true,
         contract: true,
         accounts: true,
@@ -198,6 +206,16 @@ const RFQCreate = () => {
     const { currentUserData } = useCurrentUser();
 
     const [items, setItems] = useState<Item[]>([
+        {
+            id: 'rfq',
+            header: 'RFQ',
+            content: (next: () => void, previous: () => void, index: number, len: number) => (
+                <>
+                    <RFQ />
+                    <WizardActions header="rfq" next={next} previous={previous} index={index} len={len} />
+                </>
+            ),
+        },
         {
             id: 'customer',
             header: 'Customer',
