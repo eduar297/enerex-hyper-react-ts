@@ -149,6 +149,7 @@ const NavList = ({ items }: { items: Item[] }) => {
     const { customerSelected } = useCustomers();
     const { formik: formikContracts } = useContracts();
     const { selectedUtilities, numberOfAccounts } = useAccounts();
+    const { formik: formikRfq } = useRFQs();
 
     // const [enabled, setEnabled] = useState<{ [key: string]: boolean }>({
     //     rfq: true,
@@ -171,7 +172,8 @@ const NavList = ({ items }: { items: Item[] }) => {
 
     useEffect(() => {
         setEnabled((prevEnabled) => ({
-            customer: true,
+            rfq: true,
+            customer: prevEnabled['rfq'] && formikRfq.dirty && formikRfq.isValid,
             contract: prevEnabled['customer'] && !!customerSelected,
             accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
             documents:
@@ -194,6 +196,8 @@ const NavList = ({ items }: { items: Item[] }) => {
         selectedUtilities,
         numberOfAccounts,
         setEnabled,
+        formikRfq.dirty,
+        formikRfq.isValid,
     ]);
 
     return (
