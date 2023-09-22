@@ -18,6 +18,7 @@ import { CurrentUserProvider } from './contexts';
 import { useCustomers } from './components/Customer/hooks';
 import { useContracts } from './components/Contract/hooks';
 import { useAccounts } from './components/Accounts/hooks';
+import { useRFQs } from './components/RFQ/hooks';
 import { useCurrentUser } from './hooks';
 
 import { Item } from './contracts';
@@ -64,12 +65,13 @@ const WizardActions = ({ header, next, previous, index, len }: WizardActionsProp
     const { customerSelected } = useCustomers();
     const { formik: formikContracts } = useContracts();
     const { selectedUtilities, numberOfAccounts } = useAccounts();
+    const { formik: formikRfq } = useRFQs();
 
     let disableNext = false;
 
     switch (header) {
         case 'rfq':
-            disableNext = false;
+            disableNext = !formikRfq.dirty || !formikRfq.isValid;
             break;
         case 'customer':
             disableNext = !customerSelected;
@@ -148,50 +150,51 @@ const NavList = ({ items }: { items: Item[] }) => {
     const { formik: formikContracts } = useContracts();
     const { selectedUtilities, numberOfAccounts } = useAccounts();
 
+    // const [enabled, setEnabled] = useState<{ [key: string]: boolean }>({
+    //     rfq: true,
+    //     customer: true,
+    //     contract: true,
+    //     accounts: true,
+    //     documents: true,
+    //     invitation: true,
+    //     'user-permissions': true,
+    // });
     const [enabled, setEnabled] = useState<{ [key: string]: boolean }>({
         rfq: true,
-        customer: true,
-        contract: true,
-        accounts: true,
-        documents: true,
-        invitation: true,
-        'user-permissions': true,
+        customer: false,
+        contract: false,
+        accounts: false,
+        documents: false,
+        invitation: false,
+        'user-permissions': false,
     });
-    // const [enabled, setEnabled] = useState<{ [key: string]: boolean }>({
-    //     customer: true,
-    //     contract: false,
-    //     accounts: false,
-    //     documents: false,
-    //     invitation: false,
-    //     'user-permissions': false,
-    // });
 
-    // useEffect(() => {
-    //     setEnabled((prevEnabled) => ({
-    //         customer: true,
-    //         contract: prevEnabled['customer'] && !!customerSelected,
-    //         accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
-    //         documents:
-    //             prevEnabled['accounts'] &&
-    //             selectedUtilities.length > 0 &&
-    //             Boolean(numberOfAccounts && numberOfAccounts > 0),
-    //         invitation:
-    //             prevEnabled['accounts'] &&
-    //             selectedUtilities.length > 0 &&
-    //             Boolean(numberOfAccounts && numberOfAccounts > 0),
-    //         'user-permissions':
-    //             prevEnabled['accounts'] &&
-    //             selectedUtilities.length > 0 &&
-    //             Boolean(numberOfAccounts && numberOfAccounts > 0),
-    //     }));
-    // }, [
-    //     customerSelected,
-    //     formikContracts.dirty,
-    //     formikContracts.isValid,
-    //     selectedUtilities,
-    //     numberOfAccounts,
-    //     setEnabled,
-    // ]);
+    useEffect(() => {
+        setEnabled((prevEnabled) => ({
+            customer: true,
+            contract: prevEnabled['customer'] && !!customerSelected,
+            accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
+            documents:
+                prevEnabled['accounts'] &&
+                selectedUtilities.length > 0 &&
+                Boolean(numberOfAccounts && numberOfAccounts > 0),
+            invitation:
+                prevEnabled['accounts'] &&
+                selectedUtilities.length > 0 &&
+                Boolean(numberOfAccounts && numberOfAccounts > 0),
+            'user-permissions':
+                prevEnabled['accounts'] &&
+                selectedUtilities.length > 0 &&
+                Boolean(numberOfAccounts && numberOfAccounts > 0),
+        }));
+    }, [
+        customerSelected,
+        formikContracts.dirty,
+        formikContracts.isValid,
+        selectedUtilities,
+        numberOfAccounts,
+        setEnabled,
+    ]);
 
     return (
         <Nav variant="tabs" justify className="tab-create-rfq-container">
