@@ -27,7 +27,21 @@ const getContact = async (contactId: string) => {
     }
 };
 
+const createContact = async (contact: Contact) => {
+    if (!contact) {
+        throw new Error('Contact is required');
+    } else {
+        const data: Contact = await apiFetch('POST', `contacts`, contact);
+        if (!data) {
+            throw new Error('Failed to create contact');
+        }
+        const createdContact: Contact = data;
+        return createdContact;
+    }
+};
+
 export const contactService = {
     getAllContactsSelectByCustomerId,
     getContact,
+    createContact,
 };

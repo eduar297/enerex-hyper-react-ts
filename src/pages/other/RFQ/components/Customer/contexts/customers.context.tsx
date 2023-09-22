@@ -2,6 +2,7 @@ import { createContext, useState, ReactNode } from 'react';
 import { Customer, CustomerChoice, CustomerFormValues } from '../contracts';
 import { FormikProps, useFormik } from 'formik';
 import { customerValidationSchema } from '../schema';
+import { customerService } from '../services';
 
 const customerInitialValues: CustomerFormValues = {
     Name: '',
@@ -71,18 +72,16 @@ export const CustomersContext = createContext<CustomersState>({
     formik: {} as FormikProps<CustomerFormValues>,
 });
 
-const onSubmit = (
+const onSubmit = async (
     values: CustomerFormValues,
     setCustomerSelected: React.Dispatch<React.SetStateAction<Customer | null>>,
-    setCustomers: React.Dispatch<React.SetStateAction<Customer[]>>,
-    customers: Customer[],
+    setCustomersChoice: React.Dispatch<React.SetStateAction<CustomerChoice[]>>,
+    customersChoice: CustomerChoice[],
     resetForm: () => void
 ) => {
-    const newCustomer: Customer = { ...values };
-    setCustomers([...customers, newCustomer]);
+    const newCustomer = await customerService.createCustomer(values);
+    setCustomersChoice([...customersChoice, { id: newCustomer.Id + '', text: newCustomer.Name }]);
     setCustomerSelected(newCustomer);
-    alert(JSON.stringify(newCustomer, null, 2));
-
     resetForm();
 };
 
@@ -99,8 +98,7 @@ export const CustomersProvider = ({ children }: { children: ReactNode }) => {
         initialValues: customerInitialValues,
         validationSchema: customerValidationSchema,
         onSubmit: (values, formikBag) =>
-            // onSubmit(values, setCustomerSelected, setCustomers, customers, formikBag.resetForm),
-            console.log(values),
+            onSubmit(values, setCustomerSelected, setCustomersChoice, customersChoice, formikBag.resetForm),
     });
 
     return (

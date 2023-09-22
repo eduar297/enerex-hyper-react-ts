@@ -23,7 +23,21 @@ const getCustomer = async (customerId: string) => {
     }
 };
 
+const createCustomer = async (customer: Customer) => {
+    if (!customer) {
+        throw new Error('Customer is required');
+    } else {
+        const data: Customer = await apiFetch('POST', `account`, customer);
+        if (!data) {
+            throw new Error('Failed to create customer');
+        }
+        const createdCustomer: Customer = data;
+        return createdCustomer;
+    }
+}
+
 export const customerService = {
     getAllCustomersSelect,
     getCustomer,
+    createCustomer
 };
