@@ -146,6 +146,7 @@ const NavItem = ({ index, header, disabled }: { index: number; header: string; d
 };
 
 const NavList = ({ items }: { items: Item[] }) => {
+    const { currentUserData } = useCurrentUser();
     const { customerSelected } = useCustomers();
     const { formik: formikContracts } = useContracts();
     const { selectedUtilities, numberOfAccounts } = useAccounts();
@@ -173,7 +174,10 @@ const NavList = ({ items }: { items: Item[] }) => {
     useEffect(() => {
         setEnabled((prevEnabled) => ({
             rfq: true,
-            customer: prevEnabled['rfq'] && formikRfq.dirty && formikRfq.isValid,
+            customer:
+                currentUserData?.IsBrokerInSupplierCompany === false
+                    ? true
+                    : prevEnabled['rfq'] && formikRfq.dirty && formikRfq.isValid,
             contract: prevEnabled['customer'] && !!customerSelected,
             accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
             documents:
@@ -198,6 +202,7 @@ const NavList = ({ items }: { items: Item[] }) => {
         setEnabled,
         formikRfq.dirty,
         formikRfq.isValid,
+        currentUserData?.IsBrokerInSupplierCompany,
     ]);
 
     return (
