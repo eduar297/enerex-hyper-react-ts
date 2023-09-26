@@ -34,10 +34,22 @@ const createCustomer = async (customer: Customer) => {
         const createdCustomer: Customer = data;
         return createdCustomer;
     }
-}
+};
+
+const getLogo = async (domain: string) => {
+    const logoUrl = `https://logo.clearbit.com/${domain}`;
+    return fetch(logoUrl).then((response) => {
+        if (response.ok) {
+            return logoUrl;
+        } else {
+            throw new Error('Failed to get logo');
+        }
+    });
+};
 
 export const customerService = {
     getAllCustomersSelect,
     getCustomer,
-    createCustomer
+    createCustomer,
+    getLogo,
 };

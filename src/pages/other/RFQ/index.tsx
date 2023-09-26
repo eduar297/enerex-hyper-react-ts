@@ -214,16 +214,6 @@ const RFQCreate = () => {
 
     const [items, setItems] = useState<Item[]>([
         {
-            id: 'rfq',
-            header: 'RFQ',
-            content: (next: () => void, previous: () => void, index: number, len: number) => (
-                <>
-                    <RFQ />
-                    <WizardActions header="rfq" next={next} previous={previous} index={index} len={len} />
-                </>
-            ),
-        },
-        {
             id: 'customer',
             header: 'Customer',
             content: (next: () => void, previous: () => void, index: number, len: number) => (
@@ -283,8 +273,24 @@ const RFQCreate = () => {
                     </>
                 ),
             };
+
+            const rfqItem = {
+                id: 'rfq',
+                header: 'RFQ',
+                content: (next: () => void, previous: () => void, index: number, len: number) => (
+                    <>
+                        <RFQ />
+                        <WizardActions header="rfq" next={next} previous={previous} index={index} len={len} />
+                    </>
+                ),
+            };
+
             if (!items.find((item) => item.id === userPermissionsItem.id)) {
                 setItems([...items, userPermissionsItem]);
+            }
+
+            if (!items.find((item) => item.id === rfqItem.id)) {
+                setItems([...items, rfqItem]);
             }
         }
     }, [currentUserData, items]);

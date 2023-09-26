@@ -81,31 +81,11 @@ const useCustomers = (): {
                     setCustomerSelected(data);
                     setLoadingCustomerSelected(false);
                 })
-                .catch((err:any) => {
+                .catch((err: any) => {
                     setErrorCustomerSelected(err);
                     setLoadingCustomerSelected(false);
                 });
     }, [customerChoiceSelected, setCustomerSelected, setErrorCustomerSelected, setLoadingCustomerSelected]);
-
-    useEffect(() => {
-        formik.validateField('Domain');
-        if (!formik.errors.Domain) {
-            const logoUrl = `https://logo.clearbit.com/${formik.values.Domain}`;
-            fetch(logoUrl)
-                .then((response) => {
-                    if (response.ok) {
-                        formik.setFieldValue('LogoUrl', logoUrl);
-                    } else {
-                        formik.setFieldValue('LogoUrl', '');
-                    }
-                })
-                .catch(() => {
-                    formik.setFieldValue('LogoUrl', '');
-                });
-        } else {
-            formik.setFieldValue('LogoUrl', '');
-        }
-    }, [formik.values.Domain]);
 
     return {
         customersChoice,

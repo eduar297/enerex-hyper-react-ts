@@ -1,5 +1,5 @@
 import { apiFetch } from '../../../api';
-import { Contact, ContactChoice } from '../contracts';
+import { Contact, ContactChoice, ContactFormValues } from '../contracts';
 
 const getAllContactsSelectByCustomerId = async (customerId: string) => {
     if (!customerId) {
@@ -27,11 +27,11 @@ const getContact = async (contactId: string) => {
     }
 };
 
-const createContact = async (contact: Contact) => {
+const createContact = async (contact: ContactFormValues) => {
     if (!contact) {
         throw new Error('Contact is required');
     } else {
-        const data: Contact = await apiFetch('POST', `contacts`, contact);
+        const data: Contact = await apiFetch('POST', `Contact`, contact);
         if (!data) {
             throw new Error('Failed to create contact');
         }

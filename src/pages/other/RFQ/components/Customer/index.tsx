@@ -2,6 +2,7 @@ import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
 
 import { useCountries, useStates } from '../../hooks';
 import { useContacts, useCustomers } from './hooks';
+import { customerService } from './services/customer.service';
 
 import { Text, Select, TextArea } from '../UI/Form';
 import { useEffect } from 'react';
@@ -176,13 +177,17 @@ const Customer = () => {
                                     enabled={!customerSelected}
                                     controlId="Address"
                                     name="Address"
+                                    handleChange={(e) =>
+                                        setCustomerChoiceSelected(
+                                            customersChoice.find((customer) => customer.id === e.target.value) || null
+                                        )
+                                    }
                                     label="Address"
                                     value={
                                         !!customerSelected
                                             ? customerSelected?.Address || ''
                                             : formikCustomer.values.Address || ''
                                     }
-                                    handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
                                     handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
                                     touched={!!customerSelected ? undefined : formikCustomer.touched.Address}
                                     error={!!customerSelected ? undefined : formikCustomer.errors.Address}
@@ -280,7 +285,7 @@ const Customer = () => {
                             <Col sm={4}>
                                 <Text
                                     enabled={!customerSelected}
-                                    controlId="Domain"
+                                    controlId=" "
                                     name="Domain"
                                     label="Domain"
                                     value={
@@ -289,7 +294,16 @@ const Customer = () => {
                                             : formikCustomer.values.Domain || ''
                                     }
                                     handleChange={!!customerSelected ? undefined : formikCustomer.handleChange}
-                                    handleBlur={!!customerSelected ? undefined : formikCustomer.handleBlur}
+                                    handleBlur={(e) => {
+                                        if (!customerSelected) {
+                                            formikCustomer.handleBlur(e);
+                                            if (formikCustomer.values.Domain)
+                                                customerService.getLogo(formikCustomer.values.Domain).then((res) => {
+                                                    alert(res);
+                                                    formikCustomer.setFieldValue('LogoUrl', res);
+                                                });
+                                        }
+                                    }}
                                     touched={!!customerSelected ? undefined : formikCustomer.touched.Domain}
                                     error={!!customerSelected ? undefined : formikCustomer.errors.Domain}
                                     placeholder="Domain"
