@@ -3,6 +3,7 @@ import { Contact, ContactChoice, ContactFormValues } from '../contracts';
 import { FormikProps, useFormik } from 'formik';
 import { contactValidationSchema } from '../schema';
 import { contactService } from '../services';
+import useCustomers from '../hooks/useCustomers.hook';
 
 const contactInitialValues: ContactFormValues = {
     Email: '',
@@ -67,9 +68,10 @@ const onSubmit = async (
     setContactSelected: React.Dispatch<React.SetStateAction<Contact | null>>,
     setContactsChoice: React.Dispatch<React.SetStateAction<ContactChoice[]>>,
     contactsChoice: ContactChoice[],
-    resetForm: () => void
+    resetForm: () => void,
+    customerId: string
 ) => {
-    const newContact = await contactService.createContact(values);
+    const newContact = await contactService.createContact(values, customerId);
     setContactsChoice([...contactsChoice, { id: newContact.Id + '', text: newContact.FullName + '' }]);
     setContactSelected(newContact);
     resetForm();
@@ -84,11 +86,20 @@ export const ContactsProvider = ({ children }: { children: ReactNode }) => {
     const [errorContactsChoice, setErrorContactsChoice] = useState(null);
     const [errorContactSelected, setErrorContactSelected] = useState(null);
 
+    const { customerChoiceSelected } = useCustomers();
+
     const formik = useFormik<ContactFormValues>({
         initialValues: contactInitialValues,
         validationSchema: contactValidationSchema,
         onSubmit: (values, formikBag) =>
-            onSubmit(values, setContactSelected, setContactsChoice, contactsChoice, formikBag.resetForm),
+            onSubmit(
+                values,
+                setContactSelected,
+                setContactsChoice,
+                contactsChoice,
+                formikBag.resetForm,
+                customerChoiceSelected?.id ?? ''
+            ),
     });
 
     return (

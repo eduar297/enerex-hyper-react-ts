@@ -27,7 +27,7 @@ const getContact = async (contactId: string) => {
     }
 };
 
-const createContact = async (contact: ContactFormValues) => {
+const createContact = async (contact: ContactFormValues, customerId: string) => {
     if (!contact) {
         throw new Error('Contact is required');
     } else {

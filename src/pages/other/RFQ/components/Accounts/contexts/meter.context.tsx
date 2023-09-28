@@ -1,7 +1,8 @@
 import { createContext, useState, ReactNode } from 'react';
-import { MeterFormValues } from '../types';
+import { MeterFormValues } from '../contracts';
 import { FormikProps, useFormik } from 'formik';
 import { meterValidationSchema } from '../schema';
+import { meterService } from '../services';
 
 const meterInitialValues: MeterFormValues = {
     utility: '',
@@ -10,7 +11,7 @@ const meterInitialValues: MeterFormValues = {
     city: '',
     state: '',
     zip: undefined,
-    addressLine1: ''
+    addressLine1: '',
 };
 
 type MeterState = {
@@ -37,16 +38,25 @@ export const MeterContext = createContext<MeterState>({
     formik: {} as FormikProps<MeterFormValues>,
 });
 
-const onSubmit = (
+const onSubmit = async (
     values: MeterFormValues,
     meters: MeterFormValues[],
     setMeters: React.Dispatch<React.SetStateAction<MeterFormValues[]>>,
     resetForm: () => void
 ) => {
-    const newMeter = values;
+    // fix values
+    const _newMeter = await meterService.createMeter(values);
+    const newMeter: MeterFormValues = {
+        utility: _newMeter.UtilityName,
+        accountNumber: parseInt(_newMeter.AccountNumber),
+        meterNumber: parseInt(_newMeter.MeterNumber),
+        city: _newMeter.City,
+        addressLine1: _newMeter.AddressLine1,
+        state: _newMeter.StateID,
+        zip: _newMeter.PostalCode,
+    };
     setMeters([...meters, newMeter]);
-    alert(JSON.stringify(newMeter, null, 2));
-
+    // alert(JSON.stringify(newMeter, null, 2));
     resetForm();
 };
 

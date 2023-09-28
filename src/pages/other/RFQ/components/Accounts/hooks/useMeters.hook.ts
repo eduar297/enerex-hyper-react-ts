@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { MeterContext } from '../contexts';
-import { MeterFormValues } from '../types';
+import { MeterFormValues } from '../contracts';
 import { FormikProps } from 'formik';
 
 const useMeters = (): {

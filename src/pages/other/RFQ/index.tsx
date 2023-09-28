@@ -165,45 +165,45 @@ const NavList = ({ items }: { items: Item[] }) => {
         rfq: true,
         customer: false,
         contract: false,
-        accounts: false,
+        accounts: true,
         documents: false,
         invitation: false,
         'user-permissions': false,
     });
 
-    useEffect(() => {
-        setEnabled((prevEnabled) => ({
-            rfq: true,
-            customer:
-                currentUserData?.IsBrokerInSupplierCompany === false
-                    ? true
-                    : prevEnabled['rfq'] && formikRfq.dirty && formikRfq.isValid,
-            contract: prevEnabled['customer'] && !!customerSelected,
-            accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
-            documents:
-                prevEnabled['accounts'] &&
-                selectedUtilities.length > 0 &&
-                Boolean(numberOfAccounts && numberOfAccounts > 0),
-            invitation:
-                prevEnabled['accounts'] &&
-                selectedUtilities.length > 0 &&
-                Boolean(numberOfAccounts && numberOfAccounts > 0),
-            'user-permissions':
-                prevEnabled['accounts'] &&
-                selectedUtilities.length > 0 &&
-                Boolean(numberOfAccounts && numberOfAccounts > 0),
-        }));
-    }, [
-        customerSelected,
-        formikContracts.dirty,
-        formikContracts.isValid,
-        selectedUtilities,
-        numberOfAccounts,
-        setEnabled,
-        formikRfq.dirty,
-        formikRfq.isValid,
-        currentUserData?.IsBrokerInSupplierCompany,
-    ]);
+    // useEffect(() => {
+    //     setEnabled((prevEnabled) => ({
+    //         rfq: true,
+    //         customer:
+    //             currentUserData?.IsBrokerInSupplierCompany === false
+    //                 ? true
+    //                 : prevEnabled['rfq'] && formikRfq.dirty && formikRfq.isValid,
+    //         contract: prevEnabled['customer'] && !!customerSelected,
+    //         accounts: prevEnabled['contract'] && formikContracts.dirty && formikContracts.isValid,
+    //         documents:
+    //             prevEnabled['accounts'] &&
+    //             selectedUtilities.length > 0 &&
+    //             Boolean(numberOfAccounts && numberOfAccounts > 0),
+    //         invitation:
+    //             prevEnabled['accounts'] &&
+    //             selectedUtilities.length > 0 &&
+    //             Boolean(numberOfAccounts && numberOfAccounts > 0),
+    //         'user-permissions':
+    //             prevEnabled['accounts'] &&
+    //             selectedUtilities.length > 0 &&
+    //             Boolean(numberOfAccounts && numberOfAccounts > 0),
+    //     }));
+    // }, [
+    //     customerSelected,
+    //     formikContracts.dirty,
+    //     formikContracts.isValid,
+    //     selectedUtilities,
+    //     numberOfAccounts,
+    //     setEnabled,
+    //     formikRfq.dirty,
+    //     formikRfq.isValid,
+    //     currentUserData?.IsBrokerInSupplierCompany,
+    // ]);
 
     return (
         <Nav variant="tabs" justify className="tab-create-rfq-container">
