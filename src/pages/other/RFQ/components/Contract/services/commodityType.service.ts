@@ -1,5 +1,5 @@
 import { apiFetch } from '../../../api';
-import { CommodityType } from '../types';
+import { CommodityType } from '../contracts';
 
 const getAllCommoditiesType = async () => {
     const data: CommodityType[] = await apiFetch('GET', 'commoditytypes/select/false');

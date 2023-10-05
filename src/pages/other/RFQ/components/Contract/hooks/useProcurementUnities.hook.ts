@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ProcurementUnit } from '../types';
+import { ProcurementUnit } from '../contracts';
 import { procurementUnitService } from '../services';
 
 const useProcurementUnities = (

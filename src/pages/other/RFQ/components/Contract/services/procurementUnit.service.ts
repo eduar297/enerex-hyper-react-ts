@@ -1,5 +1,5 @@
 import { apiFetch } from '../../../api';
-import { ProcurementUnit } from '../types';
+import { ProcurementUnit } from '../contracts';
 
 const getProcurementUnitByCommodityType = async (commodityTypeId: string) => {
     const data: ProcurementUnit[] = await apiFetch('GET', `ProcurementUnits/select/${commodityTypeId}`);

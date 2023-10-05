@@ -45,17 +45,17 @@ const onSubmit = async (
     resetForm: () => void
 ) => {
     // fix values
-    const _newMeter = await meterService.createMeter(values);
-    const newMeter: MeterFormValues = {
-        utility: _newMeter.UtilityName,
-        accountNumber: parseInt(_newMeter.AccountNumber),
-        meterNumber: parseInt(_newMeter.MeterNumber),
-        city: _newMeter.City,
-        addressLine1: _newMeter.AddressLine1,
-        state: _newMeter.StateID,
-        zip: _newMeter.PostalCode,
-    };
-    setMeters([...meters, newMeter]);
+    // const _newMeter = await meterService.createMeter({values});
+    // const newMeter: MeterFormValues = {
+    //     utility: _newMeter.UtilityName,
+    //     accountNumber: parseInt(_newMeter.AccountNumber),
+    //     meterNumber: parseInt(_newMeter.MeterNumber),
+    //     city: _newMeter.City,
+    //     addressLine1: _newMeter.AddressLine1,
+    //     state: _newMeter.StateID,
+    //     zip: _newMeter.PostalCode,
+    // };
+    // setMeters([...meters, newMeter]);
     // alert(JSON.stringify(newMeter, null, 2));
     resetForm();
 };

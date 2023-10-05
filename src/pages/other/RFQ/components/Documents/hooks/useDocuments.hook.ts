@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { DocumentsContext } from '../contexts';
-import { DocumentType } from '../types';
+import { DocumentType } from '../contracts';
 
 const formatBytes = (bytes: number, decimals: number = 2) => {
     if (bytes === 0) return '0 Bytes';

@@ -3,7 +3,7 @@ import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
 import { useUserPermissions } from './hooks';
 
 import { Select } from '../UI/Form';
-import { User, Permission } from './types';
+import { User, Permission } from './contracts';
 import { useState } from 'react';
 
 const UserPermissions = () => {

@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from 'react';
-import { User, UserPermission } from '../types';
+import { User, UserPermission } from '../contracts';
 
 type UserPermissionsState = {
     users: User[];

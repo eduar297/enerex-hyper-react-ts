@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from 'react';
-import { DocumentType } from '../types';
+import { DocumentType } from '../contracts';
 
 type DocumentsState = {
     selectedDocuments: DocumentType[];

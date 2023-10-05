@@ -6,7 +6,7 @@ import { useCurrentUser, useStates } from '../../hooks';
 import { useCommoditiesType, useContracts, useProcurementUnities } from './hooks';
 
 import { Text, Select, Datepicker } from '../UI/Form';
-import { Product } from './types';
+import { Product } from './contracts';
 import { useCustomers } from '../Customer/hooks';
 
 const Contracts = () => {

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { ContractsContext } from '../contexts';
-import { ContractFormValues, Product } from '../types';
+import { ContractFormValues, Product } from '../contracts';
 import { FormikProps } from 'formik';
 
 const useContracts = (): {

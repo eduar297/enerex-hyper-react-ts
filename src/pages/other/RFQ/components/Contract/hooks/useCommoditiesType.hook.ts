@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CommodityType } from '../types';
+import { CommodityType } from '../contracts';
 
 import { CommodityTypeService } from '../services';
 

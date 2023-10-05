@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { UserPermissionsContext } from '../contexts';
-import { User, Permission, UserPermission } from '../types';
+import { User, Permission, UserPermission } from '../contracts';
 
 const fetchUsers = (): Promise<User[]> => {
     return new Promise((resolve, reject) => {

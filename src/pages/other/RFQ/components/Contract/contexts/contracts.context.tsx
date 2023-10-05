@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from 'react';
-import { ContractFormValues, Product } from '../types';
+import { ContractFormValues, Product } from '../contracts';
 import { FormikProps, useFormik } from 'formik';
 import { contractValidationSchema } from '../schema';
 
