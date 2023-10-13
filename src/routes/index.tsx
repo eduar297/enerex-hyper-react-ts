@@ -84,6 +84,7 @@ const Pricing = React.lazy(() => import('pages/other/Pricing'));
 const Maintenance = React.lazy(() => import('pages/other/Maintenance'));
 const Starter = React.lazy(() => import('pages/other/Starter'));
 const RFQ = React.lazy(() => import('pages/other/RFQ'));
+const Awards = React.lazy(() => import('pages/other/Awards'));
 const PreLoader = React.lazy(() => import('pages/other/PreLoader/'));
 const Timeline = React.lazy(() => import('pages/other/Timeline'));
 
@@ -399,6 +400,10 @@ const AllRoutes = () => {
                         {
                             path: 'rfq',
                             element: <LoadComponent component={RFQ} />,
+                        },
+                        {
+                            path: 'awards',
+                            element: <LoadComponent component={Awards} />,
                         },
                         {
                             path: 'profile',

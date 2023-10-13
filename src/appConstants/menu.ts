@@ -261,6 +261,7 @@ const MENU_ITEMS: MenuItemType[] = [
         icon: 'uil-copy-alt',
         children: [
             { key: 'page-rfq', label: 'RFQ', url: '/pages/rfq', parentKey: 'pages' },
+            { key: 'page-awards', label: 'Awards', url: '/pages/awards', parentKey: 'pages' },
             {
                 key: 'page-profile',
                 label: 'Profile',
