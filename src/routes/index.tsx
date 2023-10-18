@@ -85,6 +85,10 @@ const Maintenance = React.lazy(() => import('pages/other/Maintenance'));
 const Starter = React.lazy(() => import('pages/other/Starter'));
 const RFQ = React.lazy(() => import('pages/other/RFQ'));
 const Awards = React.lazy(() => import('pages/other/Awards'));
+const Education = React.lazy(() => import('pages/other/Education'));
+const EnergyDeregulation101 = React.lazy(() => import('pages/other/Education/pages/EnergyDeregulation101'));
+const TexasDoorToDoorSales = React.lazy(() => import('pages/other/Education/pages/TexasDoorToDoorSales'));
+const IlKeyDefinitions = React.lazy(() => import('pages/other/Education/pages/IlKeyDefinitions'));
 const PreLoader = React.lazy(() => import('pages/other/PreLoader/'));
 const Timeline = React.lazy(() => import('pages/other/Timeline'));
 
@@ -404,6 +408,22 @@ const AllRoutes = () => {
                         {
                             path: 'awards',
                             element: <LoadComponent component={Awards} />,
+                        },
+                        {
+                            path: 'education',
+                            element: <LoadComponent component={Education} />,
+                        },
+                        {
+                            path: 'education/course/1',
+                            element: <LoadComponent component={EnergyDeregulation101} />,
+                        },
+                        {
+                            path: 'education/course/2',
+                            element: <LoadComponent component={IlKeyDefinitions} />,
+                        },
+                        {
+                            path: 'education/course/3',
+                            element: <LoadComponent component={TexasDoorToDoorSales} />,
                         },
                         {
                             path: 'profile',
