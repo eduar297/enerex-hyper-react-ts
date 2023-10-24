@@ -86,6 +86,7 @@ const Starter = React.lazy(() => import('pages/other/Starter'));
 const RFQ = React.lazy(() => import('pages/other/RFQ'));
 const Awards = React.lazy(() => import('pages/other/Awards'));
 const Education = React.lazy(() => import('pages/other/Education'));
+const Matrices = React.lazy(() => import('pages/other/Matrices'));
 const EnergyDeregulation101 = React.lazy(() => import('pages/other/Education/pages/EnergyDeregulation101'));
 const TexasDoorToDoorSales = React.lazy(() => import('pages/other/Education/pages/TexasDoorToDoorSales'));
 const IlKeyDefinitions = React.lazy(() => import('pages/other/Education/pages/IlKeyDefinitions'));
@@ -412,6 +413,10 @@ const AllRoutes = () => {
                         {
                             path: 'education',
                             element: <LoadComponent component={Education} />,
+                        },
+                        {
+                            path: 'matrices',
+                            element: <LoadComponent component={Matrices} />,
                         },
                         {
                             path: 'education/course/1',

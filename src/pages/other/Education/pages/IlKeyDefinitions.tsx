@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import EmbedVideo from '../components/EmbedVideo';
+import Video from '../components/Video';
 
 const IlKeyDefinitions = () => {
     return (
@@ -39,7 +39,7 @@ const IlKeyDefinitions = () => {
                                 3) Agent, Broker & Consultant Rules - 454.20
                             </Card.Text>
 
-                            <EmbedVideo src="" />
+                            <Video src="https://earthetch.talentlms.com/file/introvideo/id:1652" />
 
                             <Card.Text as="h4">Content</Card.Text>
                             <ul>

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import EmbedVideo from '../components/EmbedVideo';
+import Video from '../components/Video';
 
 const EnergyDeregulation101 = () => {
     return (
@@ -34,7 +34,7 @@ const EnergyDeregulation101 = () => {
                                 *Common billing options
                             </Card.Text>
 
-                            <EmbedVideo src="" />
+                            <Video src="" />
 
                             <Card.Text as="h4">Content</Card.Text>
                             <ul>

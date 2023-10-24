@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import EmbedVideo from '../components/EmbedVideo';
+import Video from '../components/Video';
 
 const TexasDoorToDoorSales = () => {
     return (
@@ -25,7 +25,7 @@ const TexasDoorToDoorSales = () => {
                                 to be completed through the use of Portable Electronic Devices.
                             </Card.Text>
 
-                            <EmbedVideo src="" />
+                            <Video src="" />
 
                             <Card.Text as="h4">Content</Card.Text>
                             <ul>

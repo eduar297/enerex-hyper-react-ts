@@ -263,6 +263,7 @@ const MENU_ITEMS: MenuItemType[] = [
             { key: 'page-rfq', label: 'RFQ', url: '/pages/rfq', parentKey: 'pages' },
             { key: 'page-awards', label: 'Awards', url: '/pages/awards', parentKey: 'pages' },
             { key: 'page-education', label: 'Education', url: '/pages/education', parentKey: 'pages' },
+            { key: 'page-matrices', label: 'Matrices', url: '/pages/matrices', parentKey: 'pages' },
             {
                 key: 'page-profile',
                 label: 'Profile',
